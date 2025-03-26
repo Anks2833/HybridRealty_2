@@ -9,6 +9,7 @@ import {
   Home,
   Search,
   Building,
+  PlusSquare,
   Users,
   MessageCircle,
   Sparkles,
@@ -235,6 +236,7 @@ const NavLinks = ({ currentPath }) => {
     { name: "Properties", path: "/properties", icon: Search },
     // AI Property Hub is now handled separately
     { name: "About Us", path: "/about", icon: Users },
+    { name: "Add Property", path: "/add", icon: PlusSquare },
     { name: "Contact", path: "/contact", icon: MessageCircle },
   ];
 
@@ -283,47 +285,29 @@ const NavLinks = ({ currentPath }) => {
       })}
 
       {/* Enhanced AI Property Hub Link */}
-      <Link
-        to="/ai-property-hub"
-        className={`relative font-medium transition-all duration-300 flex items-center gap-2 px-3 py-1.5 rounded-md ${
-          isAIHubActive
-            ? "text-white bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 shadow-md shadow-purple-500/30"
-            : "text-indigo-700 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-600 hover:via-purple-500 hover:to-pink-500 hover:text-white"
-        }`}
-      >
-        <div className="relative">
-          <BotMessageSquare
-            className={`w-5 h-5 ${
-              isAIHubActive ? "text-white" : "text-indigo-600"
-            }`}
-          />
-          <motion.div
-            key={sparkleKey}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: [0, 1, 0], scale: [0, 1, 0] }}
-            transition={{ duration: 2, ease: "easeInOut" }}
-            className="absolute -top-1 -right-1"
+
+      {/* { path: '/add', label: 'Add Property', icon: PlusSquare }, */}
+      {/* <Link
+            key={name}
+            to={path}
+            className={`relative font-medium transition-colors duration-200 flex items-center gap-1.5 px-2 py-1 rounded-md
+              ${
+                isActive
+                  ? "text-blue-600 bg-blue-50"
+                  : "text-gray-700 hover:text-blue-600 hover:bg-blue-50/50"
+              }
+            `}
           >
-            <Sparkles className="w-3 h-3 text-yellow-400" />
-          </motion.div>
-        </div>
-        <span className="font-semibold">AI Property Hub</span>
-        {isAIHubActive ? (
-          <motion.div
-            layoutId="aiActiveIndicator"
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full"
-            initial={false}
-          />
-        ) : (
-          <motion.span
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-yellow-50 border border-yellow-200 text-yellow-700 rounded-full text-[10px] font-bold"
-          >
-            NEW
-          </motion.span>
-        )}
-      </Link>
+            <Icon className="w-4 h-4" />
+            <span>{name}</span>
+            {isActive && (
+              <motion.div
+                layoutId="activeIndicator"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full"
+                initial={false}
+              />
+            )}
+          </Link> */}
     </div>
   );
 };

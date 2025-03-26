@@ -18,7 +18,7 @@ import { AuthProvider } from './context/AuthContext';
 import AIPropertyHub from './pages/Aiagent'
 import StructuredData from './components/SEO/StructuredData';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Add from './pages/Add'
 
 export const Backendurl = 'http://localhost:4000';
 
@@ -42,7 +42,8 @@ const App = () => {
         <Route path="/properties/single/:id" element={<PropertyDetails />} />
         <Route path="/about" element={<Aboutus />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/ai-property-hub" element={<AIPropertyHub />} />
+        {/* <Route path="/ai-property-hub" element={<AIPropertyHub />} /> */}
+        <Route path="/add" element={<Add />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
