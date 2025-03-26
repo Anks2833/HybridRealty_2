@@ -9,6 +9,7 @@ import {
   Home,
   Search,
   Building,
+  PlusSquare,
   Users,
   MessageCircle,
   Sparkles,
@@ -235,7 +236,7 @@ const NavLinks = ({ currentPath }) => {
     { name: "Properties", path: "/properties", icon: Search },
     // AI Property Hub is now handled separately
     { name: "About Us", path: "/about", icon: Users },
-    { name: "Add Property", path: "/add", icon: Users },
+    { name: "Add Property", path: "/add", icon: PlusSquare },
     { name: "Contact", path: "/contact", icon: MessageCircle },
   ];
 
