@@ -1,32 +1,9 @@
 import fs from "fs";
-import imagekit from "../config/imagekit.js";
 import Property from "../models/propertymodel.js";
 
 const addproperty = async (req, res) => {
     try {
         const { title, location, price, beds, baths, sqft, type, availability, description, amenities,phone } = req.body;
-
-        const image1 = req.files.image1 && req.files.image1[0];
-        const image2 = req.files.image2 && req.files.image2[0];
-        const image3 = req.files.image3 && req.files.image3[0];
-        const image4 = req.files.image4 && req.files.image4[0];
-
-        const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
-
-        // Upload images to ImageKit and delete after upload
-        const imageUrls = await Promise.all(
-            images.map(async (item) => {
-                const result = await imagekit.upload({
-                    file: fs.readFileSync(item.path),
-                    fileName: item.originalname,
-                    folder: "Property",
-                });
-                fs.unlink(item.path, (err) => {
-                    if (err) console.log("Error deleting the file: ", err);
-                });
-                return result.url;
-            })
-        );
 
         // Create a new product
         const product = new Property({
@@ -104,28 +81,6 @@ const updateproperty = async (req, res) => {
             await property.save();
             return res.json({ message: "Property updated successfully", success: true });
         }
-
-        const image1 = req.files.image1 && req.files.image1[0];
-        const image2 = req.files.image2 && req.files.image2[0];
-        const image3 = req.files.image3 && req.files.image3[0];
-        const image4 = req.files.image4 && req.files.image4[0];
-
-        const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
-
-        // Upload images to ImageKit and delete after upload
-        const imageUrls = await Promise.all(
-            images.map(async (item) => {
-                const result = await imagekit.upload({
-                    file: fs.readFileSync(item.path),
-                    fileName: item.originalname,
-                    folder: "Property",
-                });
-                fs.unlink(item.path, (err) => {
-                    if (err) console.log("Error deleting the file: ", err);
-                });
-                return result.url;
-            })
-        );
 
         property.title = title;
         property.location = location;

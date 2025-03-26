@@ -1,5 +1,5 @@
 import firecrawlService from '../services/firecrawlService.js';
-import aiService from '../services/aiService.js';
+// import aiService from '../services/aiService.js';
 
 export const searchProperties = async (req, res) => {
     try {
@@ -19,13 +19,13 @@ export const searchProperties = async (req, res) => {
         );
 
         // Analyze the properties using AI
-        const analysis = await aiService.analyzeProperties(
-            propertiesData.properties,
-            city,
-            maxPrice,
-            propertyCategory || 'Residential',
-            propertyType || 'Flat'
-        );
+        // const analysis = await aiService.analyzeProperties(
+        //     propertiesData.properties,
+        //     city,
+        //     maxPrice,
+        //     propertyCategory || 'Residential',
+        //     propertyType || 'Flat'
+        // );
 
         res.json({
             success: true,
@@ -55,10 +55,10 @@ export const getLocationTrends = async (req, res) => {
         const locationsData = await firecrawlService.getLocationTrends(city, Math.min(limit, 5));
 
         // Analyze the location trends using AI
-        const analysis = await aiService.analyzeLocationTrends(
-            locationsData.locations,
-            city
-        );
+        // const analysis = await aiService.analyzeLocationTrends(
+        //     locationsData.locations,
+        //     city
+        // );
 
         res.json({
             success: true,
