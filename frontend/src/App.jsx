@@ -20,6 +20,7 @@ import StructuredData from './components/SEO/StructuredData';
 import 'react-toastify/dist/ReactToastify.css';
 import Add from './pages/Add'
 
+
 export const Backendurl = 'http://localhost:4000';
 
 const App = () => {
