@@ -12,9 +12,10 @@ import ErrorFallback from "./components/ErrorFallback";
 import Login from "./components/login";
 import Dashboard from "./pages/Dashboard";
 import List from "./pages/List";
-import Add from "./pages/Add";
 import Update from "./pages/Update";
 import Appointments from "./pages/Appointments";
+import ApproveProperty from "./pages/ApproveProperty";
+import PropertyDetails from "./pages/PropertyDetails";
 
 // Config
 export const backendurl = import.meta.env.VITE_BACKEND_URL;
@@ -51,7 +52,8 @@ const App = () => {
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/list" element={<List />} />
-                <Route path="/add" element={<Add />} />
+                <Route path="/admin/approved" element={<ApproveProperty />} />
+                <Route path="/property/:id" element={<PropertyDetails />} />
                 <Route path="/update/:id" element={<Update />} />
                 <Route path="/appointments" element={<Appointments />} />
               </Route>

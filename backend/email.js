@@ -3,7 +3,7 @@ export const getSchedulingEmailTemplate = (appointment, date, time, notes) => `
     <!-- Header with Background -->
     <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 40px 20px; border-radius: 15px 15px 0 0; text-align: center;">
       <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Viewing Scheduled</h1>
-      <p style="color: #ffffff; opacity: 0.9; margin: 10px 0 0 0; font-size: 16px;">BuildEstate Property Viewing</p>
+      <p style="color: #ffffff; opacity: 0.9; margin: 10px 0 0 0; font-size: 16px;">Hybrid Realty Property Viewing</p>
     </div>
 
     <!-- Main Content -->
@@ -15,25 +15,21 @@ export const getSchedulingEmailTemplate = (appointment, date, time, notes) => `
           <strong>Property:</strong> ${appointment.propertyId.title}
         </p>
         <p style="margin: 8px 0; color: #374151;">
-          <strong>Date:</strong> ${new Date(date).toLocaleDateString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
+          <strong>Date:</strong> ${new Date(date).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
           })}
         </p>
         <p style="margin: 8px 0; color: #374151;">
           <strong>Time:</strong> ${time}
         </p>
-        ${
-          notes
-            ? `
+        ${notes ? `
         <p style="margin: 8px 0; color: #374151;">
           <strong>Notes:</strong> ${notes}
         </p>
-        `
-            : ""
-        }
+        ` : ''}
         <p style="margin: 8px 0; color: #374151;">
           <strong>Status:</strong> <span style="display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 14px; background: #fef3c7; color: #854d0e;">Pending</span>
         </p>
@@ -56,7 +52,7 @@ export const getSchedulingEmailTemplate = (appointment, date, time, notes) => `
         <p style="margin: 0; color: #4b5563;">
           Our support team is available 24/7 to assist you:
           <br>
-          📧 <a href="mailto:support@buildestate.com" style="color: #2563eb; text-decoration: none;">support@buildestate.com</a>
+          📧 <a href="mailto:support@Hybrid Realty.com" style="color: #2563eb; text-decoration: none;">support@Hybrid Realty.com</a>
           <br>
           📞 <a href="tel:+1234567890" style="color: #2563eb; text-decoration: none;">+1 (234) 567-890</a>
         </p>
@@ -66,7 +62,7 @@ export const getSchedulingEmailTemplate = (appointment, date, time, notes) => `
     <!-- Footer -->
     <div style="text-align: center; margin-top: 30px;">
       <p style="color: #6b7280; font-size: 14px;">
-        © ${new Date().getFullYear()} BuildEstate. All rights reserved.
+        © ${new Date().getFullYear()} Hybrid Realty. All rights reserved.
       </p>
       <div style="margin-top: 10px;">
         <a href="https://real-estate-website-sepia-two.vercel.app" style="color: #2563eb; text-decoration: none; margin: 0 10px;">Website</a>
@@ -77,14 +73,13 @@ export const getSchedulingEmailTemplate = (appointment, date, time, notes) => `
   </div>
 `;
 
+
 export const getEmailTemplate = (appointment, status) => `
   <div style="max-width: 600px; margin: 20px auto; font-family: 'Arial', sans-serif; line-height: 1.6;">
     <!-- Header with Background -->
     <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 40px 20px; border-radius: 15px 15px 0 0; text-align: center;">
-      <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Appointment ${
-        status.charAt(0).toUpperCase() + status.slice(1)
-      }</h1>
-      <p style="color: #ffffff; opacity: 0.9; margin: 10px 0 0 0; font-size: 16px;">BuildEstate Property Viewing</p>
+      <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Appointment ${status.charAt(0).toUpperCase() + status.slice(1)}</h1>
+      <p style="color: #ffffff; opacity: 0.9; margin: 10px 0 0 0; font-size: 16px;">Hybrid Realty Property Viewing</p>
     </div>
 
     <!-- Main Content -->
@@ -96,13 +91,11 @@ export const getEmailTemplate = (appointment, status) => `
           <strong>Property:</strong> ${appointment.propertyId.title}
         </p>
         <p style="margin: 8px 0; color: #374151;">
-          <strong>Date:</strong> ${new Date(
-            appointment.date
-          ).toLocaleDateString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
+          <strong>Date:</strong> ${new Date(appointment.date).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
           })}
         </p>
         <p style="margin: 8px 0; color: #374151;">
@@ -110,18 +103,10 @@ export const getEmailTemplate = (appointment, status) => `
         </p>
         <p style="margin: 8px 0; color: #374151;">
           <strong>Status:</strong> <span style="display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 14px; background: ${
-            status === "confirmed"
-              ? "#dcfce7"
-              : status === "cancelled"
-              ? "#fee2e2"
-              : "#fef3c7"
+            status === 'confirmed' ? '#dcfce7' : status === 'cancelled' ? '#fee2e2' : '#fef3c7'
           }; color: ${
-  status === "confirmed"
-    ? "#166534"
-    : status === "cancelled"
-    ? "#991b1b"
-    : "#854d0e"
-};">${status.charAt(0).toUpperCase() + status.slice(1)}</span>
+            status === 'confirmed' ? '#166534' : status === 'cancelled' ? '#991b1b' : '#854d0e'
+          };">${status.charAt(0).toUpperCase() + status.slice(1)}</span>
         </p>
       </div>
 
@@ -129,9 +114,7 @@ export const getEmailTemplate = (appointment, status) => `
       <div style="margin-top: 30px;">
         <h3 style="color: #1e40af; margin: 0 0 15px 0; font-size: 18px;">What's Next?</h3>
         <ul style="list-style: none; padding: 0; margin: 0;">
-          ${
-            status === "confirmed"
-              ? `
+          ${status === 'confirmed' ? `
             <li style="margin-bottom: 10px; display: flex; align-items: center;">
               <span style="display: inline-block; width: 24px; height: 24px; background: #dcfce7; border-radius: 50%; margin-right: 10px; text-align: center; line-height: 24px; color: #166534;">✓</span>
               Arrive 10 minutes before your scheduled time
@@ -140,21 +123,17 @@ export const getEmailTemplate = (appointment, status) => `
               <span style="display: inline-block; width: 24px; height: 24px; background: #dcfce7; border-radius: 50%; margin-right: 10px; text-align: center; line-height: 24px; color: #166534;">✓</span>
               Bring valid identification
             </li>
-          `
-              : status === "cancelled"
-              ? `
+          ` : status === 'cancelled' ? `
             <li style="margin-bottom: 10px; display: flex; align-items: center;">
               <span style="display: inline-block; width: 24px; height: 24px; background: #fee2e2; border-radius: 50%; margin-right: 10px; text-align: center; line-height: 24px; color: #991b1b;">i</span>
               You can schedule another viewing at any time
             </li>
-          `
-              : `
+          ` : `
             <li style="margin-bottom: 10px; display: flex; align-items: center;">
               <span style="display: inline-block; width: 24px; height: 24px; background: #fef3c7; border-radius: 50%; margin-right: 10px; text-align: center; line-height: 24px; color: #854d0e;">!</span>
               We will confirm your appointment shortly
             </li>
-          `
-          }
+          `}
         </ul>
       </div>
 
@@ -164,7 +143,7 @@ export const getEmailTemplate = (appointment, status) => `
         <p style="margin: 0; color: #4b5563;">
           Our support team is available 24/7 to assist you:
           <br>
-          📧 <a href="mailto:support@buildestate.com" style="color: #2563eb; text-decoration: none;">support@buildestate.com</a>
+          📧 <a href="mailto:support@Hybrid Realty.com" style="color: #2563eb; text-decoration: none;">support@Hybrid Realty.com</a>
           <br>
           📞 <a href="tel:+1234567890" style="color: #2563eb; text-decoration: none;">+1 (234) 567-890</a>
         </p>
@@ -174,7 +153,7 @@ export const getEmailTemplate = (appointment, status) => `
     <!-- Footer -->
     <div style="text-align: center; margin-top: 30px;">
       <p style="color: #6b7280; font-size: 14px;">
-        © ${new Date().getFullYear()} BuildEstate. All rights reserved.
+        © ${new Date().getFullYear()} Hybrid Realty. All rights reserved.
       </p>
       <div style="margin-top: 10px;">
         <a href="https://real-estate-website-sepia-two.vercel.app" style="color: #2563eb; text-decoration: none; margin: 0 10px;">Website</a>
@@ -189,7 +168,7 @@ export const getNewsletterTemplate = (email) => `
 <div style="max-width: 600px; margin: 20px auto; font-family: 'Arial', sans-serif; line-height: 1.6;">
   <!-- Header with Background -->
   <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 40px 20px; border-radius: 15px 15px 0 0; text-align: center;">
-    <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Welcome to BuildEstate!</h1>
+    <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Welcome to Hybrid Realty!</h1>
     <p style="color: #ffffff; opacity: 0.9; margin: 10px 0 0 0; font-size: 16px;">Your Premier Real Estate Newsletter</p>
   </div>
 
@@ -238,7 +217,7 @@ export const getNewsletterTemplate = (email) => `
     <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-top: 30px;">
       <p style="margin: 0; color: #4b5563; font-size: 14px;">
         <strong style="color: #1e40af;">📝 Note:</strong> To ensure you don't miss our updates, please add
-        <a href="mailto:support@buildestate.com" style="color: #2563eb; text-decoration: none;">support@buildestate.com</a>
+        <a href="mailto:support@Hybrid Realty.com" style="color: #2563eb; text-decoration: none;">support@Hybrid Realty.com</a>
         to your contacts.
       </p>
     </div>
@@ -258,7 +237,7 @@ export const getNewsletterTemplate = (email) => `
       </a>
     </div>
     <p style="color: #6b7280; font-size: 14px; margin: 0;">
-      © ${new Date().getFullYear()} BuildEstate. All rights reserved.
+      © ${new Date().getFullYear()} Hybrid Realty. All rights reserved.
     </p>
     <p style="color: #6b7280; font-size: 12px; margin-top: 10px;">
       You can <a href="#" style="color: #2563eb; text-decoration: none;">unsubscribe</a> at any time.
@@ -271,7 +250,7 @@ export const getWelcomeTemplate = (name) => `
 <div style="max-width: 600px; margin: 20px auto; font-family: 'Arial', sans-serif; line-height: 1.6;">
   <!-- Header with Background -->
   <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 40px 20px; border-radius: 15px 15px 0 0; text-align: center;">
-    <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Welcome to BuildEstate!</h1>
+    <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Welcome to Hybrid Realty!</h1>
     <p style="color: #ffffff; opacity: 0.9; margin: 10px 0 0 0; font-size: 16px;">Your Dream Home Awaits</p>
   </div>
 
@@ -322,7 +301,7 @@ export const getWelcomeTemplate = (name) => `
       <p style="margin: 0; color: #4b5563;">
         Our support team is available 24/7:
         <br>
-        📧 <a href="mailto:support@buildestate.com" style="color: #2563eb; text-decoration: none;">support@buildestate.com</a>
+        📧 <a href="mailto:support@Hybrid Realty.com" style="color: #2563eb; text-decoration: none;">support@Hybrid Realty.com</a>
         <br>
         📞 <a href="tel:+1234567890" style="color: #2563eb; text-decoration: none;">+1 (234) 567-890</a>
       </p>
@@ -343,7 +322,7 @@ export const getWelcomeTemplate = (name) => `
       </a>
     </div>
     <p style="color: #6b7280; font-size: 14px; margin: 0;">
-      © ${new Date().getFullYear()} BuildEstate. All rights reserved.
+      © ${new Date().getFullYear()} Hybrid Realty. All rights reserved.
     </p>
     <div style="margin-top: 10px;">
       <a href="#" style="color: #2563eb; text-decoration: none; margin: 0 10px;">Privacy Policy</a>
@@ -358,7 +337,7 @@ export const getPasswordResetTemplate = (resetUrl) => `
     <!-- Header with Background -->
     <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 40px 20px; border-radius: 15px 15px 0 0; text-align: center;">
       <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Reset Your Password</h1>
-      <p style="color: #ffffff; opacity: 0.9; margin: 10px 0 0 0; font-size: 16px;">BuildEstate Account Security</p>
+      <p style="color: #ffffff; opacity: 0.9; margin: 10px 0 0 0; font-size: 16px;">Hybrid Realty Account Security</p>
     </div>
 
     <!-- Main Content -->
@@ -367,7 +346,7 @@ export const getPasswordResetTemplate = (resetUrl) => `
       <div style="background: #f0f7ff; border-left: 4px solid #2563eb; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
         <h2 style="color: #1e40af; margin: 0 0 15px 0; font-size: 20px;">Password Reset Request</h2>
         <p style="margin: 8px 0; color: #374151;">
-          We received a request to reset your password for your BuildEstate account. For your security, this link will expire in 10 minutes.
+          We received a request to reset your password for your Hybrid Realty account. For your security, this link will expire in 10 minutes.
         </p>
       </div>
 
@@ -400,7 +379,7 @@ export const getPasswordResetTemplate = (resetUrl) => `
         <p style="margin: 0; color: #4b5563;">
           If you didn't request this reset or need assistance:
           <br>
-          📧 <a href="mailto:security@buildestate.com" style="color: #2563eb; text-decoration: none;">security@buildestate.com</a>
+          📧 <a href="mailto:security@Hybrid Realty.com" style="color: #2563eb; text-decoration: none;">security@Hybrid Realty.com</a>
           <br>
           📞 <a href="tel:+1234567890" style="color: #2563eb; text-decoration: none;">+1 (234) 567-890</a>
         </p>
@@ -410,7 +389,7 @@ export const getPasswordResetTemplate = (resetUrl) => `
     <!-- Footer -->
     <div style="text-align: center; margin-top: 30px;">
       <p style="color: #6b7280; font-size: 14px;">
-        © ${new Date().getFullYear()} BuildEstate. All rights reserved.
+        © ${new Date().getFullYear()} Hybrid Realty. All rights reserved.
       </p>
       <div style="margin-top: 10px;">
         <a href="https://real-estate-website-sepia-two.vercel.app" style="color: #2563eb; text-decoration: none; margin: 0 10px;">Website</a>

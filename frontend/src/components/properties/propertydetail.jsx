@@ -16,10 +16,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Copy,
-  Compass
+  Compass,
+  TrendingUp,
+  IndianRupee,
+  Hash
 } from "lucide-react";
 import { Backendurl } from "../../App.jsx";
-import ScheduleViewing from "./ScheduleViewing";
+import ScheduleViewing from "./ScheduleViewing.jsx";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -30,7 +33,7 @@ const PropertyDetails = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [copySuccess, setCopySuccess] = useState(false);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const fetchProperty = async () => {
       try {
@@ -65,12 +68,15 @@ const PropertyDetails = () => {
   }, [id]);
 
   const parseAmenities = (amenities) => {
+    // console.log(amenities);
     if (!amenities || !Array.isArray(amenities)) return [];
     
     try {
-      if (typeof amenities[0] === "string") {
-        return JSON.parse(amenities[0].replace(/'/g, '"'));
-      }
+      // if (amenities.length > 0 && typeof amenities[0] === "string") {
+      //   return JSON.parse(amenities[0].replace(/'/g, '"'));
+      // }
+
+
       return amenities;
     } catch (error) {
       console.error("Error parsing amenities:", error);
@@ -79,6 +85,8 @@ const PropertyDetails = () => {
   };
 
   const handleKeyNavigation = useCallback((e) => {
+    if (!property) return;
+    
     if (e.key === 'ArrowLeft') {
       setActiveImage(prev => (prev === 0 ? property.image.length - 1 : prev - 1));
     } else if (e.key === 'ArrowRight') {
@@ -86,7 +94,7 @@ const PropertyDetails = () => {
     } else if (e.key === 'Escape' && showSchedule) {
       setShowSchedule(false);
     }
-  }, [property?.image?.length, showSchedule]);
+  }, [property, showSchedule]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyNavigation);
@@ -110,6 +118,11 @@ const PropertyDetails = () => {
       console.error('Error sharing:', error);
     }
   };
+
+  // Check if property is for investment
+  const isForInvestment = property && (property.isForInvestment || (property.invest && property.invest !== ''));
+  // Get investment price, preferring monthlyRent if it exists, otherwise use invest
+  const investmentPrice = property && (property.monthlyRent || property.invest);
 
   if (loading) {
     return (
@@ -214,13 +227,17 @@ const PropertyDetails = () => {
           <p className="text-red-500 mb-4">{error}</p>
           <Link
             to="/properties"
-            className="text-blue-600 hover:underline flex items-center justify-center"
+            className="text-[var(--theme-color-1)] hover:underline flex items-center justify-center"
           >
             <ArrowLeft className="w-4 h-4 mr-1" /> Back to Properties
           </Link>
         </div>
       </div>
     );
+  }
+
+  if (!property) {
+    return null;
   }
 
   return (
@@ -234,7 +251,7 @@ const PropertyDetails = () => {
         <nav className="flex items-center justify-between mb-8">
           <Link
             to="/properties"
-            className="inline-flex items-center text-blue-600 hover:text-blue-700"
+            className="inline-flex items-center text-[var(--theme-color-1)] hover:text-[var(--theme-hover-color-1)]"
           >
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Properties
           </Link>
@@ -273,6 +290,14 @@ const PropertyDetails = () => {
               />
             </AnimatePresence>
 
+            {/* Serial Number Badge */}
+            {property.serialNumber && (
+              <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1.5 rounded-md font-medium flex items-center z-10">
+                <Hash className="w-4 h-4 mr-1.5" />
+                <span> {property.serialNumber}</span>
+              </div>
+            )}
+
             {/* Image Navigation */}
             {property.image.length > 1 && (
               <>
@@ -307,9 +332,17 @@ const PropertyDetails = () => {
           <div className="p-8">
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                  {property.title}
-                </h1>
+                <div className="flex items-center gap-3 mb-2">
+                  <h1 className="text-3xl font-bold text-gray-900">
+                    {property.title}
+                  </h1>
+                  {property.serialNumber && (
+                    <div className="bg-gray-200 text-gray-700 px-2 py-1 rounded-md text-sm font-medium hidden md:flex items-center">
+                      <Hash className="w-3.5 h-3.5 mr-1" />
+                      {property.serialNumber}
+                    </div>
+                  )}
+                </div>
                 <div className="flex items-center text-gray-600">
                   <MapPin className="w-5 h-5 mr-2" />
                   {property.location}
@@ -325,30 +358,56 @@ const PropertyDetails = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
+                {/* Property Price */}
                 <div className="bg-blue-50 rounded-lg p-6 mb-6">
-                  <p className="text-3xl font-bold text-blue-600 mb-2">
-                    ₹{Number(property.price).toLocaleString('en-IN')}
-                  </p>
-                  <p className="text-gray-600">
+                  <div className="flex items-center justify-between">
+                    <p className="text-3xl font-bold text-[var(--theme-color-1)]">
+                      ₹{Number(property.price).toLocaleString('en-IN')}
+                    </p>
+                    {property.serialNumber && (
+                      <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-sm font-medium md:hidden flex items-center">
+                        <Hash className="w-3.5 h-3.5 mr-1" />
+                        {property.serialNumber}
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-gray-600 mt-2">
                     Available for {property.availability}
                   </p>
                 </div>
 
+                {/* Investment Price - Only shown when property is for investment */}
+                {isForInvestment && investmentPrice && (
+                  <div className="bg-amber-50 rounded-lg p-6 mb-6">
+                    <h3 className="flex items-center gap-2 text-xl font-semibold text-amber-700 mb-2">
+                      <TrendingUp className="w-5 h-5" />
+                      Investment Opportunity
+                    </h3>
+                    <div className="flex items-center">
+                      <IndianRupee className="w-5 h-5 text-amber-500" />
+                      <span className="text-2xl font-bold text-amber-500 ml-1">
+                        {Number(investmentPrice).toLocaleString('en-IN')}
+                      </span>
+                      <span className="text-amber-700 ml-2">/month rental income</span>
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="bg-gray-50 p-4 rounded-lg text-center">
-                    <BedDouble className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+                    <BedDouble className="w-6 h-6 text-[var(--theme-color-1)] mx-auto mb-2" />
                     <p className="text-sm text-gray-600">
                       {property.beds} {property.beds > 1 ? 'Beds' : 'Bed'}
                     </p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg text-center">
-                    <Bath className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+                    <Bath className="w-6 h-6 text-[var(--theme-color-1)] mx-auto mb-2" />
                     <p className="text-sm text-gray-600">
                       {property.baths} {property.baths > 1 ? 'Baths' : 'Bath'}
                     </p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg text-center">
-                    <Maximize className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+                    <Maximize className="w-6 h-6 text-[var(--theme-color-1)] mx-auto mb-2" />
                     <p className="text-sm text-gray-600">{property.sqft} sqft</p>
                   </div>
                 </div>
@@ -357,14 +416,14 @@ const PropertyDetails = () => {
                   <h2 className="text-xl font-semibold mb-4">Contact Details</h2>
                   <div className="flex items-center text-gray-600">
                     <Phone className="w-5 h-5 mr-2" />
-                    {property.phone}
+                    {import.meta.env.VITE_CONTACT_NUMBER || "9999999999"}
                   </div>
                 </div>
 
                 <button
                   onClick={() => setShowSchedule(true)}
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg 
-                    hover:bg-blue-700 transition-colors flex items-center 
+                  className="w-full bg-[var(--theme-color-1)] text-white py-3 rounded-lg 
+                    hover:bg-[var(--theme-hover-color-1)] transition-colors flex items-center 
                     justify-center gap-2"
                 >
                   <Calendar className="w-5 h-5" />
@@ -388,12 +447,60 @@ const PropertyDetails = () => {
                         key={index}
                         className="flex items-center text-gray-600"
                       >
-                        <Building className="w-4 h-4 mr-2 text-blue-600" />
+                        <Building className="w-4 h-4 mr-2 text-[var(--theme-color-1)]" />
                         {amenity}
                       </div>
                     ))}
                   </div>
                 </div>
+
+                {/* Property Info Section */}
+                <div className="mb-6 bg-gray-50 p-6 rounded-lg">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <Hash className="w-5 h-5" />
+                    Property Information
+                  </h2>
+                  <ul className="space-y-3 text-gray-700">
+                    {property.serialNumber && (
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+                        Property ID: <span className="font-semibold">#{property.serialNumber}</span>
+                      </li>
+                    )}
+                    <li className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+                      Type: <span className="font-semibold">{property.type}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+                      Listed on: <span className="font-semibold">{new Date(property.createdAt).toLocaleDateString()}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Investment Details - Show additional details for investment properties */}
+                {isForInvestment && (
+                  <div className="mb-6 bg-amber-50 p-6 rounded-lg">
+                    <h2 className="text-xl font-semibold text-amber-700 mb-4 flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5" />
+                      Investment Details
+                    </h2>
+                    <ul className="space-y-3 text-gray-700">
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                        Potential Monthly Income: ₹{Number(investmentPrice).toLocaleString('en-IN')}
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                        Annual Rental Yield: {((Number(investmentPrice) * 12 / Number(property.price)) * 100).toFixed(2)}%
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                        ROI Duration: {(Number(property.price) / (Number(investmentPrice) * 12)).toFixed(1)} years
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -401,7 +508,7 @@ const PropertyDetails = () => {
 
         {/* Add Map Location */}
         <div className="mt-8 p-6 bg-blue-50 rounded-xl">
-          <div className="flex items-center gap-2 text-blue-600 mb-4">
+          <div className="flex items-center gap-2 text-[var(--theme-color-1)] mb-4">
             <Compass className="w-5 h-5" />
             <h3 className="text-lg font-semibold">Location</h3>
           </div>
@@ -412,7 +519,7 @@ const PropertyDetails = () => {
             href={`https://maps.google.com/?q=${encodeURIComponent(property.location)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
+            className="inline-flex items-center gap-2 text-[var(--theme-color-1)] hover:text-[var(--theme-hover-color-1)]"
           >
             <MapPin className="w-4 h-4" />
             View on Google Maps

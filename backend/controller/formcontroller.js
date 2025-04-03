@@ -1,4 +1,4 @@
-import Form from "../models/formmodel.js";
+import Form from '../models/formmodel.js';
 
 export const submitForm = async (req, res) => {
   try {
@@ -12,10 +12,11 @@ export const submitForm = async (req, res) => {
     });
 
     const savedForm = await newForm.save();
+    
 
-    res.json({ message: "Form submitted successfully" });
+    res.json({ message: 'Form submitted successfully' });
   } catch (error) {
-    console.error("Error saving form data:", error);
-    res.status(500).json({ message: "Server error" });
+    console.error('Error saving form data:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };

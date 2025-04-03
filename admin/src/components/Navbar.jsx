@@ -35,7 +35,7 @@ const Navbar = () => {
   const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/list', label: 'Properties', icon: List },
-    { path: '/add', label: 'Add Property', icon: PlusSquare },
+    { path: '/admin/approved', label: 'Add Property', icon: PlusSquare },
     { path: '/appointments', label: 'Appointments', icon: Calendar },
   ];
 

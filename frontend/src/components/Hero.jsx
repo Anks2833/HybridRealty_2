@@ -66,7 +66,16 @@ const Hero = () => {
 
   return (
     <AnimatedContainer distance={50} direction="vertical">
-      <div className="mt-20">
+      <div className="mt-20 relative">
+        {/* Invest Button at the Top Right */}
+        {/* <button
+  onClick={() => navigate("/add")}
+  className="absolute z-10 top-4 right-10 bg-[var(--theme-color-1)] text-white px-6 py-3 rounded-xl hover:bg-[var(--theme-hover-color-1)] transition-colors flex items-center justify-center gap-2 font-medium shadow-md"
+>
+  Invest
+</button> */}
+
+
         <div className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 my-3 mx-6">
           {/* Background Image */}
           <motion.div
@@ -75,12 +84,12 @@ const Hero = () => {
             transition={{ duration: 1.5 }}
             className="absolute inset-0 z-0 rounded-2xl overflow-hidden"
             style={{
-              backgroundImage: `url(${heroimage})`,
+              // backgroundImage: `url(${heroimage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-sky-300/40 via-slate/10 to-transparent" />
+            <div className="absolute inset-0 via-slate/10 to-transparent" />
           </motion.div>
 
           {/* Content */}
@@ -93,17 +102,13 @@ const Hero = () => {
             >
               <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-black mb-6 leading-tight">
                 <RadialGradient
-                  gradient={["circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%"]}
+                  gradient={["circle, var(--theme-color-1) 0%, var(--theme-hover-color-1) 100%"]}
                 >
-                  Find Your Perfect
+                  Hybrid Realty
                   <br />
-                  <span className="text-gray-800">Living Space</span>
+                  <span className="text-gray-800"></span>
                 </RadialGradient>
               </h1>
-
-              <p className="text-slate-700 text-lg sm:text-xl mb-8 max-w-2xl mx-auto">
-                Discover your dream home in the most sought-after locations
-              </p>
             </motion.div>
 
             {/* Search Section */}
@@ -122,53 +127,17 @@ const Hero = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={() => setShowSuggestions(true)}
                     placeholder="Enter location..."
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border-0 bg-white/90 shadow-sm focus:ring-2 focus:ring-blue-500 transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border-0 bg-white/90 shadow-sm focus:ring-2 focus:ring-[var(--theme-hover-color-1)] transition-all"
                   />
                 </div>
                 <button
                   onClick={() => handleSubmit()}
-                  className="md:w-auto w-full bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 
-                    transition-colors flex items-center justify-center gap-2 font-medium shadow-md"
+                  className="md:w-auto w-full bg-[var(--theme-color-1)] text-white px-6 py-3 rounded-xl hover:bg-[var(--theme-hover-color-1)] transition-colors flex items-center justify-center gap-2 font-medium shadow-md"
                 >
                   <Search className="w-5 h-5" />
                   <span>Search</span>
                 </button>
               </div>
-
-              {/* Location Suggestions */}
-              <AnimatePresence>
-                {showSuggestions && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-lg divide-y divide-gray-100 overflow-hidden"
-                  >
-                    <div className="p-2">
-                      <h3 className="text-xs font-medium text-gray-500 px-3 mb-2">
-                        Popular Locations
-                      </h3>
-                      {popularLocations.map((location) => (
-                        <button
-                          key={location}
-                          onClick={() => {
-                            setSearchQuery(location);
-                            handleSubmit(location);
-                          }}
-                          className="w-full text-left px-3 py-2 hover:bg-gray-50 rounded-lg flex items-center 
-                            justify-between text-gray-700 transition-colors"
-                        >
-                          <div className="flex items-center">
-                            <MapPin className="w-4 h-4 mr-2 text-gray-400" />
-                            <span>{location}</span>
-                          </div>
-                          <ArrowRight className="w-4 h-4 text-gray-400" />
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           </div>
         </div>
@@ -176,5 +145,6 @@ const Hero = () => {
     </AnimatedContainer>
   );
 };
+
 
 export default Hero;

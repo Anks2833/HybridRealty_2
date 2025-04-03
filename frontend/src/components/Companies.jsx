@@ -6,7 +6,7 @@ const Companies = () => {
   return (
     <div className="mt-16 my-3 mx-6">
       {/* Additional Trusted Companies Section */}
-      <motion.div 
+      {/* <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -27,7 +27,7 @@ const Companies = () => {
             <img className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1" src={logos.Amazonlogo} alt="Amazon" width="158" height="48" />
           </motion.div>
         </div>
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 };

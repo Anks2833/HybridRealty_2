@@ -5,7 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Properties from './pages/Properties'
-import PropertyDetails from './components/properties/propertydetail';
+import PropertyDetails from './components/properties/Propertydetail';
 import Aboutus from './pages/About'
 import Contact from './pages/Contact'
 import Login from './components/login';
@@ -15,11 +15,11 @@ import ResetPassword from './components/resetpassword';
 import Footer from './components/footer';
 import NotFoundPage from './components/Notfound';
 import { AuthProvider } from './context/AuthContext';
-import AIPropertyHub from './pages/Aiagent'
+// import AIPropertyHub from './pages/Aiagent'
 import StructuredData from './components/SEO/StructuredData';
 import 'react-toastify/dist/ReactToastify.css';
 import Add from './pages/Add'
-
+import InvestPage from './pages/InvestPage';
 
 export const Backendurl = 'http://localhost:4000';
 
@@ -41,8 +41,9 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/properties/single/:id" element={<PropertyDetails />} />
-        <Route path="/about" element={<Aboutus />} />
+        {/* <Route path="/about" element={<Aboutus />} /> */}
         <Route path="/contact" element={<Contact />} />
+        <Route path="/invest" element={<InvestPage />} />
         {/* <Route path="/ai-property-hub" element={<AIPropertyHub />} /> */}
         <Route path="/add" element={<Add />} />
         <Route path="*" element={<NotFoundPage />} />

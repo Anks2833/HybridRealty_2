@@ -1,24 +1,24 @@
-import Stats from "../models/statsModel.js";
-import Property from "../models/propertymodel.js";
-import Appointment from "../models/appointmentModel.js";
-import User from "../models/Usermodel.js";
+import Stats from '../models/statsModel.js';
+import Property from '../models/propertymodel.js';
+import Appointment from '../models/appointmentModel.js';
+import User from '../models/Usermodel.js';
 import transporter from "../config/nodemailer.js";
-import { getSchedulingEmailTemplate, getEmailTemplate } from "../email.js";
+import { getSchedulingEmailTemplate,getEmailTemplate } from '../email.js';
 
 // Format helpers
 const formatRecentProperties = (properties) => {
-  return properties.map((property) => ({
-    type: "property",
+  return properties.map(property => ({
+    type: 'property',
     description: `New property listed: ${property.title}`,
-    timestamp: property.createdAt,
+    timestamp: property.createdAt
   }));
 };
 
 const formatRecentAppointments = (appointments) => {
-  return appointments.map((appointment) => ({
-    type: "appointment",
+  return appointments.map(appointment => ({
+    type: 'appointment',
     description: `${appointment.userId.name} scheduled viewing for ${appointment.propertyId.title}`,
-    timestamp: appointment.createdAt,
+    timestamp: appointment.createdAt
   }));
 };
 
@@ -32,15 +32,15 @@ export const getAdminStats = async (req, res) => {
       pendingAppointments,
       recentActivity,
       viewsData,
-      revenue,
+      revenue
     ] = await Promise.all([
       Property.countDocuments(),
-      Property.countDocuments({ status: "active" }),
+      Property.countDocuments({ status: 'active' }),
       User.countDocuments(),
-      Appointment.countDocuments({ status: "pending" }),
+      Appointment.countDocuments({ status: 'pending' }),
       getRecentActivity(),
       getViewsData(),
-      calculateRevenue(),
+      calculateRevenue()
     ]);
 
     res.json({
@@ -52,14 +52,14 @@ export const getAdminStats = async (req, res) => {
         pendingAppointments,
         recentActivity,
         viewsData,
-        revenue,
-      },
+        revenue
+      }
     });
   } catch (error) {
-    console.error("Admin stats error:", error);
+    console.error('Admin stats error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching admin statistics",
+      message: 'Error fetching admin statistics'
     });
   }
 };
@@ -71,20 +71,20 @@ const getRecentActivity = async () => {
       Property.find()
         .sort({ createdAt: -1 })
         .limit(5)
-        .select("title createdAt"),
+        .select('title createdAt'),
       Appointment.find()
         .sort({ createdAt: -1 })
         .limit(5)
-        .populate("propertyId", "title")
-        .populate("userId", "name"),
+        .populate('propertyId', 'title')
+        .populate('userId', 'name')
     ]);
 
     return [
       ...formatRecentProperties(recentProperties),
-      ...formatRecentAppointments(recentAppointments),
+      ...formatRecentAppointments(recentAppointments)
     ].sort((a, b) => b.timestamp - a.timestamp);
   } catch (error) {
-    console.error("Error getting recent activity:", error);
+    console.error('Error getting recent activity:', error);
     return [];
   }
 };
@@ -99,19 +99,19 @@ const getViewsData = async () => {
       {
         $match: {
           endpoint: /^\/api\/products\/single\//,
-          method: "GET",
-          timestamp: { $gte: thirtyDaysAgo },
-        },
+          method: 'GET',
+          timestamp: { $gte: thirtyDaysAgo }
+        }
       },
       {
         $group: {
           _id: {
-            $dateToString: { format: "%Y-%m-%d", date: "$timestamp" },
+            $dateToString: { format: "%Y-%m-%d", date: "$timestamp" }
           },
-          count: { $sum: 1 },
-        },
+          count: { $sum: 1 }
+        }
       },
-      { $sort: { _id: 1 } },
+      { $sort: { "_id": 1 } }
     ]);
 
     const labels = [];
@@ -119,40 +119,36 @@ const getViewsData = async () => {
     for (let i = 30; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      const dateString = date.toISOString().split("T")[0];
+      const dateString = date.toISOString().split('T')[0];
       labels.push(dateString);
-
-      const stat = stats.find((s) => s._id === dateString);
+      
+      const stat = stats.find(s => s._id === dateString);
       data.push(stat ? stat.count : 0);
     }
 
     return {
       labels,
-      datasets: [
-        {
-          label: "Property Views",
-          data,
-          borderColor: "rgb(75, 192, 192)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          tension: 0.4,
-          fill: true,
-        },
-      ],
+      datasets: [{
+        label: 'Property Views',
+        data,
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.4,
+        fill: true
+      }]
     };
   } catch (error) {
-    console.error("Error generating chart data:", error);
+    console.error('Error generating chart data:', error);
     return {
       labels: [],
-      datasets: [
-        {
-          label: "Property Views",
-          data: [],
-          borderColor: "rgb(75, 192, 192)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          tension: 0.4,
-          fill: true,
-        },
-      ],
+      datasets: [{
+        label: 'Property Views',
+        data: [],
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.4,
+        fill: true
+      }]
     };
   }
 };
@@ -161,12 +157,9 @@ const getViewsData = async () => {
 const calculateRevenue = async () => {
   try {
     const properties = await Property.find();
-    return properties.reduce(
-      (total, property) => total + Number(property.price),
-      0
-    );
+    return properties.reduce((total, property) => total + Number(property.price), 0);
   } catch (error) {
-    console.error("Error calculating revenue:", error);
+    console.error('Error calculating revenue:', error);
     return 0;
   }
 };
@@ -174,10 +167,18 @@ const calculateRevenue = async () => {
 // Appointment management
 export const getAllAppointments = async (req, res) => {
   try {
+    console.log("Fetching appointments...");
+
     const appointments = await Appointment.find()
       .populate("propertyId", "title location")
       .populate("userId", "name email")
       .sort({ createdAt: -1 });
+    
+    if (appointments.length === 0) {
+      console.log("No appointments found.");
+    } else {
+      console.log("Appointments fetched:", appointments);
+    }
 
     res.json({
       success: true,
@@ -192,20 +193,21 @@ export const getAllAppointments = async (req, res) => {
   }
 };
 
+
 export const updateAppointmentStatus = async (req, res) => {
   try {
     const { appointmentId, status } = req.body;
-
+    
     const appointment = await Appointment.findByIdAndUpdate(
       appointmentId,
       { status },
       { new: true }
-    ).populate("propertyId userId");
+    ).populate('propertyId userId');
 
     if (!appointment) {
       return res.status(404).json({
         success: false,
-        message: "Appointment not found",
+        message: 'Appointment not found'
       });
     }
 
@@ -213,10 +215,8 @@ export const updateAppointmentStatus = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: appointment.userId.email,
-      subject: `Viewing Appointment ${
-        status.charAt(0).toUpperCase() + status.slice(1)
-      } - BuildEstate`,
-      html: getEmailTemplate(appointment, status),
+      subject: `Viewing Appointment ${status.charAt(0).toUpperCase() + status.slice(1)} - Hybrid Realty`,
+      html: getEmailTemplate(appointment, status)
     };
 
     await transporter.sendMail(mailOptions);
@@ -224,13 +224,13 @@ export const updateAppointmentStatus = async (req, res) => {
     res.json({
       success: true,
       message: `Appointment ${status} successfully`,
-      appointment,
+      appointment
     });
   } catch (error) {
-    console.error("Error updating appointment:", error);
+    console.error('Error updating appointment:', error);
     res.status(500).json({
       success: false,
-      message: "Error updating appointment",
+      message: 'Error updating appointment'
     });
   }
 };
@@ -239,8 +239,9 @@ export const updateAppointmentStatus = async (req, res) => {
 export const scheduleViewing = async (req, res) => {
   try {
     const { propertyId, date, time, notes } = req.body;
-
+    
     // req.user is set by the protect middleware
+    
 
     const userId = req.user._id;
 
@@ -249,7 +250,7 @@ export const scheduleViewing = async (req, res) => {
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found'
       });
     }
 
@@ -258,13 +259,13 @@ export const scheduleViewing = async (req, res) => {
       propertyId,
       date,
       time,
-      status: { $ne: "cancelled" },
+      status: { $ne: 'cancelled' }
     });
 
     if (existingAppointment) {
       return res.status(400).json({
         success: false,
-        message: "This time slot is already booked",
+        message: 'This time slot is already booked'
       });
     }
 
@@ -274,32 +275,32 @@ export const scheduleViewing = async (req, res) => {
       date,
       time,
       notes,
-      status: "pending",
+      status: 'pending'
     });
 
     await appointment.save();
-    await appointment.populate(["propertyId", "userId"]);
+    await appointment.populate(['propertyId', 'userId']);
 
     // Send confirmation email
     const mailOptions = {
       from: process.env.EMAIL,
       to: req.user.email,
-      subject: "Viewing Scheduled - BuildEstate",
-      html: getSchedulingEmailTemplate(appointment, date, time, notes),
+      subject: "Viewing Scheduled - Hybrid Realty",
+      html: getSchedulingEmailTemplate(appointment, date, time, notes)
     };
 
     await transporter.sendMail(mailOptions);
 
     res.status(201).json({
       success: true,
-      message: "Viewing scheduled successfully",
-      appointment,
+      message: 'Viewing scheduled successfully',
+      appointment
     });
   } catch (error) {
-    console.error("Error scheduling viewing:", error);
+    console.error('Error scheduling viewing:', error);
     res.status(500).json({
       success: false,
-      message: "Error scheduling viewing",
+      message: 'Error scheduling viewing'
     });
   }
 };
@@ -309,13 +310,13 @@ export const cancelAppointment = async (req, res) => {
   try {
     const appointmentId = req.params.id;
     const appointment = await Appointment.findById(appointmentId)
-      .populate("propertyId", "title")
-      .populate("userId", "email");
+      .populate('propertyId', 'title')
+      .populate('userId', 'email');
 
     if (!appointment) {
       return res.status(404).json({
         success: false,
-        message: "Appointment not found",
+        message: 'Appointment not found'
       });
     }
 
@@ -323,52 +324,44 @@ export const cancelAppointment = async (req, res) => {
     if (appointment.userId._id.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to cancel this appointment",
+        message: 'Not authorized to cancel this appointment'
       });
     }
 
-    appointment.status = "cancelled";
-    appointment.cancelReason = req.body.reason || "Cancelled by user";
+    appointment.status = 'cancelled';
+    appointment.cancelReason = req.body.reason || 'Cancelled by user';
     await appointment.save();
 
     // Send cancellation email
     const mailOptions = {
       from: process.env.EMAIL,
       to: appointment.userId.email,
-      subject: "Appointment Cancelled - BuildEstate",
+      subject: 'Appointment Cancelled - Hybrid Realty',
       html: `
         <div style="max-width: 600px; margin: 20px auto; padding: 30px; background: #ffffff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
           <h1 style="color: #2563eb; text-align: center;">Appointment Cancelled</h1>
           <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p>Your viewing appointment for <strong>${
-              appointment.propertyId.title
-            }</strong> has been cancelled.</p>
-            <p><strong>Date:</strong> ${new Date(
-              appointment.date
-            ).toLocaleDateString()}</p>
+            <p>Your viewing appointment for <strong>${appointment.propertyId.title}</strong> has been cancelled.</p>
+            <p><strong>Date:</strong> ${new Date(appointment.date).toLocaleDateString()}</p>
             <p><strong>Time:</strong> ${appointment.time}</p>
-            ${
-              appointment.cancelReason
-                ? `<p><strong>Reason:</strong> ${appointment.cancelReason}</p>`
-                : ""
-            }
+            ${appointment.cancelReason ? `<p><strong>Reason:</strong> ${appointment.cancelReason}</p>` : ''}
           </div>
           <p style="color: #4b5563;">You can schedule another viewing at any time.</p>
         </div>
-      `,
+      `
     };
 
     await transporter.sendMail(mailOptions);
 
     res.json({
       success: true,
-      message: "Appointment cancelled successfully",
+      message: 'Appointment cancelled successfully'
     });
   } catch (error) {
-    console.error("Error cancelling appointment:", error);
+    console.error('Error cancelling appointment:', error);
     res.status(500).json({
       success: false,
-      message: "Error cancelling appointment",
+      message: 'Error cancelling appointment'
     });
   }
 };
@@ -377,18 +370,18 @@ export const cancelAppointment = async (req, res) => {
 export const getAppointmentsByUser = async (req, res) => {
   try {
     const appointments = await Appointment.find({ userId: req.user._id })
-      .populate("propertyId", "title location image")
+      .populate('propertyId', 'title location image')
       .sort({ date: 1 });
 
     res.json({
       success: true,
-      appointments,
+      appointments
     });
   } catch (error) {
-    console.error("Error fetching user appointments:", error);
+    console.error('Error fetching user appointments:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching appointments",
+      message: 'Error fetching appointments'
     });
   }
 };
@@ -396,17 +389,17 @@ export const getAppointmentsByUser = async (req, res) => {
 export const updateAppointmentMeetingLink = async (req, res) => {
   try {
     const { appointmentId, meetingLink } = req.body;
-
+    
     const appointment = await Appointment.findByIdAndUpdate(
       appointmentId,
       { meetingLink },
       { new: true }
-    ).populate("propertyId userId");
+    ).populate('propertyId userId');
 
     if (!appointment) {
       return res.status(404).json({
         success: false,
-        message: "Appointment not found",
+        message: 'Appointment not found'
       });
     }
 
@@ -414,19 +407,15 @@ export const updateAppointmentMeetingLink = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: appointment.userId.email,
-      subject: "Meeting Link Updated - BuildEstate",
+      subject: "Meeting Link Updated - Hybrid Realty",
       html: `
         <div style="max-width: 600px; margin: 20px auto; font-family: 'Arial', sans-serif; line-height: 1.6;">
           <div style="background: linear-gradient(135deg, #2563eb, #1e40af); padding: 40px 20px; border-radius: 15px 15px 0 0; text-align: center;">
             <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Meeting Link Updated</h1>
           </div>
           <div style="background: #ffffff; padding: 40px 30px; border-radius: 0 0 15px 15px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
-            <p>Your viewing appointment for <strong>${
-              appointment.propertyId.title
-            }</strong> has been updated with a meeting link.</p>
-            <p><strong>Date:</strong> ${new Date(
-              appointment.date
-            ).toLocaleDateString()}</p>
+            <p>Your viewing appointment for <strong>${appointment.propertyId.title}</strong> has been updated with a meeting link.</p>
+            <p><strong>Date:</strong> ${new Date(appointment.date).toLocaleDateString()}</p>
             <p><strong>Time:</strong> ${appointment.time}</p>
             <div style="text-align: center; margin: 30px 0;">
               <a href="${meetingLink}" 
@@ -437,34 +426,35 @@ export const updateAppointmentMeetingLink = async (req, res) => {
             </div>
           </div>
         </div>
-      `,
+      `
     };
 
     await transporter.sendMail(mailOptions);
 
     res.json({
       success: true,
-      message: "Meeting link updated successfully",
-      appointment,
+      message: 'Meeting link updated successfully',
+      appointment
     });
   } catch (error) {
-    console.error("Error updating meeting link:", error);
+    console.error('Error updating meeting link:', error);
     res.status(500).json({
       success: false,
-      message: "Error updating meeting link",
+      message: 'Error updating meeting link'
     });
   }
 };
+
 
 // Add at the end of the file
 
 export const getAppointmentStats = async (req, res) => {
   try {
     const [pending, confirmed, cancelled, completed] = await Promise.all([
-      Appointment.countDocuments({ status: "pending" }),
-      Appointment.countDocuments({ status: "confirmed" }),
-      Appointment.countDocuments({ status: "cancelled" }),
-      Appointment.countDocuments({ status: "completed" }),
+      Appointment.countDocuments({ status: 'pending' }),
+      Appointment.countDocuments({ status: 'confirmed' }),
+      Appointment.countDocuments({ status: 'cancelled' }),
+      Appointment.countDocuments({ status: 'completed' })
     ]);
 
     // Get stats by day for the last 30 days
@@ -474,18 +464,18 @@ export const getAppointmentStats = async (req, res) => {
     const dailyStats = await Appointment.aggregate([
       {
         $match: {
-          createdAt: { $gte: thirtyDaysAgo },
-        },
+          createdAt: { $gte: thirtyDaysAgo }
+        }
       },
       {
         $group: {
           _id: {
-            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
           },
-          count: { $sum: 1 },
-        },
+          count: { $sum: 1 }
+        }
       },
-      { $sort: { _id: 1 } },
+      { $sort: { "_id": 1 } }
     ]);
 
     res.json({
@@ -496,14 +486,14 @@ export const getAppointmentStats = async (req, res) => {
         confirmed,
         cancelled,
         completed,
-        dailyStats,
-      },
+        dailyStats
+      }
     });
   } catch (error) {
-    console.error("Error fetching appointment stats:", error);
+    console.error('Error fetching appointment stats:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching appointment statistics",
+      message: 'Error fetching appointment statistics'
     });
   }
 };
@@ -518,30 +508,30 @@ export const submitAppointmentFeedback = async (req, res) => {
     if (!appointment) {
       return res.status(404).json({
         success: false,
-        message: "Appointment not found",
+        message: 'Appointment not found'
       });
     }
 
     if (appointment.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to submit feedback for this appointment",
+        message: 'Not authorized to submit feedback for this appointment'
       });
     }
 
     appointment.feedback = { rating, comment };
-    appointment.status = "completed";
+    appointment.status = 'completed';
     await appointment.save();
 
     res.json({
       success: true,
-      message: "Feedback submitted successfully",
+      message: 'Feedback submitted successfully'
     });
   } catch (error) {
-    console.error("Error submitting feedback:", error);
+    console.error('Error submitting feedback:', error);
     res.status(500).json({
       success: false,
-      message: "Error submitting feedback",
+      message: 'Error submitting feedback'
     });
   }
 };
@@ -552,21 +542,21 @@ export const getUpcomingAppointments = async (req, res) => {
     const appointments = await Appointment.find({
       userId: req.user._id,
       date: { $gte: now },
-      status: { $in: ["pending", "confirmed"] },
+      status: { $in: ['pending', 'confirmed'] }
     })
-      .populate("propertyId", "title location image")
-      .sort({ date: 1, time: 1 })
-      .limit(5);
+    .populate('propertyId', 'title location image')
+    .sort({ date: 1, time: 1 })
+    .limit(5);
 
     res.json({
       success: true,
-      appointments,
+      appointments
     });
   } catch (error) {
-    console.error("Error fetching upcoming appointments:", error);
+    console.error('Error fetching upcoming appointments:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching upcoming appointments",
+      message: 'Error fetching upcoming appointments'
     });
   }
 };

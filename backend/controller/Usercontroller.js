@@ -31,11 +31,7 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, Registeruser.password);
     if (isMatch) {
       const token = createtoken(Registeruser._id);
-      return res.json({
-        token,
-        user: { name: Registeruser.name, email: Registeruser.email },
-        success: true,
-      });
+      return res.json({ token, user: { name: Registeruser.name, email: Registeruser.email }, success: true });
     } else {
       return res.json({ message: "Invalid password", success: false });
     }
@@ -60,17 +56,13 @@ const register = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
-      subject: "Welcome to BuildEstate - Your Account Has Been Created",
-      html: getWelcomeTemplate(name),
+      subject: "Welcome to Hybrid Realty - Your Account Has Been Created",
+      html: getWelcomeTemplate(name)
     };
 
     await transporter.sendMail(mailOptions);
 
-    return res.json({
-      token,
-      user: { name: newUser.name, email: newUser.email },
-      success: true,
-    });
+    return res.json({ token, user: { name: newUser.name, email: newUser.email }, success: true });
   } catch (error) {
     console.error(error);
     return res.json({ message: "Server error", success: false });
@@ -82,9 +74,7 @@ const forgotpassword = async (req, res) => {
     const { email } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: "Email not found", success: false });
+      return res.status(404).json({ message: "Email not found", success: false });
     }
     const resetToken = crypto.randomBytes(20).toString("hex");
     user.resetToken = resetToken;
@@ -94,8 +84,8 @@ const forgotpassword = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
-      subject: "Password Reset - BuildEstate Security",
-      html: getPasswordResetTemplate(resetUrl),
+      subject: "Password Reset - Hybrid Realty Security",
+      html: getPasswordResetTemplate(resetUrl)
     };
 
     await transporter.sendMail(mailOptions);
@@ -106,6 +96,54 @@ const forgotpassword = async (req, res) => {
   }
 };
 
+// Add this to your user controller
+
+const toggleWishlist = async (req, res) => {
+  try {
+    const { propertyId } = req.body;
+    const userId = req.user.id; // Assumes you have an auth middleware that sets req.user
+
+    // Find the user
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found", success: false });
+    }
+
+    // Check if property is already in wishlist
+    const propertyIndex = user.wishlist.indexOf(propertyId);
+    
+    if (propertyIndex > -1) {
+      // Property is in wishlist, so remove it
+      user.wishlist.splice(propertyIndex, 1);
+      await user.save();
+      return res.json({ 
+        message: "Property removed from wishlist", 
+        success: true, 
+        isInWishlist: false 
+      });
+    } else {
+      // console.log(propertyId);
+      // Property is not in wishlist, so add it
+      user.wishlist.push(propertyId);
+      await user.save();
+      return res.json({ 
+        message: "Property added to wishlist", 
+        success: true, 
+        isInWishlist: true 
+      });
+    }
+  } catch (error) {
+    console.error('Error toggling wishlist:', error);
+    return res.status(500).json({ 
+      message: "Server error", 
+      success: false 
+    });
+  }
+};
+
+
+
+
 const resetpassword = async (req, res) => {
   try {
     const { token } = req.params;
@@ -115,17 +153,13 @@ const resetpassword = async (req, res) => {
       resetTokenExpire: { $gt: Date.now() },
     });
     if (!user) {
-      return res
-        .status(400)
-        .json({ message: "Invalid or expired token", success: false });
+      return res.status(400).json({ message: "Invalid or expired token", success: false });
     }
     user.password = await bcrypt.hash(password, 10);
     user.resetToken = undefined;
     user.resetTokenExpire = undefined;
     await user.save();
-    return res
-      .status(200)
-      .json({ message: "Password reset successful", success: true });
+    return res.status(200).json({ message: "Password reset successful", success: true });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error", success: false });
@@ -136,18 +170,11 @@ const adminlogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (
-      email === process.env.ADMIN_EMAIL &&
-      password === process.env.ADMIN_PASSWORD
-    ) {
-      const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
       return res.json({ token, success: true });
     } else {
-      return res
-        .status(400)
-        .json({ message: "Invalid credentials", success: false });
+      return res.status(400).json({ message: "Invalid credentials", success: false });
     }
   } catch (error) {
     console.error(error);
@@ -156,12 +183,12 @@ const adminlogin = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  try {
-    return res.json({ message: "Logged out", success: true });
-  } catch (error) {
-    console.error(error);
-    return res.json({ message: "Server error", success: false });
-  }
+    try {
+        return res.json({ message: "Logged out", success: true });
+    } catch (error) {
+        console.error(error);
+        return res.json({ message: "Server error", success: false });
+    }
 };
 
 // get name and email
@@ -170,18 +197,13 @@ const getname = async (req, res) => {
   try {
     const user = await userModel.findById(req.user.id).select("-password");
     return res.json(user);
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error);
     return res.json({ message: "Server error", success: false });
   }
-};
+}
 
-export {
-  login,
-  register,
-  forgotpassword,
-  resetpassword,
-  adminlogin,
-  logout,
-  getname,
-};
+
+
+export { login, register, forgotpassword, resetpassword, adminlogin, logout, getname ,toggleWishlist };

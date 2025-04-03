@@ -6,7 +6,8 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     resetToken: { type: String },
-    resetTokenExpire: { type: Date }
+    resetTokenExpire: { type: Date },
+    wishlist: {type: [mongoose.Schema.Types.ObjectId], ref: "Property"}
 });
 
 const User = mongoose.model('User', UserSchema);

@@ -96,10 +96,10 @@ const Navbar = () => {
               transition={{ duration: 0.5 }}
               className="p-2 rounded-lg"
             >
-              <img src={logo} alt="BuildEstate logo" className="w-6 h-6" />
+              <img src={logo} alt="Hybrid Realty logo" className="w-6 h-6" />
             </motion.div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent group-hover:from-indigo-600 group-hover:to-blue-600 transition-all duration-300">
-              BuildEstate
+            <span className="text-2xl font-bold bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] bg-clip-text text-transparent group-hover:from--600 group-hover:to-[var(--theme-color-1)] transition-all duration-300">
+              Hybrid Realty
             </span>
           </Link>
 
@@ -119,7 +119,7 @@ const Navbar = () => {
                     aria-expanded={isDropdownOpen}
                   >
                     <div className="relative">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center text-white font-medium text-sm shadow-md hover:shadow-lg transition-shadow">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] flex items-center justify-center text-white font-medium text-sm shadow-md hover:shadow-lg transition-shadow">
                         {getInitials(user?.name)}
                       </div>
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
@@ -166,7 +166,7 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4">
                   <Link
                     to="/login"
-                    className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                    className="text-gray-700 hover:text-[var(--theme-color-1)] font-medium transition-colors"
                   >
                     Sign in
                   </Link>
@@ -176,7 +176,7 @@ const Navbar = () => {
                   >
                     <Link
                       to="/signup"
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg font-medium"
+                      className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] text-white px-5 py-2 rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to--700 transition-all duration-200 shadow-md hover:shadow-lg font-medium"
                     >
                       Get started
                     </Link>
@@ -232,11 +232,13 @@ const Navbar = () => {
 const NavLinks = ({ currentPath }) => {
   // Enhanced NavLinks with special highlight for AI Property Hub
   const navLinks = [
+    { name: "Invest", path: "/invest", icon: Building },
     { name: "Home", path: "/", icon: Home },
+    { name: "Add", path: "/add", icon: PlusSquare },
     { name: "Properties", path: "/properties", icon: Search },
     // AI Property Hub is now handled separately
-    { name: "About Us", path: "/about", icon: Users },
-    { name: "Add Property", path: "/add", icon: PlusSquare },
+    // { name: "About Us", path: "/about", icon: Users },
+    // { name: "Add Property", path: "/add", icon: PlusSquare },
     { name: "Contact", path: "/contact", icon: MessageCircle },
   ];
 
@@ -266,8 +268,8 @@ const NavLinks = ({ currentPath }) => {
             className={`relative font-medium transition-colors duration-200 flex items-center gap-1.5 px-2 py-1 rounded-md
               ${
                 isActive
-                  ? "text-blue-600 bg-blue-50"
-                  : "text-gray-700 hover:text-blue-600 hover:bg-blue-50/50"
+                  ? "text-[var(--theme-color-1)] bg-blue-50"
+                  : "text-gray-700 hover:text-[var(--theme-color-1)] hover:bg-blue-50/50"
               }
             `}
           >
@@ -276,7 +278,7 @@ const NavLinks = ({ currentPath }) => {
             {isActive && (
               <motion.div
                 layoutId="activeIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--theme-color-1)] rounded-full"
                 initial={false}
               />
             )}
@@ -286,15 +288,15 @@ const NavLinks = ({ currentPath }) => {
 
       {/* Enhanced AI Property Hub Link */}
 
-      {/* { path: '/add', label: 'Add Property', icon: PlusSquare }, */}
-      {/* <Link
+      {/* { path: '/add', label: 'Add Property', icon: PlusSquare },
+      <Link
             key={name}
             to={path}
             className={`relative font-medium transition-colors duration-200 flex items-center gap-1.5 px-2 py-1 rounded-md
               ${
                 isActive
-                  ? "text-blue-600 bg-blue-50"
-                  : "text-gray-700 hover:text-blue-600 hover:bg-blue-50/50"
+                  ? "text-[var(--theme-color-1)] bg-blue-50"
+                  : "text-gray-700 hover:text-[var(--theme-color-1)] hover:bg-blue-50/50"
               }
             `}
           >
@@ -303,7 +305,7 @@ const NavLinks = ({ currentPath }) => {
             {isActive && (
               <motion.div
                 layoutId="activeIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--theme-color-1)] rounded-full"
                 initial={false}
               />
             )}
@@ -339,8 +341,8 @@ const MobileNavLinks = ({
             onClick={() => setMobileMenuOpen(false)}
             className={`relative flex items-center gap-3 px-4 py-3.5 rounded-lg shadow-sm transition-all ${
               isAIHubActive
-                ? "bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/20"
-                : "bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 border border-indigo-100"
+                ? "bg-gradient-to-r from--600 via-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/20"
+                : "bg-gradient-to-r from--50 to-purple-50 text--700 border border--100"
             }`}
           >
             <div className="relative">
@@ -361,7 +363,7 @@ const MobileNavLinks = ({
               <div className="font-medium text-base">AI Property Hub</div>
               <div
                 className={`text-xs ${
-                  isAIHubActive ? "text-indigo-100" : "text-indigo-500"
+                  isAIHubActive ? "text--100" : "text--500"
                 }`}
               >
                 Smart property recommendations
@@ -392,8 +394,8 @@ const MobileNavLinks = ({
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
                 ${
                   isActive
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-blue-600"
+                    ? "bg-blue-50 text-[var(--theme-color-1)] font-medium"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-[var(--theme-color-1)]"
                 }
               `}
               onClick={() => setMobileMenuOpen(false)}
@@ -410,7 +412,7 @@ const MobileNavLinks = ({
         {isLoggedIn ? (
           <div className="space-y-3 px-3">
             <div className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center text-white font-medium text-sm shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] flex items-center justify-center text-white font-medium text-sm shadow-sm">
                 {user?.name ? user.name[0].toUpperCase() : "U"}
               </div>
               <div className="flex-1">
@@ -447,7 +449,7 @@ const MobileNavLinks = ({
               <Link
                 to="/signup"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all font-medium shadow-md shadow-blue-500/20"
+                className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] text-white rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to--700 transition-all font-medium shadow-md shadow-[var(--theme-hover-color-1)]/20"
               >
                 Create account
               </Link>

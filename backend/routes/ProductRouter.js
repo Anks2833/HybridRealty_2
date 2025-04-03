@@ -10,6 +10,15 @@ propertyrouter.post('/add', upload.fields([
     { name: "image3", maxCount: 1 },
     { name: "image4", maxCount: 1 },
 ]), addproperty);
+
+
+
+
+
+
+
+
+
 propertyrouter.get('/list', listproperty);
 propertyrouter.post('/remove', removeproperty);
 propertyrouter.post('/update', upload.fields([

@@ -1,4 +1,4 @@
-import config from "../config/config.js";
+import { config } from "../config/config.js";
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -13,11 +13,9 @@ class AIService {
 
   async generateTextWithAzure(prompt) {
     try {
-      console.log(
-        `Starting Azure AI generation at ${new Date().toISOString()}`
-      );
+      console.log(`Starting Azure AI generation at ${new Date().toISOString()}`);
       const startTime = Date.now();
-
+      
       const client = ModelClient(
         "https://models.inference.ai.azure.com",
         new AzureKeyCredential(this.azureApiKey)
@@ -26,34 +24,29 @@ class AIService {
       const response = await client.path("/chat/completions").post({
         body: {
           messages: [
-            {
-              role: "system",
-              content:
-                "You are an AI real estate expert assistant that provides concise, accurate analysis of property data.",
+            { 
+              role: "system", 
+              content: "You are an AI real estate expert assistant that provides concise, accurate analysis of property data."
             },
-            {
-              role: "user",
-              content: prompt,
-            },
+            { 
+              role: "user", 
+              content: prompt 
+            }
           ],
           model: "gpt-4o",
           temperature: 0.7,
           max_tokens: 800,
-          top_p: 1,
-        },
+          top_p: 1
+        }
       });
 
       const endTime = Date.now();
-      console.log(
-        `Azure AI generation completed in ${
-          (endTime - startTime) / 1000
-        } seconds`
-      );
+      console.log(`Azure AI generation completed in ${(endTime - startTime) / 1000} seconds`);
 
       if (isUnexpected(response)) {
         throw new Error(response.body.error.message || "Azure API error");
       }
-
+      
       return response.body.choices[0].message.content;
     } catch (error) {
       console.error("Error generating text with Azure:", error);
@@ -65,23 +58,22 @@ class AIService {
   _preparePropertyData(properties, maxProperties = 3) {
     // Limit the number of properties
     const limitedProperties = properties.slice(0, maxProperties);
-
+    
     // Clean and simplify each property
-    return limitedProperties.map((property) => ({
+    return limitedProperties.map(property => ({
       building_name: property.building_name,
       property_type: property.property_type,
       location_address: property.location_address,
       price: property.price,
       area_sqft: property.area_sqft,
       // Extract just a few key amenities
-      amenities: Array.isArray(property.amenities)
-        ? property.amenities.slice(0, 5)
+      amenities: Array.isArray(property.amenities) 
+        ? property.amenities.slice(0, 5) 
         : [],
       // Truncate description to save tokens
-      description: property.description
-        ? property.description.substring(0, 150) +
-          (property.description.length > 150 ? "..." : "")
-        : "",
+      description: property.description 
+        ? property.description.substring(0, 150) + (property.description.length > 150 ? '...' : '')
+        : ''
     }));
   }
 
