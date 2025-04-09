@@ -11,7 +11,8 @@ const ApproveProperty = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
   const navigate = useNavigate();
-  const Backendurl = "http://localhost:4000"; // Adjust this URL
+  // const Backendurl = "http://localhost:4000";
+  const Backendurl = "https://hybridrealty-dev-backend.onrender.com";
 
   useEffect(() => {
     const fetchProperties = async () => {
