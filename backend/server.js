@@ -68,12 +68,8 @@ app.use(trackAPIStats);
 app.use(
   cors({
     origin: [
-      "http://localhost:4000",
       "http://localhost:5174",
       "http://localhost:5173",
-      "https://Hybrid Realty.vercel.app",
-      "https://real-estate-website-admin.onrender.com",
-      "https://real-estate-website-backend-zfu7.onrender.com",
       "https://hybrid-realty-dev.vercel.app/",
       "https://hybrid-realty-dev-admin.vercel.app/",
     ],
