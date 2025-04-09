@@ -18,45 +18,7 @@ import { Backendurl } from '../App';
 import PropTypes from "prop-types";
 import { toast } from 'react-hot-toast'; // Import toast for notifications
 
-// Sample featured properties for fallback
-const sampleProperties = [
-  {
-    _id: "sample1",
-    title: "Luxury Beachfront Villa",
-    location: "Juhu Beach, Mumbai",
-    price: 25000000,
-    beds: 4,
-    baths: 3,
-    sqft: 2800,
-    type: "Villa",
-    availability: "Buy",
-    image: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"]
-  },
-  {
-    _id: "sample2",
-    title: "Modern Highrise Apartment",
-    location: "Bandra West, Mumbai",
-    price: 18500000,
-    beds: 3,
-    baths: 2,
-    sqft: 1800,
-    type: "Apartment",
-    availability: "Rent",
-    image: ["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"]
-  },
-  {
-    _id: "sample3",
-    title: "Riverside Townhouse",
-    location: "Koramangala, Bangalore",
-    price: 12000000,
-    beds: 3,
-    baths: 2.5,
-    sqft: 2200,
-    type: "House",
-    availability: "Buy",
-    image: ["https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"]
-  }
-];
+
 
 const PropertyCard = ({ property }) => {
   const navigate = useNavigate();
@@ -399,7 +361,7 @@ const PropertiesShow = () => {
         if (response.data.success) {
           // Filter only approved properties
           const approvedProperties = response.data.property
-            .filter(property => property.isApproved)
+            .filter(property => property.isApproved && property.lp === false)
             .slice(0, 6); // Take only first 6 properties for the featured section
   
           setProperties(approvedProperties);

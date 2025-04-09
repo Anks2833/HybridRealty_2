@@ -30,7 +30,7 @@ const InvestPage = () => {
       if (response.data.success) {
         // Filter for only approved and investment properties
         const investmentProperties = response.data.property.filter(
-          prop => prop.isApproved && ((prop.invest && prop.invest !== "") || prop.isForInvestment)
+          prop => prop.isApproved && ((prop.invest && prop.invest !== "") || prop.isForInvestment) && prop.lp === false
         );
         
         setPropertyState((prev) => ({

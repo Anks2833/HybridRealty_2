@@ -72,6 +72,10 @@ const propertySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lp: {
+    type: Boolean,
+    default: true,
+  },
 }, { timestamps: true });
 
 // Add pre-save middleware to auto-increment the serial number

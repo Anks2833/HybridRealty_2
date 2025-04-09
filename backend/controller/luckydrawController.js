@@ -167,7 +167,8 @@ const createPropertyWithLuckyDraw = async (req, res) => {
       phone,
       invest: invest || 0,
       isForInvestment: isForInvestment === 'true' || isForInvestment === true,
-      isApproved: true // Auto-approve for lucky draw
+      isApproved: true, // Auto-approve for lucky draw
+      lp: true,
     });
     
     // Save the property

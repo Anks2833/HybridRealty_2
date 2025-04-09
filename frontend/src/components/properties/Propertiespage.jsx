@@ -38,7 +38,7 @@ const PropertiesPage = () => {
       const response = await axios.get(`${Backendurl}/api/products/list`);
 
       if (response.data.success) {
-        const approvedProperties = response.data.property.filter(prop => prop.isApproved);
+        const approvedProperties = response.data.property.filter(prop => prop.isApproved && prop.lp === false);
         
         setPropertyState((prev) => ({
           ...prev,
