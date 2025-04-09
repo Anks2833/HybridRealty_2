@@ -65,6 +65,8 @@ app.use(cors({
     'https://Hybrid Realty.vercel.app',
     'https://real-estate-website-admin.onrender.com',
     'https://real-estate-website-backend-zfu7.onrender.com',
+    'https://hybridrealty-dev-backend.onrender.com',
+    'https://hybrid-realty-dev-admin.vercel.app/'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
