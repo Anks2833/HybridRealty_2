@@ -42,10 +42,18 @@ const LuckyDrawPage = () => {
 //   console.log('luckyDrawProperties : ', luckyDrawProperties);
 
   // Filter properties based on search query
-  const filteredProperties = luckyDrawProperties.filter((property) => 
-    property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    property.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // const filteredProperties = luckyDrawProperties.filter((property) => 
+  //   property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //   property.location.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+
+
+  const filteredProperties = luckyDrawProperties.filter((property) => {
+    const search = searchQuery ? searchQuery.toLowerCase() : ''; // Default to empty string if searchQuery is null or undefined
+    return (property.title && property.title.toLowerCase().includes(search)) ||
+           (property.location && property.location.toLowerCase().includes(search));
+  });
+  
 
 //   console.log('filteredProperties : ', filteredProperties)
   
@@ -159,7 +167,7 @@ const LuckyDrawPage = () => {
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-6 flex items-center gap-4">
+          {/* <div className="bg-white rounded-xl shadow-sm p-6 flex items-center gap-4">
             <div className="p-3 bg-purple-100 rounded-full text-purple-600">
               <Users className="w-6 h-6" />
             </div>
@@ -169,9 +177,9 @@ const LuckyDrawPage = () => {
               </h3>
               <p className="text-gray-600">Total Registrations</p>
             </div>
-          </div>
+          </div> */}
           
-          <div className="bg-white rounded-xl shadow-sm p-6 flex items-center gap-4">
+          {/* <div className="bg-white rounded-xl shadow-sm p-6 flex items-center gap-4">
             <div className="p-3 bg-amber-100 rounded-full text-amber-600">
               <Calendar className="w-6 h-6" />
             </div>
@@ -183,7 +191,7 @@ const LuckyDrawPage = () => {
               </h3>
               <p className="text-gray-600">Draws Closing Soon</p>
             </div>
-          </div>
+          </div> */}
         </div>
         
         {/* Property Cards */}
