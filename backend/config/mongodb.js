@@ -5,7 +5,7 @@ dotenv.config();
 
 const connectdb = async () => {
   try {
-    const conn = await mongoose.connect("mongodb://localhost:27017/RealEstate", {
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });

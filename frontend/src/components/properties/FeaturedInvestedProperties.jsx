@@ -278,7 +278,7 @@ const FeaturedInvestedProperties = () => {
           // Filter only approved investment properties
           const investmentProperties = response.data.property
             .filter(property => 
-              property.isApproved && 
+              property.isApproved && property.lp === false &&
               ((property.invest && property.invest !== "") || property.isForInvestment)
             )
             .slice(0, 6); // Take only first 6 properties for the featured section
