@@ -5,7 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Properties from './pages/Properties'
-import PropertyDetails from './components/properties/Propertydetail';
+import PropertyDetails from './components/properties/propertydetail';
 import Aboutus from './pages/About'
 import Contact from './pages/Contact'
 import Login from './components/login';

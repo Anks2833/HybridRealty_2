@@ -14,7 +14,7 @@ import appointmentRouter from './routes/appointmentRoute.js';
 import adminRouter from './routes/adminRoute.js';
 import propertyRoutes from './routes/propertyRoutes.js';
 import adminProperties from './routes/adminProperties.js';
-import luckyrouter from './routes/luckydrawRoutes.js';
+import luckyrouter from './routes/luckyDrawRoutes.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

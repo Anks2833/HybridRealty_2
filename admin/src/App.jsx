@@ -16,7 +16,7 @@ import Update from "./pages/Update";
 import Appointments from "./pages/Appointments";
 import ApproveProperty from "./pages/ApproveProperty";
 import PropertyDetails from "./pages/PropertyDetails";
-import UserListPage from "./pages/UserListPage"; 
+import UserListPage from "./pages/UserListPage";
 import UserDetailPage from "./pages/UserDetailPage";
 import AdminLuckyDrawManagement from "./pages/AdminLuckyDrawManagement"; // Import Lucky Draw Management
 import LuckyDrawPropertyDetails from "./pages/LuckyDrawPropertyDetails"; // Import Lucky Draw Property Details
