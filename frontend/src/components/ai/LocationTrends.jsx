@@ -124,7 +124,7 @@ const LocationTrends = ({ locations }) => {
                             <span className="font-medium">{location.percent_increase}%</span>
                             {location.percent_increase >= 10 && (
                               <span className="ml-1.5 p-1 bg-green-100 rounded-full">
-                                <ArrowUp className="w-3 h-3 text-green-600" />
+                                <ArrowUp className="w-3 h-3 text-[var(--theme-color-3)]" />
                               </span>
                             )}
                           </>
@@ -190,7 +190,7 @@ const LocationTrends = ({ locations }) => {
                               {location.percent_increase}%
                               {location.percent_increase >= 10 && (
                                 <span className="ml-1.5 p-1 bg-green-100 rounded-full">
-                                  <ArrowUp className="w-3 h-3 text-green-600" />
+                                  <ArrowUp className="w-3 h-3 text-[var(--theme-color-3)]" />
                                 </span>
                               )}
                             </>
@@ -261,7 +261,7 @@ const LocationTrends = ({ locations }) => {
               
               <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
                 <div className="flex items-center mb-2">
-                  <TrendingUp className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
+                  <TrendingUp className="h-5 w-5 text-[var(--theme-color-3)] mr-2 flex-shrink-0" />
                   <h3 className="font-medium text-green-800">Highest Appreciation</h3>
                 </div>
                 <div className="ml-7">

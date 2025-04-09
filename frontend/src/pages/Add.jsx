@@ -113,7 +113,7 @@ const PropertyForm = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="bg-white shadow-xl b-solid-green-1 rounded-xl p-20 w-full max-w-4xl">
         <div className="flex justify-center gap-4 mb-6">
-          <button onClick={() => setAvailability("sell")} className={`px-6 py-3 rounded-lg text-white font-medium ${availability === "sell" ? "bg-green-600" : "bg-gray-400"}`}>
+          <button onClick={() => setAvailability("sell")} className={`px-6 py-3 rounded-lg text-white font-medium ${availability === "sell" ? "bg-[var(--theme-color-3)]" : "bg-gray-400"}`}>
             Sell
           </button>
           <button onClick={() => setAvailability("rent")} className={`px-6 py-3 rounded-lg text-white font-medium ${availability === "rent" ? "bg-[var(--theme-color-1)]" : "bg-gray-400"}`}>
@@ -146,14 +146,14 @@ const PropertyForm = () => {
                     <button 
                       type="button"
                       onClick={() => setIsForInvestment(true)}
-                      className={`px-6 py-2 rounded-lg text-white font-medium ${isForInvestment ? "bg-green-600" : "bg-gray-400"}`}
+                      className={`px-6 py-2 rounded-lg text-white font-medium ${isForInvestment ? "bg-[var(--theme-color-3)]" : "bg-gray-400"}`}
                     >
                       Yes
                     </button>
                     <button 
                       type="button"
                       onClick={() => setIsForInvestment(false)}
-                      className={`px-6 py-2 rounded-lg text-white font-medium ${!isForInvestment ? "bg-green-600" : "bg-gray-400"}`}
+                      className={`px-6 py-2 rounded-lg text-white font-medium ${!isForInvestment ? "bg-[var(--theme-color-3)]" : "bg-gray-400"}`}
                     >
                       No
                     </button>
@@ -230,7 +230,7 @@ const PropertyForm = () => {
                 )}
               </div>
               
-              <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition" disabled={loading}>
+              <button type="submit" className="w-full bg-[var(--theme-color-3)] hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition" disabled={loading}>
                 {loading ? 'Submitting...' : 'Submit Property'}
               </button>
             </form>

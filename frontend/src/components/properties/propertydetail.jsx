@@ -19,10 +19,12 @@ import {
   Compass,
   TrendingUp,
   IndianRupee,
-  Hash
+  Hash,
+  Heart
 } from "lucide-react";
 import { Backendurl } from "../../App.jsx";
 import ScheduleViewing from "./ScheduleViewing.jsx";
+import { toast } from "react-toastify";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -32,7 +34,12 @@ const PropertyDetails = () => {
   const [showSchedule, setShowSchedule] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
   const navigate = useNavigate();
+  
+  // Check if user is logged in
+  const isLoggedIn = localStorage.getItem('token') !== null;
   
   useEffect(() => {
     const fetchProperty = async () => {
@@ -60,6 +67,31 @@ const PropertyDetails = () => {
 
     fetchProperty();
   }, [id]);
+
+  // Check if property is in user's wishlist
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      if (!isLoggedIn || !id) return;
+      
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`${Backendurl}/api/users/check-favorite/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        if (response.data.success) {
+          setIsFavorite(response.data.isFavorite);
+        }
+      } catch (error) {
+        console.error("Error checking favorite status:", error);
+        // Don't show error to user for this call
+      }
+    };
+    
+    checkFavoriteStatus();
+  }, [id, isLoggedIn]);
 
   useEffect(() => {
     // Reset scroll position and active image when component mounts
@@ -116,6 +148,41 @@ const PropertyDetails = () => {
       }
     } catch (error) {
       console.error('Error sharing:', error);
+    }
+  };
+
+  // Toggle favorite/wishlist status
+  const toggleFavorite = async () => {
+    if (!isLoggedIn) {
+      toast.info("Please login to save properties to your wishlist");
+      navigate('/login');
+      return;
+    }
+    
+    try {
+      setFavoriteLoading(true);
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `${Backendurl}/api/users/toggle-wishlist`, 
+        { propertyId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (response.data.success) {
+        setIsFavorite(response.data.isInWishlist);
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+      toast.error("Failed to update wishlist. Please try again.");
+    } finally {
+      setFavoriteLoading(false);
     }
   };
 
@@ -255,23 +322,42 @@ const PropertyDetails = () => {
           >
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Properties
           </Link>
-          <button
-            onClick={handleShare}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg
-              hover:bg-gray-100 transition-colors relative"
-          >
-            {copySuccess ? (
-              <span className="text-green-600">
-                <Copy className="w-5 h-5" />
-                Copied!
-              </span>
-            ) : (
-              <>
-                <Share2 className="w-5 h-5" />
-                Share
-              </>
-            )}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleFavorite}
+              disabled={favoriteLoading}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg 
+                transition-colors relative ${
+                  isFavorite 
+                    ? 'text-red-500 hover:bg-red-50' 
+                    : 'text-gray-500 hover:bg-gray-100'
+                }`}
+            >
+              {favoriteLoading ? (
+                <Loader className="w-5 h-5 animate-spin" />
+              ) : (
+                <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-500' : ''}`} />
+              )}
+              {isFavorite ? 'Saved' : 'Save'}
+            </button>
+            <button
+              onClick={handleShare}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg
+                hover:bg-gray-100 transition-colors relative"
+            >
+              {copySuccess ? (
+                <span className="text-[var(--theme-color-3)]">
+                  <Copy className="w-5 h-5" />
+                  Copied!
+                </span>
+              ) : (
+                <>
+                  <Share2 className="w-5 h-5" />
+                  Share
+                </>
+              )}
+            </button>
+          </div>
         </nav>
 
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -289,6 +375,21 @@ const PropertyDetails = () => {
                 className="w-full h-full object-cover"
               />
             </AnimatePresence>
+
+            {/* Favorite Button - Top Left */}
+            <button
+              onClick={toggleFavorite}
+              disabled={favoriteLoading}
+              className={`absolute top-4 left-4 p-3 rounded-full
+                bg-white/80 backdrop-blur-sm hover:bg-white transition-colors
+                shadow-md z-10 ${isFavorite ? 'text-red-500' : 'text-gray-600'}`}
+            >
+              {favoriteLoading ? (
+                <Loader className="w-6 h-6 animate-spin" />
+              ) : (
+                <Heart className={`w-6 h-6 ${isFavorite ? 'fill-red-500' : ''}`} />
+              )}
+            </button>
 
             {/* Serial Number Badge */}
             {property.serialNumber && (
@@ -348,12 +449,26 @@ const PropertyDetails = () => {
                   {property.location}
                 </div>
               </div>
-              <button
-                onClick={handleShare}
-                className="p-2 rounded-full hover:bg-gray-100"
-              >
-                <Share2 className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleFavorite}
+                  disabled={favoriteLoading}
+                  className={`p-2 rounded-full hover:bg-gray-100 
+                    transition-colors ${isFavorite ? 'text-red-500' : 'text-gray-500'}`}
+                >
+                  {favoriteLoading ? (
+                    <Loader className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-500' : ''}`} />
+                  )}
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="p-2 rounded-full hover:bg-gray-100"
+                >
+                  <Share2 className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -420,15 +535,38 @@ const PropertyDetails = () => {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => setShowSchedule(true)}
-                  className="w-full bg-[var(--theme-color-1)] text-white py-3 rounded-lg 
-                    hover:bg-[var(--theme-hover-color-1)] transition-colors flex items-center 
-                    justify-center gap-2"
-                >
-                  <Calendar className="w-5 h-5" />
-                  Schedule Viewing
-                </button>
+                {/* Action Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                  <button
+                    onClick={() => setShowSchedule(true)}
+                    className="bg-[var(--theme-color-1)] text-white py-3 rounded-lg 
+                      hover:bg-[var(--theme-hover-color-1)] transition-colors flex items-center 
+                      justify-center gap-2"
+                  >
+                    <Calendar className="w-5 h-5" />
+                    Schedule Viewing
+                  </button>
+                  
+                  <button
+                    onClick={toggleFavorite}
+                    disabled={favoriteLoading}
+                    className={`py-3 rounded-lg flex items-center justify-center gap-2
+                      transition-colors ${
+                        isFavorite 
+                          ? 'bg-red-50 text-red-500 hover:bg-red-100 border border-red-200' 
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
+                      }`}
+                  >
+                    {favoriteLoading ? (
+                      <Loader className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-500' : ''}`} />
+                        {isFavorite ? 'Saved to Wishlist' : 'Add to Wishlist'}
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
 
               <div>

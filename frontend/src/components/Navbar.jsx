@@ -14,6 +14,7 @@ import {
   MessageCircle,
   Sparkles,
   BotMessageSquare,
+  Gift, // Added for Lucky Draw icon
 } from "lucide-react";
 import logo from "../assets/home-regular-24.png";
 import { useAuth } from "../context/AuthContext";
@@ -176,7 +177,7 @@ const Navbar = () => {
                   >
                     <Link
                       to="/signup"
-                      className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] text-white px-5 py-2 rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to--700 transition-all duration-200 shadow-md hover:shadow-lg font-medium"
+                      className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white px-5 py-2 rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to-[var(--theme-hover-color-1)] transition-all duration-200 shadow-md hover:shadow-lg font-medium"
                     >
                       Get started
                     </Link>
@@ -236,9 +237,8 @@ const NavLinks = ({ currentPath }) => {
     { name: "Home", path: "/", icon: Home },
     { name: "Add", path: "/add", icon: PlusSquare },
     { name: "Properties", path: "/properties", icon: Search },
-    // AI Property Hub is now handled separately
-    // { name: "About Us", path: "/about", icon: Users },
-    // { name: "Add Property", path: "/add", icon: PlusSquare },
+    // Added Lucky Draw to the nav links
+    { name: "Lucky Draw", path: "/lucky-draw", icon: Gift },
     { name: "Contact", path: "/contact", icon: MessageCircle },
   ];
 
@@ -285,31 +285,6 @@ const NavLinks = ({ currentPath }) => {
           </Link>
         );
       })}
-
-      {/* Enhanced AI Property Hub Link */}
-
-      {/* { path: '/add', label: 'Add Property', icon: PlusSquare },
-      <Link
-            key={name}
-            to={path}
-            className={`relative font-medium transition-colors duration-200 flex items-center gap-1.5 px-2 py-1 rounded-md
-              ${
-                isActive
-                  ? "text-[var(--theme-color-1)] bg-blue-50"
-                  : "text-gray-700 hover:text-[var(--theme-color-1)] hover:bg-blue-50/50"
-              }
-            `}
-          >
-            <Icon className="w-4 h-4" />
-            <span>{name}</span>
-            {isActive && (
-              <motion.div
-                layoutId="activeIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--theme-color-1)] rounded-full"
-                initial={false}
-              />
-            )}
-          </Link> */}
     </div>
   );
 };
@@ -321,11 +296,12 @@ const MobileNavLinks = ({
   handleLogout,
   currentPath,
 }) => {
-  // Standard navigation links without AI Hub (handled separately)
+  // Updated navigation links including Lucky Draw
   const navLinks = [
     { name: "Home", path: "/", icon: Home },
     { name: "Properties", path: "/properties", icon: Search },
     { name: "About Us", path: "/about", icon: Users },
+    { name: "Lucky Draw", path: "/lucky-draw", icon: Gift }, // Added Lucky Draw
     { name: "Contact", path: "/contact", icon: MessageCircle },
   ];
 
@@ -449,7 +425,7 @@ const MobileNavLinks = ({
               <Link
                 to="/signup"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] text-white rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to--700 transition-all font-medium shadow-md shadow-[var(--theme-hover-color-1)]/20"
+                className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to-[var(--theme-hover-color-1)] transition-all font-medium shadow-md shadow-[var(--theme-hover-color-1)]/20"
               >
                 Create account
               </Link>

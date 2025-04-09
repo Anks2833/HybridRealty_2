@@ -130,7 +130,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] text-white py-3 rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to--700 transition-all duration-200 flex items-center justify-center space-x-2 font-medium shadow-lg shadow-[var(--theme-hover-color-1)]/25"
+              className="w-full bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white py-3 rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to-[var(--theme-hover-color-1)] transition-all duration-200 flex items-center justify-center space-x-2 font-medium shadow-lg shadow-[var(--theme-hover-color-1)]/25"
             >
               {loading ? (
                 <Loader className="w-5 h-5 animate-spin" />

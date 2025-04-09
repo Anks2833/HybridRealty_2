@@ -177,7 +177,7 @@ export const getAllAppointments = async (req, res) => {
     if (appointments.length === 0) {
       console.log("No appointments found.");
     } else {
-      console.log("Appointments fetched:", appointments);
+      console.log("Appointments fetched:");
     }
 
     res.json({

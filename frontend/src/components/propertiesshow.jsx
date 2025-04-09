@@ -68,12 +68,54 @@ const PropertyCard = ({ property }) => {
     checkIfFavorite();
   }, [property._id]);
 
-  const checkIfFavorite = () => {
-    // Get favorites from localStorage
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    // Check if this property is in favorites
-    const isFav = favorites.some(fav => fav._id === property._id);
-    setIsFavorite(isFav);
+  const checkIfFavorite = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please log in to add properties to your favorites');
+        return;
+      }
+  
+      // Make API call to check favorites
+      const response = await axios.get(
+        `${Backendurl}/api/users/check-favorite/${property._id}`, 
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+  
+      // Set favorite status based on server response
+      setIsFavorite(response.data.isFavorite);
+    } catch (error) {
+      console.error('Error checking favorite status:', error);
+      
+      // More detailed error logging
+      if (error.response) {
+        console.error('Error details:', {
+          data: error.response.data,
+          status: error.response.status,
+          headers: error.response.headers
+        });
+        
+        // Handle specific error scenarios
+        if (error.response.status === 401) {
+          toast.error('Please log in again');
+        } else {
+          toast.error('Failed to check favorite status');
+        }
+      } else if (error.request) {
+        console.error('No response received:', error.request);
+        toast.error('Network error. Please check your connection.');
+      } else {
+        console.error('Error setting up request:', error.message);
+        toast.error('An unexpected error occurred');
+      }
+      
+      // Ensure favorite state is reset
+      setIsFavorite(false);
+    }
   };
 
   const handleNavigate = () => {
@@ -139,9 +181,8 @@ const PropertyCard = ({ property }) => {
       if (response.data.success) {
         // Update local state based on server response
         // setIsFavorite(response.data.isFavorite);
-
-        setIsFavorite(!isFavorite);
         
+        setIsFavorite(!isFavorite);
         // Provide user feedback
         if (response.data.isFavorite) {
           toast.success(`${property.title} added to favorites`);
@@ -218,7 +259,7 @@ const PropertyCard = ({ property }) => {
           </span>
           <span className={`text-xs font-medium px-3 py-1.5 rounded-full shadow-md 
             ${property.availability === 'Rent' 
-              ? 'bg-green-600 text-white' 
+              ? 'bg-[var(--theme-color-3)] text-white' 
               : 'bg-purple-600 text-white'}`}>
             For {property.availability}
           </span>
@@ -231,11 +272,11 @@ const PropertyCard = ({ property }) => {
           }}
           className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 z-10
             ${isFavorite 
-              ? 'bg-white/80 backdrop-blur-sm text-gray-700 hover:text-red-500' 
-              : 'bg-red-500 text-white'}`}
+              ? 'bg-red-500 text-white' 
+              : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:text-red-500'}`}
           aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
         >
-          <Heart className={`w-5 h-5 ${isFavorite ? '' : 'fill-current'}`} />
+          <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
         </button>
         
         {/* View overlay on hover */}

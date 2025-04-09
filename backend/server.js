@@ -14,7 +14,7 @@ import appointmentRouter from './routes/appointmentRoute.js';
 import adminRouter from './routes/adminRoute.js';
 import propertyRoutes from './routes/propertyRoutes.js';
 import adminProperties from './routes/adminProperties.js';
-
+import luckyrouter from './routes/luckydrawRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -71,6 +71,7 @@ app.use('/api/appointments', appointmentRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/properties', adminProperties);
 app.use('/api', propertyRoutes);
+app.use('/api', luckyrouter); // Add lucky draw routes
 
 
 app.use((err, req, res, next) => {
@@ -85,6 +86,18 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Create a temporary directory for file exports if it doesn't exist
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const tempDir = path.join(__dirname, 'temp');
+
+if (!fs.existsSync(tempDir)) {
+  fs.mkdirSync(tempDir);
+}
 
 // Handle unhandled rejections
 process.on('unhandledRejection', (err) => {

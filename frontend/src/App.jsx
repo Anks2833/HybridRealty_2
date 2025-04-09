@@ -20,6 +20,9 @@ import StructuredData from './components/SEO/StructuredData';
 import 'react-toastify/dist/ReactToastify.css';
 import Add from './pages/Add'
 import InvestPage from './pages/InvestPage';
+import LuckyDrawPage from './components/LuckyDrawPage';
+import LuckyDrawPropertyDetails from './components/LuckyDrawPropertyDetails';
+// Import Lucky Draw components
 
 export const Backendurl = 'http://localhost:4000';
 
@@ -46,6 +49,11 @@ const App = () => {
         <Route path="/invest" element={<InvestPage />} />
         {/* <Route path="/ai-property-hub" element={<AIPropertyHub />} /> */}
         <Route path="/add" element={<Add />} />
+        
+        <Route path="/lucky-draw" element={<LuckyDrawPage />} />
+        <Route path="/lucky-draw/property/:id" element={<LuckyDrawPropertyDetails />} />
+        {/* <Route path="/lucky-draw/property/:id" element={<LuckyDrawPropertyDetails />} /> */}
+        
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
