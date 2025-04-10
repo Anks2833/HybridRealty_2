@@ -116,82 +116,82 @@ const SocialLinks = () => {
   );
 };
 
-// Newsletter Component
-const Newsletter = () => {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
+// // Newsletter Component
+// const Newsletter = () => {
+//   const [email, setEmail] = useState('');
+//   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email) {
-      toast.error('Please enter your email');
-      return;
-    }
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!email) {
+//       toast.error('Please enter your email');
+//       return;
+//     }
 
-    setLoading(true);
-    try {
-      const response = await axios.post(`${Backendurl || 'http://localhost:4000'}/news/newsdata`, { email });
-      if (response.status === 200) {
-        toast.success('Successfully subscribed to our newsletter!');
-        setEmail('');
-      } else {
-        toast.error('Failed to subscribe. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error subscribing to newsletter:', error);
-      toast.error('Failed to subscribe. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+//     setLoading(true);
+//     try {
+//       const response = await axios.post(`${Backendurl || 'http://localhost:4000'}/news/newsdata`, { email });
+//       if (response.status === 200) {
+//         toast.success('Successfully subscribed to our newsletter!');
+//         setEmail('');
+//       } else {
+//         toast.error('Failed to subscribe. Please try again.');
+//       }
+//     } catch (error) {
+//       console.error('Error subscribing to newsletter:', error);
+//       toast.error('Failed to subscribe. Please try again.');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  return (
-    <div className="w-full">
-      <h3 className="text-sm font-bold tracking-wider text-gray-700 uppercase mb-4">Stay Updated</h3>
+//   return (
+//     <div className="w-full">
+//       <h3 className="text-sm font-bold tracking-wider text-gray-700 uppercase mb-4">Stay Updated</h3>
       
-      <p className="text-gray-600 mb-4 text-sm">
-        Subscribe to our newsletter for the latest property listings and real estate insights.
-      </p>
+//       <p className="text-gray-600 mb-4 text-sm">
+//         Subscribe to our newsletter for the latest property listings and real estate insights.
+//       </p>
       
-      <form onSubmit={handleSubmit} className="mt-3">
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="relative flex-grow">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="pl-10 pr-4 py-3 w-full text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--theme-hover-color-1)] focus:border-transparent transition-all duration-200"
-            />
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            type="submit"
-            disabled={loading}
-            className="bg-[var(--theme-color-1)] text-white px-4 py-3 rounded-lg flex items-center justify-center hover:bg-[var(--theme-hover-color-1)] transition-colors duration-200 disabled:opacity-70 sm:w-auto w-full"
-          >
-            {loading ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            ) : (
-              <>
-                <Send className="w-4 h-4 mr-2" />
-                <span>Subscribe</span>
-              </>
-            )}
-          </motion.button>
-        </div>
-      </form>
+//       <form onSubmit={handleSubmit} className="mt-3">
+//         <div className="flex flex-col sm:flex-row gap-3">
+//           <div className="relative flex-grow">
+//             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+//             <input
+//               type="email"
+//               name="email"
+//               id="email"
+//               placeholder="Your email address"
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
+//               className="pl-10 pr-4 py-3 w-full text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--theme-hover-color-1)] focus:border-transparent transition-all duration-200"
+//             />
+//           </div>
+//           <motion.button
+//             whileHover={{ scale: 1.03 }}
+//             whileTap={{ scale: 0.97 }}
+//             type="submit"
+//             disabled={loading}
+//             className="bg-[var(--theme-color-1)] text-white px-4 py-3 rounded-lg flex items-center justify-center hover:bg-[var(--theme-hover-color-1)] transition-colors duration-200 disabled:opacity-70 sm:w-auto w-full"
+//           >
+//             {loading ? (
+//               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+//             ) : (
+//               <>
+//                 <Send className="w-4 h-4 mr-2" />
+//                 <span>Subscribe</span>
+//               </>
+//             )}
+//           </motion.button>
+//         </div>
+//       </form>
 
-      <p className="mt-3 text-xs text-gray-500">
-        By subscribing, you agree to our <a href="#" className="underline hover:text-[var(--theme-color-1)]">Privacy Policy</a>.
-      </p>
-    </div>
-  );
-};
+//       <p className="mt-3 text-xs text-gray-500">
+//         By subscribing, you agree to our <a href="#" className="underline hover:text-[var(--theme-color-1)]">Privacy Policy</a>.
+//       </p>
+//     </div>
+//   );
+// };
 
 // Main Footer Component
 const companyLinks = [
@@ -221,8 +221,8 @@ const contactInfo = [
   },
   { 
     icon: Mail, 
-    text: 'aryankharia01@gmail.com',
-    href: 'mailto:aryankharia01@gmail.com' 
+    text: 'harshtaroliya@gmail.com',
+    href: 'mailto:harshtaroliya@gmail.com' 
   },
 ];
 
@@ -266,7 +266,7 @@ const Footer = () => {
             </FooterColumn>
 
             {/* Help Column */}
-            <FooterColumn title="Support" className="col-span-2" delay={0.3}>
+            {/* <FooterColumn title="Support" className="col-span-2" delay={0.3}>
               <ul className="space-y-3">
                 {helpLinks.map(link => (
                   <li key={link.name} className="group">
@@ -274,7 +274,7 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </FooterColumn>
+            </FooterColumn> */}
 
             {/* Contact Info */}
             <FooterColumn title="Contact Us" className="col-span-3" delay={0.4}>
