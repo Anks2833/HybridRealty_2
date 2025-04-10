@@ -196,9 +196,8 @@ const Newsletter = () => {
 // Main Footer Component
 const companyLinks = [
   { name: 'Home', href: '/' },
-  { name: 'Properties', href: '/properties' },
-  { name: 'About Us', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Properties', href: `${Backendurl}/properties` },
+  { name: 'Contact', href: `${Backendurl}/contact` },
   // { name: 'AI Property Hub', href: '/ai-agent' },
 ];
 
