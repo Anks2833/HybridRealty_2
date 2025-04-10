@@ -53,6 +53,7 @@ const LuckyDrawPropertyDetails = () => {
         } else {
           setError(response.data.message || "Failed to load property details.");
         }
+
       } catch (err) {
         console.error("Error fetching lucky draw property details:", err);
         setError("Failed to load property details. Please try again.");

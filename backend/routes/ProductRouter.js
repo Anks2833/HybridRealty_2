@@ -12,13 +12,6 @@ propertyrouter.post('/add', upload.fields([
 ]), addproperty);
 
 
-
-
-
-
-
-
-
 propertyrouter.get('/list', listproperty);
 propertyrouter.post('/remove', removeproperty);
 propertyrouter.post('/update', upload.fields([

@@ -50,15 +50,22 @@ const PropertyListings = () => {
 
   const parseAmenities = (amenities) => {
     if (!amenities || !Array.isArray(amenities)) return [];
-    try {
-      return typeof amenities[0] === "string" 
-        ? JSON.parse(amenities[0].replace(/'/g, '"'))
-        : amenities;
-    } catch (error) {
-      console.error("Error parsing amenities:", error);
-      return [];
+  
+    // If it's an array of strings and the first string starts with "[", try parsing it
+    if (typeof amenities[0] === "string" && amenities.length === 1 && amenities[0].trim().startsWith("[")) {
+      try {
+        // Fix single quotes and parse
+        return JSON.parse(amenities[0].replace(/'/g, '"'));
+      } catch (error) {
+        console.error("Error parsing amenities:", error);
+        return [];
+      }
     }
+  
+    // Already a proper array of strings
+    return amenities;
   };
+  
 
   useEffect(() => {
     fetchProperties();
@@ -71,6 +78,7 @@ const PropertyListings = () => {
           id: propertyId
         });
 
+        console.log('response : ', response);
         if (response.data.success) {
           toast.success("Property removed successfully");
           await fetchProperties();

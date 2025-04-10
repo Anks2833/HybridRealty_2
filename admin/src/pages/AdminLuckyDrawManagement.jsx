@@ -49,6 +49,8 @@ const AdminLuckyDrawManagement = () => {
           }
         }
       );
+
+      // console.log('responsee : ', response.data.properties);
       
       if (response.data.success) {
         setLuckyDrawProperties(response.data.properties);
@@ -70,14 +72,17 @@ const AdminLuckyDrawManagement = () => {
     try {
       const token = localStorage.getItem("token");
       
+      console.log('selectedProperty : ', selectedProperty);
       const response = await axios.delete(
-        `${backendurl}/api/admin/lucky-draw/delete/${selectedProperty._id}`,
+        `${backendurl}/api/admin/lucky-draw/delete/${selectedProperty.property}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
           }
         }
       );
+
+      // console.log('response : ',response);
       
       if (response.data.success) {
         toast.success("Property removed from lucky draw successfully");
@@ -323,7 +328,7 @@ const AdminLuckyDrawManagement = () => {
                   {filteredProperties.length > 0 ? (
                     filteredProperties.map((property) => {
                       const status = getRegistrationStatus(property);
-                      
+                      // console.log('property : ', property);
                       return (
                         <tr key={property._id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap">

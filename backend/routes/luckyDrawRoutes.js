@@ -137,6 +137,7 @@ luckyrouter.post('/lucky-draw/register', auth, async (req, res) => {
   try {
     const { propertyId, phone } = req.body;
     
+    console.log("req.body : ", req.body);
     // Validate inputs
     if (!propertyId || !phone) {
       return res.status(400).json({
@@ -275,6 +276,7 @@ luckyrouter.get('/admin/lucky-draw/properties', adminAuth, async (req, res) => {
       
       return {
         _id: ldp._id,
+        property: ldp.property._id,
         title: ldp.property.title,
         location: ldp.property.location,
         image: ldp.property.image,
@@ -438,8 +440,12 @@ luckyrouter.post(
  */
 luckyrouter.delete('/admin/lucky-draw/delete/:id', adminAuth, async (req, res) => {
   try {
-    const luckyDrawProperty = await LuckyDrawProperty.findById(req.params.id);
+    // console.log('req.params : ',LuckyDrawProperty.find())
+    const luckyDrawProperty = await LuckyDrawProperty.findOneAndDelete({property : req.params.id});
+    const property = await Property.findByIdAndDelete(req.params.id);
+
     
+    // console.log('luckydrawproperty : ', luckyDrawProperty);
     if (!luckyDrawProperty) {
       return res.status(404).json({
         success: false,
@@ -447,7 +453,16 @@ luckyrouter.delete('/admin/lucky-draw/delete/:id', adminAuth, async (req, res) =
       });
     }
     
-    await luckyDrawProperty.deleteOne();
+    // await luckyDrawProperty.deleteOne();
+
+    // if (!property) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: 'property not found'
+    //   })
+    // }
+
+    // await property.deleteOne();
     
     res.json({
       success: true,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -12,12 +12,36 @@ import {
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import { Backendurl } from "../App";
+import axios from "axios";
+
+
 
 const LuckyDrawPropertyCard = ({ property }) => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  
+  const [registered, setRegistered] = useState(false);
+
+  useEffect(() => {
+      const checkRegistration = async () => {
+        try {
+          const response = await axios.get(`${Backendurl}/api/lucky-draw/property/${property.propertyId}`);
+          
+          // console.log(response.data.property.isUserRegistered); 
+          
+          if (response.data.property.isUserRegistered) {
+            setRegistered(true);
+          }
+        } catch (err) {
+          console.error("Error fetching lucky draw property details:", err);
+        }
+      }
+
+      checkRegistration();
+  }, []);
+
+
   const handleNavigateToDetails = () => {
     navigate(`/lucky-draw/property/${property.propertyId}`);
   };
@@ -32,13 +56,13 @@ const LuckyDrawPropertyCard = ({ property }) => {
     }
     
     // If already registered, show message
-    if (property.isUserRegistered) {
+    if (registered) {
       toast.info("You are already registered for this lucky draw");
       return;
     }
     
     // Navigate to registration form
-    navigate(`/lucky-draw/register/${property._id}`);
+    navigate(`/lucky-draw/property/${property.propertyId}`);
   };
   
   // Calculate remaining days
@@ -158,11 +182,11 @@ const LuckyDrawPropertyCard = ({ property }) => {
               whileTap={{ scale: 0.95 }}
               onClick={handleRegisterClick}
               className={`px-4 py-2 rounded-lg text-sm font-medium shadow-sm 
-                ${property.isUserRegistered 
+                ${registered 
                   ? "bg-green-100 text-green-700 border border-green-200" 
                   : "bg-amber-500 text-white hover:bg-amber-600"}`}
             >
-              {property.isUserRegistered ? "Registered" : "Register Now"}
+              {registered ? "Registered" : "Register Now"}
             </motion.button>
           )}
         </div>

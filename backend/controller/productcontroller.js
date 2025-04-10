@@ -1,6 +1,7 @@
 import fs from "fs";
 import imagekit from "../config/imagekit.js";
 import Property from "../models/propertymodel.js";
+import LuckyDrawProperty from "../models/LuckyDrawProperty.js";
 
 const addproperty = async (req, res) => {
     try {
@@ -71,17 +72,25 @@ const listproperty = async (req, res) => {
 
 const removeproperty = async (req, res) => {
     try {
-        const property = await Property.findByIdAndDelete(req.body.id);
-        if (!property) {
-            return res.status(404).json({ message: "Property not found", success: false });
-        }
-        return res.json({ message: "Property removed successfully", success: true });
+      const { id } = req.body;
+  
+      // Delete the Property document
+      const property = await Property.findByIdAndDelete(id);
+  
+      // Delete the LuckyDrawProperty where property field matches the Property ID
+      const luckydrawproperty = await LuckyDrawProperty.findOneAndDelete({ property: id });
+  
+      if (!property && !luckydrawproperty) {
+        return res.status(404).json({ message: "No matching records found", success: false });
+      }
+  
+      return res.json({ message: "Property and lucky draw entry removed successfully", success: true });
     } catch (error) {
-        console.log("Error removing product: ", error);
-        return res.status(500).json({ message: "Server Error", success: false });
+      console.error("Error removing property:", error);
+      return res.status(500).json({ message: "Server Error", success: false });
     }
-};
-
+  };
+  
 const updateproperty = async (req, res) => {
     try {
         const { id, title, location, price, beds, baths, sqft, type, availability, description, amenities,phone } = req.body;

@@ -66,7 +66,6 @@ const propertySchema = new mongoose.Schema({
   },
   amenities: {
     type: Array,
-    required: true,
   },
   phone: {
     type: String,
@@ -74,7 +73,7 @@ const propertySchema = new mongoose.Schema({
   },
   lp: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 }, { timestamps: true });
 

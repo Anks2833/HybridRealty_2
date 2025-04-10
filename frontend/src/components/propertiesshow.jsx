@@ -361,7 +361,7 @@ const PropertiesShow = () => {
         if (response.data.success) {
           // Filter only approved properties
           const approvedProperties = response.data.property
-            .filter(property => property.isApproved && property.lp === false)
+            .filter(property => property.isApproved && property.lp === false && property.invest == "")
             .slice(0, 6); // Take only first 6 properties for the featured section
   
           setProperties(approvedProperties);
