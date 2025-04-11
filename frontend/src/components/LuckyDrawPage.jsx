@@ -167,7 +167,7 @@ const LuckyDrawPage = () => {
                   new Date(property.biddingEndDate) > new Date()
                 ).length}
               </h3>
-              <p className="text-gray-600">Draws Closing Soon</p>
+              <p className="text-gray-600">Draws Closing Son</p>
             </div>
           </div> */}
         </div>
