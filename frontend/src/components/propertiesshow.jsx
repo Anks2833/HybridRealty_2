@@ -232,7 +232,7 @@ const PropertyCard = ({ property }) => {
             e.stopPropagation(); // Stop propagation at the earliest point
             toggleFavorite(e);
           }}
-          className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 z-[100]
+          className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 z-[10]
             ${isFavorite 
               ? 'bg-red-500 text-white' 
               : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:text-red-500'}`}
