@@ -16,7 +16,7 @@ import {
   BotMessageSquare,
   Gift, // Added for Lucky Draw icon
 } from "lucide-react";
-import logo from "../assets/home-regular-24.png";
+import logo from "../assets/Hybrid_Logo.png";
 import { useAuth } from "../context/AuthContext";
 import PropTypes from "prop-types";
 
@@ -91,18 +91,23 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <motion.div
-              whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-              transition={{ duration: 0.5 }}
-              className="p-2 rounded-lg"
-            >
-              <img src={logo} alt="Hybrid Realty logo" className="w-6 h-6" />
+          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group">
+            <motion.div className="p-1 sm:p-2 rounded-lg">
+              <img
+                src={logo}
+                alt="Hybrid Realty logo"
+                className="h-10 sm:h-12 md:h-14 w-auto transition-all duration-300"
+              />
             </motion.div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] bg-clip-text text-transparent group-hover:from--600 group-hover:to-[var(--theme-color-1)] transition-all duration-300">
+
+            {/* Optional Text */}
+            {/* 
+            <span className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] bg-clip-text text-transparent group-hover:from--600 group-hover:to-[var(--theme-color-1)] transition-all duration-300">
               Hybrid Realty
-            </span>
+            </span> 
+            */}
           </Link>
+
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -253,8 +258,6 @@ const NavLinks = ({ currentPath }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const isAIHubActive = currentPath.startsWith("/ai-property-hub");
-
   return (
     <div className="flex space-x-6 items-center">
       {navLinks.map(({ name, path, icon: Icon }) => {
@@ -305,54 +308,8 @@ const MobileNavLinks = ({
     { name: "Contact", path: "/contact", icon: MessageCircle },
   ];
 
-  const isAIHubActive = currentPath.startsWith("/ai-property-hub");
-
   return (
     <div className="flex flex-col space-y-1 pb-3">
-      {/* Enhanced AI Property Hub for Mobile */}
-      <div className="px-3 py-2">
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Link
-            to="/ai-property-hub"
-            onClick={() => setMobileMenuOpen(false)}
-            className={`relative flex items-center gap-3 px-4 py-3.5 rounded-lg shadow-sm transition-all ${
-              isAIHubActive
-                ? "bg-gradient-to-r from--600 via-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/20"
-                : "bg-gradient-to-r from--50 to-purple-50 text--700 border border--100"
-            }`}
-          >
-            <div className="relative">
-              <BotMessageSquare className="w-5 h-5" />
-              <motion.div
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "loop",
-                }}
-                className="absolute -top-1 -right-1"
-              >
-                <Sparkles className="w-3 h-3 text-yellow-400" />
-              </motion.div>
-            </div>
-            <div className="flex-1">
-              <div className="font-medium text-base">AI Property Hub</div>
-              <div
-                className={`text-xs ${
-                  isAIHubActive ? "text--100" : "text--500"
-                }`}
-              >
-                Smart property recommendations
-              </div>
-            </div>
-            {!isAIHubActive && (
-              <span className="px-1.5 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-[10px] font-bold">
-                NEW
-              </span>
-            )}
-          </Link>
-        </motion.div>
-      </div>
 
       <div className="w-full px-3 py-1">
         <div className="border-t border-gray-100"></div>

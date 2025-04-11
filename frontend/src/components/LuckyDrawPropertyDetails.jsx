@@ -310,7 +310,7 @@ const LuckyDrawPropertyDetails = () => {
             </AnimatePresence>
 
             {/* Lucky Draw Badge */}
-            <div className="absolute top-4 left-4 bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-4 py-2 rounded-lg shadow-md flex items-center gap-2">
+            <div className="absolute top-4 left-4 bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-yellow-400 text-white px-4 py-2 rounded-lg shadow-md flex items-center gap-2">
               <Gift className="w-5 h-5" />
               <span className="font-medium">Lucky Draw Property</span>
             </div>
@@ -429,7 +429,7 @@ const LuckyDrawPropertyDetails = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleRegisterForDraw}
-                      className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-white py-3 rounded-lg 
+                      className="w-full bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-yellow-500 text-white py-3 rounded-lg 
                         hover:from-amber-600 hover:to-yellow-600 transition-all flex items-center 
                         justify-center gap-2 font-medium shadow-md"
                       disabled={registrationLoading}
@@ -479,7 +479,7 @@ const LuckyDrawPropertyDetails = () => {
                         key={index}
                         className="flex items-center text-gray-600"
                       >
-                        <div className="w-2 h-2 rounded-full bg-amber-500 mr-2"></div>
+                        <div className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)] mr-2"></div>
                         {amenity}
                       </div>
                     ))}
@@ -489,28 +489,28 @@ const LuckyDrawPropertyDetails = () => {
                 {/* Lucky Draw Rules */}
                 <div className="mb-6 bg-gray-50 p-6 rounded-lg">
                   <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5 text-amber-500" />
+                    <AlertCircle className="w-5 h-5 text-[var(--theme-investment-card-tag)]" />
                     Lucky Draw Rules
                   </h2>
                   <ul className="space-y-3 text-gray-700">
                     <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 mt-2"></span>
+                      <span className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)] mt-2"></span>
                       <span>Participants must be registered users of Hybrid Realty</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 mt-2"></span>
+                      <span className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)] mt-2"></span>
                       <span>Only one registration per user is allowed</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 mt-2"></span>
+                      <span className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)] mt-2"></span>
                       <span>Winners will be selected randomly after the registration period ends</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 mt-2"></span>
+                      <span className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)] mt-2"></span>
                       <span>Winners will be notified via email and phone</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 mt-2"></span>
+                      <span className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)] mt-2"></span>
                       <span>The lucky draw winner gets exclusive access to purchase this property at a special price</span>
                     </li>
                   </ul>
@@ -572,7 +572,7 @@ const LuckyDrawPropertyDetails = () => {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="Enter your 10-digit phone number"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[var(--theme-investment-card-tag)] focus:border-[var(--theme-investment-card-tag)]"
                       required
                     />
                     <p className="mt-1 text-xs text-gray-500">
@@ -584,7 +584,7 @@ const LuckyDrawPropertyDetails = () => {
                     <input
                       type="checkbox"
                       id="terms"
-                      className="h-4 w-4 text-amber-500 border-gray-300 rounded focus:ring-amber-500"
+                      className="h-4 w-4 text-[var(--theme-investment-card-tag)] border-gray-300 rounded focus:ring-[var(--theme-investment-card-tag)]"
                       required
                     />
                     <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
@@ -602,7 +602,7 @@ const LuckyDrawPropertyDetails = () => {
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600 flex items-center justify-center gap-2"
+                      className="px-4 py-2 bg-[var(--theme-investment-card-tag)] text-white rounded-md hover:bg-amber-600 flex items-center justify-center gap-2"
                       disabled={registrationLoading}
                     >
                       {registrationLoading ? (

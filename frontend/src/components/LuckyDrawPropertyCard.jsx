@@ -111,7 +111,7 @@ const LuckyDrawPropertyCard = ({ property }) => {
           <motion.span 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-gradient-to-r from-amber-500 to-yellow-400 text-white 
+            className="bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-yellow-400 text-white 
               px-3 py-1 rounded-full text-sm font-medium shadow-lg flex items-center gap-1"
           >
             <Gift className="w-3 h-3" />

@@ -499,8 +499,8 @@ const PropertyDetails = () => {
                       Investment Opportunity
                     </h3>
                     <div className="flex items-center">
-                      <IndianRupee className="w-5 h-5 text-amber-500" />
-                      <span className="text-2xl font-bold text-amber-500 ml-1">
+                      <IndianRupee className="w-5 h-5 text-[var(--theme-investment-card-tag)]" />
+                      <span className="text-2xl font-bold text-[var(--theme-investment-card-tag)] ml-1">
                         {Number(investmentPrice).toLocaleString('en-IN')}
                       </span>
                       <span className="text-amber-700 ml-2">/month rental income</span>
@@ -625,15 +625,15 @@ const PropertyDetails = () => {
                     </h2>
                     <ul className="space-y-3 text-gray-700">
                       <li className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)]"></span>
                         Potential Monthly Income: ₹{Number(investmentPrice).toLocaleString('en-IN')}
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)]"></span>
                         Annual Rental Yield: {((Number(investmentPrice) * 12 / Number(property.price)) * 100).toFixed(2)}%
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span className="w-2 h-2 rounded-full bg-[var(--theme-investment-card-tag)]"></span>
                         ROI Duration: {(Number(property.price) / (Number(investmentPrice) * 12)).toFixed(1)} years
                       </li>
                     </ul>

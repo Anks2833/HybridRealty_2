@@ -24,7 +24,7 @@ import LuckyDrawPage from './components/LuckyDrawPage';
 import LuckyDrawPropertyDetails from './components/LuckyDrawPropertyDetails';
 // Import Lucky Draw components
 
-// export const Backendurl = 'http://localhost:4000';
+// export const Backendurl = import.meta.env.VITE_BACKEND_URL;
 export const Backendurl = 'https://hybridrealty-dev-backend.onrender.com';
 
 const App = () => {

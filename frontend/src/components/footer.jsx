@@ -196,8 +196,8 @@ const SocialLinks = () => {
 // Main Footer Component
 const companyLinks = [
   { name: 'Home', href: '/' },
-  { name: 'Properties', href: `${Backendurl}/properties` },
-  { name: 'Contact', href: `${Backendurl}/contact` },
+  { name: 'Properties', href: '${Backendurl}/properties' },
+  { name: 'Contact', href: '${Backendurl}/contact' },
   // { name: 'AI Property Hub', href: '/ai-agent' },
 ];
 
@@ -296,9 +296,9 @@ const Footer = () => {
             </FooterColumn>
             
             {/* Newsletter */}
-            <div className="col-span-5">
+            {/* <div className="col-span-5">
               <Newsletter />
-            </div>
+            </div> */}
           </div>
 
           {/* Mobile Accordions */}
@@ -342,7 +342,7 @@ const Footer = () => {
             </MobileFooterSection>
 
             <div className="pt-6 pb-4">
-              <Newsletter />
+              {/* <Newsletter /> */}
             </div>
           </div>
         </div>

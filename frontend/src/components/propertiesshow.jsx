@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { 
@@ -221,8 +221,8 @@ const PropertyCard = ({ property }) => {
           </span>
           <span className={`text-xs font-medium px-3 py-1.5 rounded-full shadow-md 
             ${property.availability === 'Rent' 
-              ? 'bg-[var(--theme-color-3)] text-white' 
-              : 'bg-purple-600 text-white'}`}>
+              ? 'bg-[var(--theme-rent-tag)] text-white' 
+              : 'bg-[var(--theme-sell-tag)] text-white'}`}>
             For {property.availability}
           </span>
         </div>
@@ -232,7 +232,7 @@ const PropertyCard = ({ property }) => {
             e.stopPropagation(); // Stop propagation at the earliest point
             toggleFavorite(e);
           }}
-          className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 z-10
+          className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 z-[100]
             ${isFavorite 
               ? 'bg-red-500 text-white' 
               : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:text-red-500'}`}
@@ -349,6 +349,21 @@ const PropertiesShow = () => {
       }
     }
   };
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  
+  // Inside your component:
+  const dropdownRef = useRef(null);
+  
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setMobileDropdownOpen(false);
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -393,7 +408,7 @@ const PropertiesShow = () => {
 
   if (loading) {
     return (
-      <div className="py-20 bg-gray-50">
+      <div className="py-20 px-auto bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="animate-pulse">
             <div className="h-10 bg-gray-200 rounded w-1/3 mx-auto mb-4"></div>
@@ -426,8 +441,10 @@ const PropertiesShow = () => {
     );
   }
 
+  
+
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-2 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -435,14 +452,14 @@ const PropertiesShow = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-[var(--theme-color-1)] font-semibold tracking-wide uppercase text-sm">Explore Properties</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
+          {/* <span className="text-[var(--theme-color-1)] font-semibold tracking-wide uppercase text-sm">Explore Properties</span> */}
+          {/* <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
             Featured Properties
-          </h2>
-          <div className="w-24 h-1 bg-[var(--theme-color-1)] mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          </h2> */}
+          {/* <div className="w-24 h-1 bg-[var(--theme-color-1)] mx-auto mb-6"></div> */}
+          {/* <p className="text-xl text-gray-600 max-w-2xl">
             Discover our handpicked selection of premium properties designed to match your lifestyle needs
-          </p>
+          </p> */}
         </motion.div>
 
         {/* Category filter */}
@@ -452,18 +469,71 @@ const PropertiesShow = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-200
-                ${activeCategory === category.id 
-                  ? 'bg-[var(--theme-color-1)] text-white shadow-lg shadow-[var(--theme-color-1)]/20' 
-                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'}`}
-            >
-              {category.label}
-            </button>
-          ))}
+          {/* Desktop view - keep original buttons */}
+<div className="hidden md:flex flex-wrap gap-2">
+  {categories.map((category) => (
+    <button
+      key={category.id}
+      onClick={() => setActiveCategory(category.id)}
+      className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-200
+        ${activeCategory === category.id 
+          ? 'bg-[var(--theme-color-1)] text-white shadow-lg shadow-[var(--theme-color-1)]/20' 
+          : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'}`}
+    >
+      {category.label}
+    </button>
+  ))}
+</div>
+
+{/* Mobile view - dropdown menu */}
+<div className="relative md:hidden flex justify-end" ref={dropdownRef}>
+  <button
+    onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+    className="flex items-center justify-center w-[200px] gap-2 px-4 py-2.5 rounded-full font-medium text-sm shadow-md
+      bg-[var(--theme-color-1)] text-white border border-[var(--theme-color-1)]/20 backdrop-blur-sm
+      transition-all duration-200 hover:shadow-lg hover:shadow-[var(--theme-color-1)]/10"
+  >
+    <span className="mr-1">
+      {categories.find(c => c.id === activeCategory)?.label || 'Select Category'}
+    </span>
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="16" 
+      height="16" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+      className={`transition-transform duration-300 ease-in-out ${mobileDropdownOpen ? 'rotate-180' : ''}`}
+    >
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  </button>
+  
+  {mobileDropdownOpen && (
+    <div className="absolute top-full right-0 mt-2 w-60 z-20 bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
+      <div className="max-h-64 overflow-y-auto py-1">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => {
+              setActiveCategory(category.id);
+              setMobileDropdownOpen(false);
+            }}
+            className={`w-full text-left px-4 py-3 text-sm transition-all
+              ${activeCategory === category.id 
+                ? 'bg-gray-50 text-[var(--theme-color-1)] font-medium border-l-4 border-[var(--theme-color-1)]' 
+                : 'text-gray-700 hover:bg-gray-50 border-l-4 border-transparent'}`}
+          >
+            {category.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
         </motion.div>
 
         {error && (

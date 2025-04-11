@@ -4,6 +4,7 @@ import { Search, MapPin, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import heroimage from "../assets/images/heroimage.png";
+import hybridLogo from "../assets/Hybrid_Logo.png";
 import { RadialGradient } from "react-text-gradients";
 
 const popularLocations = [
@@ -66,7 +67,7 @@ const Hero = () => {
 
   return (
     <AnimatedContainer distance={50} direction="vertical">
-      <div className="mt-20 relative">
+      <div className="relative mt-[20vh] mb-0 sm:mt-[30vh] sm:mb-[10vh]">
         {/* Invest Button at the Top Right */}
         {/* <button
   onClick={() => navigate("/add")}
@@ -76,7 +77,7 @@ const Hero = () => {
 </button> */}
 
 
-        <div className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 my-3 mx-6">
+        <div className="relative flex items-center justify-center px-4 sm:px-6 lg:px-8 mx-6">
           {/* Background Image */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -90,27 +91,25 @@ const Hero = () => {
             }}
           >
             <div className="absolute inset-0 via-slate/10 to-transparent" />
-          </motion.div>
+                </motion.div>
 
-          {/* Content */}
-          <div className="relative z-10 max-w-7xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="mb-12"
-            >
-              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-black mb-6 leading-tight">
-                <RadialGradient
-                  gradient={["circle, var(--theme-color-1) 0%, var(--theme-hover-color-1) 100%"]}
+                {/* Content */}
+                <div className="relative z-10 max-w-7xl mx-auto text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                  className="mb-4 sm:mb-12 flex justify-center"
                 >
-                  Hybrid Realty
-                  <br />
-                  <span className="text-gray-800"></span>
-                </RadialGradient>
-              </h1>
-            </motion.div>
+                  <img
+                    src={hybridLogo}
+                    alt="hybrid logo"
+                    className="w-32 sm:w-40 md:w-48 lg:w-56 xl:w-64"
+                  />
+                </motion.div>
 
+
+            
             {/* Search Section */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -132,7 +131,7 @@ const Hero = () => {
                 </div>
                 <button
                   onClick={() => handleSubmit()}
-                  className="md:w-auto w-full bg-[var(--theme-color-1)] text-white px-6 py-3 rounded-xl hover:bg-[var(--theme-hover-color-1)] transition-colors flex items-center justify-center gap-2 font-medium shadow-md"
+                  className="md:w-auto w-full bg-[var(--theme-color-1)] text-white px-6 py-2 rounded-xl hover:bg-[var(--theme-hover-color-1)] transition-colors flex items-center justify-center gap-2 font-medium shadow-md"
                 >
                   <Search className="w-5 h-5" />
                   <span>Search</span>

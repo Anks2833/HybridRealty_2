@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { 
@@ -19,69 +19,154 @@ import { motion, AnimatePresence } from 'framer-motion';
 // import { Backendurl } from '../App';
 import PropTypes from "prop-types";
 import { Backendurl } from "../../App";
+import { toast } from "react-toastify";
 
-// Sample featured investment properties for fallback
-const sampleInvestmentProperties = [
-  {
-    _id: "inv-sample1",
-    title: "High ROI Apartment in Business District",
-    location: "Lower Parel, Mumbai",
-    price: 18500000,
-    invest: "95000",
-    beds: 3,
-    baths: 2,
-    sqft: 1500,
-    type: "Apartment",
-    availability: "Buy",
-    serialNumber: 1005,
-    isForInvestment: true,
-    image: ["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"]
-  },
-  {
-    _id: "inv-sample2",
-    title: "Premium Commercial Space with Long-term Lease",
-    location: "Bandra Kurla Complex, Mumbai",
-    price: 35000000,
-    invest: "150000",
-    beds: 0,
-    baths: 2,
-    sqft: 2500,
-    type: "Commercial Properties",
-    availability: "Buy",
-    serialNumber: 1008,
-    isForInvestment: true,
-    image: ["https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"]
-  },
-  {
-    _id: "inv-sample3",
-    title: "Rental Income Property Near Tech Park",
-    location: "Whitefield, Bangalore",
-    price: 12000000,
-    invest: "85000",
-    beds: 2,
-    baths: 2,
-    sqft: 1200,
-    type: "Apartment",
-    availability: "Buy",
-    serialNumber: 1010,
-    isForInvestment: true,
-    image: ["https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"]
-  }
-];
+
+
+
+
 
 const InvestmentPropertyCard = ({ property }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const handleNavigate = () => {
-    navigate(`/properties/single/${property._id}`);
+
+  useEffect(() => {
+    checkIfFavorite();
+  }, [property._id]);
+
+  const checkIfFavorite = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please log in to add properties to your favorites');
+        return;
+      }
+  
+      // Make API call to check favorites
+      const response = await axios.get(
+        `${Backendurl}/api/users/check-favorite/${property._id}`, 
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+  
+      // Set favorite status based on server response
+      setIsFavorite(response.data.isFavorite);
+    } catch (error) {
+      console.error('Error checking favorite status:', error);
+      
+      // More detailed error logging
+      if (error.response) {
+        console.error('Error details:', {
+          data: error.response.data,
+          status: error.response.status,
+          headers: error.response.headers
+        });
+        
+        // Handle specific error scenarios
+        if (error.response.status === 401) {
+          toast.error('Please log in again');
+        } else {
+          toast.error('Failed to check favorite status');
+        }
+      } else if (error.request) {
+        console.error('No response received:', error.request);
+        toast.error('Network error. Please check your connection.');
+      } else {
+        console.error('Error setting up request:', error.message);
+        toast.error('An unexpected error occurred');
+      }
+      
+      // Ensure favorite state is reset
+      setIsFavorite(false);
+    }
   };
 
-  const toggleFavorite = (e) => {
-    e.stopPropagation();
-    setIsFavorite(!isFavorite);
-    // Here you would typically call an API to save to user's favorites
+  const toggleFavorite = async (e) => {
+    e.stopPropagation(); // Prevent navigating to property details
+    
+    try {
+      // Check if user is logged in
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please log in to add properties to your favorites');
+        return;
+      }
+      
+      // Make API call to toggle favorite
+      const response = await axios.post(
+        `${Backendurl}/api/users/toggle-wishlist`, 
+        { propertyId: property._id },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+
+      if (response.data.success) {
+        // Update local state based on server response
+        // setIsFavorite(response.data.isFavorite);
+        
+        setIsFavorite(!isFavorite);
+
+        // console.log(response.data);
+        // Provide user feedback
+        if (response.data.isInWishlist) {
+          toast.success(`${property.title} added to favorites`);
+        } else {
+          toast.success(`${property.title} removed from favorites`);
+        }
+      } else {
+        toast.error(response.data.message || 'Failed to update favorites');
+      }
+    } catch (error) {
+      // More comprehensive error handling
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Detailed error response:', {
+          data: error.response.data,
+          status: error.response.status,
+          headers: error.response.headers
+        });
+  
+        // Different error messages based on status code
+        switch (error.response.status) {
+          case 401:
+            toast.error('Unauthorized. Please log in again.');
+            // Optionally: log out the user, redirect to login
+            break;
+          case 404:
+            toast.error('Property not found');
+            break;
+          case 500:
+            toast.error('Server error. Please try again later.');
+            break;
+          default:
+            toast.error(
+              error.response.data.message || 
+              'An unexpected error occurred while updating favorites'
+            );
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('No response received:', error.request);
+        toast.error('No response from server. Please check your internet connection.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up request:', error.message);
+        toast.error('An unexpected error occurred');
+      }
+    }
+  };
+
+  const handleNavigate = () => {
+    navigate(`/properties/single/${property._id}`);
   };
 
   // Calculate ROI metrics
@@ -115,7 +200,7 @@ const InvestmentPropertyCard = ({ property }) => {
           </span>
           
           {/* Investment Badge */}
-          <span className="bg-amber-500 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
+          <span className="bg-[var(--theme-investment-card-tag)] text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
             Investment
           </span>
@@ -131,11 +216,15 @@ const InvestmentPropertyCard = ({ property }) => {
         
         {/* Favorite button */}
         <button 
-          onClick={toggleFavorite}
-          className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 
+          onClick={(e) => {
+            e.stopPropagation(); // Stop propagation at the earliest point
+            toggleFavorite(e);
+          }}
+          className={`absolute top-4 right-4 p-2 rounded-full transition-all duration-300 z-[100]
             ${isFavorite 
               ? 'bg-red-500 text-white' 
               : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:text-red-500'}`}
+          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
         >
           <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
         </button>
@@ -236,14 +325,34 @@ const FeaturedInvestedProperties = () => {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const navigate = useNavigate();
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  const categoryDropdownRef = useRef(null);
 
   const categories = [
-    { id: 'all', label: 'All Investments' },
+    { id: 'all', label: 'All Properties' },
     { id: 'apartment', label: 'Apartments' },
     { id: 'villa', label: 'Villas' },
-    { id: 'commercial properties', label: 'Commercial' },
-    { id: 'office', label: 'Office Spaces' },
+    { id: 'house', label: 'Houses' },
+    { id: 'farmhouse', label: 'farmhouse' },
+    { id: 'commercial properties', label: 'commercial properties' },
+    { id: 'shops', label: 'shops' },
+    { id: 'office spaces', label: 'office spaces' },
+    { id: 'plots/lands', label: 'plots/lands' },
   ];
+
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target)) {
+        setMobileDropdownOpen(false);
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -287,13 +396,13 @@ const FeaturedInvestedProperties = () => {
         } else {
           setError('Failed to fetch investment properties');
           // Fallback to sample data
-          setProperties(sampleInvestmentProperties);
+          // setProperties(sampleInvestmentProperties);
         }
       } catch (err) {
         console.error('Error fetching investment properties:', err);
         setError('Failed to load investment properties. Using sample data instead.');
         // Fallback to sample data
-        setProperties(sampleInvestmentProperties);
+        // setProperties(sampleInvestmentProperties);
       } finally {
         setLoading(false);
       }
@@ -348,7 +457,7 @@ const FeaturedInvestedProperties = () => {
   return (
     <section className="py-24 bg-gradient-to-b from-white to-amber-50/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        {/* <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -362,28 +471,81 @@ const FeaturedInvestedProperties = () => {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover premium properties with excellent rental income potential and strong investment returns
           </p>
-        </motion.div>
+        </motion.div> */}
 
         {/* Category filter */}
         <motion.div 
-          className="flex flex-wrap justify-center gap-4 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+  className="flex flex-wrap justify-center gap-4 mb-12"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.2 }}
+>
+  {/* Desktop view - original buttons */}
+  <div className="hidden md:flex flex-wrap gap-2">
+    {categories.map((category) => (
+      <button
+        key={category.id}
+        onClick={() => setActiveCategory(category.id)}
+        className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-200
+          ${activeCategory === category.id 
+            ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' 
+            : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'}`}
+      >
+        {category.label}
+      </button>
+    ))}
+  </div>
+
+  {/* Mobile view - dropdown menu with explicit ref name */}
+  <div className="relative md:hidden flex justify-end w-full" ref={categoryDropdownRef}>
+    <button
+      onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+      className="flex items-center justify-center w-[200px] gap-2 px-4 py-2.5 rounded-full font-medium text-sm shadow-md
+        bg-amber-500 text-white border border-amber-500/20 
+        transition-all duration-200 hover:shadow-lg hover:shadow-amber-500/10"
+    >
+      <span>
+        {categories.find(c => c.id === activeCategory)?.label || 'Select Category'}
+      </span>
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="16" 
+        height="16" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="2.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+        className={`transition-transform duration-300 ease-in-out ${mobileDropdownOpen ? 'rotate-180' : ''}`}
+      >
+        <path d="M6 9l6 6 6-6" />
+      </svg>
+    </button>
+    
+    {mobileDropdownOpen && (
+      <div className="absolute top-full right-0 mt-2 w-60 z-20 bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
+        <div className="max-h-64 overflow-y-auto py-1">
           {categories.map((category) => (
             <button
               key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-200
+              onClick={() => {
+                setActiveCategory(category.id);
+                setMobileDropdownOpen(false);
+              }}
+              className={`w-full text-left px-4 py-3 text-sm transition-all
                 ${activeCategory === category.id 
-                  ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' 
-                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'}`}
+                  ? 'bg-gray-50 text-amber-500 font-medium border-l-4 border-amber-500' 
+                  : 'text-gray-700 hover:bg-gray-50 border-l-4 border-transparent'}`}
             >
               {category.label}
             </button>
           ))}
-        </motion.div>
+        </div>
+      </div>
+    )}
+  </div>
+</motion.div>
 
         {error && (
           <motion.div 

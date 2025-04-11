@@ -244,7 +244,7 @@ const LuckyDrawRegistrationForm = () => {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4">
-                  <span className="bg-gradient-to-r from-amber-500 to-yellow-400 text-white 
+                  <span className="bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-yellow-400 text-white 
                     px-3 py-1 rounded-full text-sm font-medium shadow-lg flex items-center gap-1">
                     <Gift className="w-3 h-3" />
                     Lucky Draw
@@ -256,7 +256,7 @@ const LuckyDrawRegistrationForm = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{property.title}</h3>
                 
                 <div className="flex items-center text-gray-500 text-sm mb-4">
-                  <MapPin className="w-4 h-4 mr-2 text-amber-500" />
+                  <MapPin className="w-4 h-4 mr-2 text-[var(--theme-investment-card-tag)]" />
                   {property.location}
                 </div>
                 
@@ -286,7 +286,7 @@ const LuckyDrawRegistrationForm = () => {
           <div className="md:col-span-3">
             <div className="bg-white rounded-xl shadow-sm p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <Gift className="w-6 h-6 text-amber-500" />
+                <Gift className="w-6 h-6 text-[var(--theme-investment-card-tag)]" />
                 Register for Lucky Draw
               </h2>
               
@@ -307,7 +307,7 @@ const LuckyDrawRegistrationForm = () => {
                           id="name"
                           value={formData.name}
                           onChange={handleChange}
-                          className="focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 pr-4 py-3 sm:text-sm border-gray-300 rounded-md"
+                          className="focus:ring-[var(--theme-investment-card-tag)] focus:border-[var(--theme-investment-card-tag)] block w-full pl-10 pr-4 py-3 sm:text-sm border-gray-300 rounded-md"
                           placeholder="Your name"
                           disabled
                         />
@@ -328,7 +328,7 @@ const LuckyDrawRegistrationForm = () => {
                           id="email"
                           value={formData.email}
                           onChange={handleChange}
-                          className="focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 pr-4 py-3 sm:text-sm border-gray-300 rounded-md"
+                          className="focus:ring-[var(--theme-investment-card-tag)] focus:border-[var(--theme-investment-card-tag)] block w-full pl-10 pr-4 py-3 sm:text-sm border-gray-300 rounded-md"
                           placeholder="you@example.com"
                           disabled
                         />
@@ -349,7 +349,7 @@ const LuckyDrawRegistrationForm = () => {
                           id="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 pr-4 py-3 sm:text-sm border-gray-300 rounded-md"
+                          className="focus:ring-[var(--theme-investment-card-tag)] focus:border-[var(--theme-investment-card-tag)] block w-full pl-10 pr-4 py-3 sm:text-sm border-gray-300 rounded-md"
                           placeholder="Your 10-digit phone number"
                           required
                         />
@@ -377,7 +377,7 @@ const LuckyDrawRegistrationForm = () => {
                           name="agreeTerms"
                           checked={formData.agreeTerms}
                           onChange={handleChange}
-                          className="h-4 w-4 text-amber-500 border-gray-300 rounded focus:ring-amber-500"
+                          className="h-4 w-4 text-[var(--theme-investment-card-tag)] border-gray-300 rounded focus:ring-[var(--theme-investment-card-tag)]"
                           required
                         />
                         <span className="ml-2 text-sm text-gray-700">
@@ -391,7 +391,7 @@ const LuckyDrawRegistrationForm = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-white py-3 rounded-lg 
+                    className="w-full bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-yellow-500 text-white py-3 rounded-lg 
                       hover:from-amber-600 hover:to-yellow-600 transition-all flex items-center 
                       justify-center gap-2 font-medium shadow-md"
                     disabled={submitting}
