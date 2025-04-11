@@ -75,7 +75,7 @@ const InvestPage = () => {
           <div className="relative mb-6">
             {/* Main loader animation */}
             <motion.div
-              className="w-24 h-24 bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-amber-400 rounded-2xl flex items-center justify-center relative shadow-lg shadow-amber-400/30"
+              className="w-24 h-24 bg-gradient-to-r from-amber-500 to-amber-400 rounded-2xl flex items-center justify-center relative shadow-lg shadow-amber-400/30"
               animate={{ 
                 rotate: [0, 0, 360, 360, 0],
                 scale: [1, 0.9, 0.9, 1, 1],
@@ -109,7 +109,7 @@ const InvestPage = () => {
             <div className="absolute inset-0 bg-amber-400/10 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
           </div>
           
-          <h3 className="text-2xl font-bold text-gray-800 mb-3 bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-amber-400 bg-clip-text text-transparent">
+          <h3 className="text-2xl font-bold text-gray-800 mb-3 bg-gradient-to-r from-amber-500 to-amber-400 bg-clip-text text-transparent">
             Loading Investment Properties
           </h3>
           
@@ -120,7 +120,7 @@ const InvestPage = () => {
           {/* Progress bar with animated gradient */}
           <div className="w-64 h-2 bg-gray-200 rounded-full overflow-hidden relative">
             <motion.div
-              className="h-full bg-gradient-to-r from-[var(--theme-investment-card-tag)] via-amber-400 to-[var(--theme-investment-card-tag)] bg-size-200 absolute top-0 left-0 right-0"
+              className="h-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 bg-size-200 absolute top-0 left-0 right-0"
               animate={{ 
                 backgroundPosition: ["0% center", "100% center", "0% center"] 
               }}
@@ -133,11 +133,11 @@ const InvestPage = () => {
             />
           </div>
           
-          <div className="flex items-center mt-4 text-xs text-[var(--theme-investment-card-tag)]">
+          <div className="flex items-center mt-4 text-xs text-amber-500">
             <motion.div 
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1.5 h-1.5 bg-[var(--theme-investment-card-tag)] rounded-full mr-2"
+              className="w-1.5 h-1.5 bg-amber-500 rounded-full mr-2"
             />
             <span>Please wait while we find the best investment opportunities</span>
           </div>
@@ -157,7 +157,7 @@ const InvestPage = () => {
           <p className="font-medium mb-4">{propertyState.error}</p>
           <button
             onClick={fetchProperties}
-            className="px-6 py-2 bg-[var(--theme-investment-card-tag)] text-white rounded-lg hover:bg-amber-600 
+            className="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 
               transition-colors duration-200"
           >
             Try Again
@@ -200,7 +200,7 @@ const InvestPage = () => {
                   <button
                     onClick={() => setViewState(prev => ({ ...prev, isGridView: true }))}
                     className={`p-2 rounded-lg ${
-                      viewState.isGridView ? "bg-amber-100 text-[var(--theme-investment-card-tag)]" : "hover:bg-gray-100"
+                      viewState.isGridView ? "bg-amber-100 text-amber-500" : "hover:bg-gray-100"
                     }`}
                   >
                     <Grid className="w-5 h-5" />
@@ -208,7 +208,7 @@ const InvestPage = () => {
                   <button
                     onClick={() => setViewState(prev => ({ ...prev, isGridView: false }))}
                     className={`p-2 rounded-lg ${
-                      !viewState.isGridView ? "bg-amber-100 text-[var(--theme-investment-card-tag)]" : "hover:bg-gray-100"
+                      !viewState.isGridView ? "bg-amber-100 text-amber-500" : "hover:bg-gray-100"
                     }`}
                   >
                     <List className="w-5 h-5" />

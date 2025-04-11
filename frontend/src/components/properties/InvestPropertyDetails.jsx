@@ -26,7 +26,7 @@ import { Backendurl } from "../../App.jsx";
 import ScheduleViewing from "./ScheduleViewing.jsx";
 import { toast } from "react-toastify";
 
-const PropertyDetails = () => {
+const InvestPropertyDetails = () => {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -678,4 +678,4 @@ const PropertyDetails = () => {
   );
 };
 
-export default PropertyDetails;
+export default InvestPropertyDetails;

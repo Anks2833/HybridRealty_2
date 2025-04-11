@@ -23,8 +23,16 @@ const PropertyCard = ({ property, viewType, availability }) => {
   const [showControls, setShowControls] = useState(false);
 
   const handleNavigateToDetails = () => {
-    // console.log(property.invest);
-    navigate(`/properties/single/${property._id}`);
+    // console.log(property);
+    
+    if (property.invest === "")
+    {
+      navigate(`/properties/single/${property._id}`);
+    }
+    else
+    {
+      navigate(`/invest/single/${property._id}`);
+    }
   };
 
   const handleShare = async (e) => {
@@ -160,7 +168,7 @@ const PropertyCard = ({ property, viewType, availability }) => {
           <motion.span 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-gradient-to-r from-[var(--theme-color-3)] to-[var(--theme-color-3)] text-white 
+            className="bg-gradient-to-r from-[var(--theme-rent-tag)] to-[var(--theme-rent-tag)] text-white 
               px-3 py-1 rounded-full text-sm font-medium shadow-lg"
           >
             {property.availability}
@@ -171,7 +179,7 @@ const PropertyCard = ({ property, viewType, availability }) => {
             <motion.span 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-amber-400 text-white 
+              className="bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-[var(--theme-investment-card-tag)] text-white 
                 px-3 py-1 rounded-full text-sm font-medium shadow-lg"
             >
               Invest
@@ -226,10 +234,10 @@ const PropertyCard = ({ property, viewType, availability }) => {
             {/* Investment Price - Only shown when property is for investment */}
             {isForInvestment && investmentPrice && (
               <div className="flex items-center gap-2 bg-amber-50 p-2 rounded-lg">
-                <TrendingUp className="w-4 h-4 text-[var(--theme-investment-card-tag)]" />
+                <TrendingUp className="w-4 h-4 text-amber-500" />
                 <div className="flex items-center">
-                  <IndianRupee className="w-4 h-4 text-[var(--theme-investment-card-tag)]" />
-                  <span className="text-lg font-bold text-[var(--theme-investment-card-tag)] ml-1">
+                  <IndianRupee className="w-4 h-4 text-amber-500" />
+                  <span className="text-lg font-bold text-amber-500 ml-1">
                     {Number(investmentPrice).toLocaleString('en-IN')}
                   </span>
                   <span className="text-sm text-amber-600 ml-1">/month</span>

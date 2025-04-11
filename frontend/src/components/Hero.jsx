@@ -67,7 +67,7 @@ const Hero = () => {
 
   return (
     <AnimatedContainer distance={50} direction="vertical">
-      <div className="relative mt-[20vh] mb-0 sm:mt-[30vh] sm:mb-[10vh]">
+      <div className="relative mt-[15vh] mb-0 sm:mt-[30vh] sm:mb-[10vh] md:mt-[30vh] md:mb-[20vh]">
         {/* Invest Button at the Top Right */}
         {/* <button
   onClick={() => navigate("/add")}

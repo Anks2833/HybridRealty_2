@@ -22,6 +22,7 @@ import Add from './pages/Add'
 import InvestPage from './pages/InvestPage';
 import LuckyDrawPage from './components/LuckyDrawPage';
 import LuckyDrawPropertyDetails from './components/LuckyDrawPropertyDetails';
+import InvestPropertyDetails from './components/properties/InvestPropertyDetails';
 // Import Lucky Draw components
 
 // export const Backendurl = import.meta.env.VITE_BACKEND_URL;
@@ -48,6 +49,7 @@ const App = () => {
         {/* <Route path="/about" element={<Aboutus />} /> */}
         <Route path="/contact" element={<Contact />} />
         <Route path="/invest" element={<InvestPage />} />
+        <Route path="/invest/single/:id" element={<InvestPropertyDetails />} />
         {/* <Route path="/ai-property-hub" element={<AIPropertyHub />} /> */}
         <Route path="/add" element={<Add />} />
         
