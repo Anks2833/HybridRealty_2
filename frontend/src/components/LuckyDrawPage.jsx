@@ -117,29 +117,7 @@ const LuckyDrawPage = () => {
             Register for a chance to be selected for exclusive property opportunities
           </p>
         </motion.header>
-        
-        {/* Information Banner */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100 rounded-xl p-6 mb-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-blue-100 rounded-full text-blue-600">
-                <Ticket className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">How It Works</h3>
-                <p className="text-gray-600">Register for properties you're interested in and get selected in our lucky draw</p>
-              </div>
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] text-white px-5 py-2 rounded-lg shadow-md hover:shadow-lg font-medium"
-              onClick={() => window.open("/lucky-draw/about", "_blank")}
-            >
-              Learn More
-            </motion.button>
-          </div>
-        </div>
+
         
         {/* Search and Filters */}
         <div className="bg-white p-4 rounded-lg shadow-sm mb-8">

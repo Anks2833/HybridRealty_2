@@ -18,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { Backendurl } from '../App';
+import hybridLogo from '../assets/Hybrid_Logo.png';
 
 // Mobile Collapsible Footer Section
 const MobileFooterSection = ({ title, children }) => {
@@ -235,12 +236,8 @@ const Footer = () => {
           {/* Brand section - Always visible above other sections on mobile */}
           <div className="mb-10">
             <div className="flex items-center justify-center lg:justify-start">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Home className="h-6 w-6 text-[var(--theme-color-1)]" />
-              </div>
-              <span className="ml-3 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)]">
-                Hybrid Realty
-              </span>
+              
+                <img className="h-10 sm:h-12 md:h-14 w-auto transition-all duration-300" src={hybridLogo} alt="" />
             </div>
             
             <p className="text-gray-600 mt-4 text-center lg:text-left lg:mt-6 max-w-md mx-auto lg:mx-0 leading-relaxed">
