@@ -1,10 +1,11 @@
 import express from 'express';
 import { addproperty, listproperty, removeproperty, updateproperty,singleproperty } from '../controller/productcontroller.js';
 import upload from '../middleware/multer.js';
+import auth from '../middleware/auth.js';
 
 const propertyrouter = express.Router();
 
-propertyrouter.post('/add', upload.fields([
+propertyrouter.post('/add',auth, upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
     { name: "image3", maxCount: 1 },
@@ -13,8 +14,8 @@ propertyrouter.post('/add', upload.fields([
 
 
 propertyrouter.get('/list', listproperty);
-propertyrouter.post('/remove', removeproperty);
-propertyrouter.post('/update', upload.fields([
+propertyrouter.post('/remove',auth, removeproperty);
+propertyrouter.post('/update',auth, upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
     { name: "image3", maxCount: 1 },

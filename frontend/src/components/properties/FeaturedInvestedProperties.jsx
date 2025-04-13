@@ -40,7 +40,7 @@ const InvestmentPropertyCard = ({ property }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        toast.error('Please log in to add properties to your favorites');
+        // toast.error('Please log in to add properties to your favorites');
         return;
       }
   

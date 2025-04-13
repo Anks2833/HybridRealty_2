@@ -160,7 +160,7 @@ const PropertyCard = ({ property, viewType, availability }) => {
           <motion.span 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] text-white 
+            className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white 
               px-3 py-1 rounded-full text-sm font-medium shadow-lg"
           >
             {property.type}

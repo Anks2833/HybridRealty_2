@@ -29,7 +29,7 @@ const token = req.headers.authorization?.split(" ")[1];
     if (!user) {
       return res.status(403).json({ 
         success: false,
-        message: 'Unauthorized: Admin access required' 
+        message: 'Unauthorized' 
       });
     }
 

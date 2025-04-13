@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { toast } from "react-toastify";
 import axios from 'axios';
 import { Backendurl } from '../App';
 import { Upload, X } from 'lucide-react';
@@ -77,6 +77,14 @@ const PropertyForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
+
+      const token = localStorage.getItem("token");
+
+      if (!token)
+      {
+          toast.error("Log in to add property");
+          return;
+      }
       const formdata = new FormData();
       Object.keys(formData).forEach(key => {
         if (key === 'images') {
@@ -109,14 +117,48 @@ const PropertyForm = () => {
     }
   };
 
+  const handleFormSellButton = () => {
+    try {
+
+      
+      const token = localStorage.getItem("token");
+      
+      if (!token) {
+        // console.log("no login");
+        toast.error("Login to Add Property");
+        return;
+      }
+      setAvailability("sell");
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+    }
+  }
+
+  const handleFormRentButton = () => {
+    try {
+
+      
+      const token = localStorage.getItem("token");
+      
+      if (!token) {
+        // console.log("no login");
+        toast.error("Login to Add Property");
+        return;
+      }
+      setAvailability("rent");
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="bg-white shadow-xl b-solid-green-1 rounded-xl p-20 w-full max-w-4xl">
         <div className="flex justify-center gap-4 mb-6">
-          <button onClick={() => setAvailability("sell")} className={`px-6 py-3 rounded-lg text-white font-medium ${availability === "sell" ? "bg-[var(--theme-color-3)]" : "bg-gray-400"}`}>
+          <button onClick={handleFormSellButton} className={`px-6 py-3 rounded-lg text-white font-medium ${availability === "sell" ? "bg-[var(--theme-color-1)]" : "bg-gray-400"}`}>
             Sell
           </button>
-          <button onClick={() => setAvailability("rent")} className={`px-6 py-3 rounded-lg text-white font-medium ${availability === "rent" ? "bg-[var(--theme-color-1)]" : "bg-gray-400"}`}>
+          <button onClick={handleFormRentButton} className={`px-6 py-3 rounded-lg text-white font-medium ${availability === "rent" ? "bg-[var(--theme-color-1)]" : "bg-gray-400"}`}>
             Rent
           </button>
         </div>
@@ -146,14 +188,14 @@ const PropertyForm = () => {
                     <button 
                       type="button"
                       onClick={() => setIsForInvestment(true)}
-                      className={`px-6 py-2 rounded-lg text-white font-medium ${isForInvestment ? "bg-[var(--theme-color-3)]" : "bg-gray-400"}`}
+                      className={`px-6 py-2 rounded-lg text-white font-medium ${isForInvestment ? "bg-[var(--theme-color-1)]" : "bg-gray-400"}`}
                     >
                       Yes
                     </button>
                     <button 
                       type="button"
                       onClick={() => setIsForInvestment(false)}
-                      className={`px-6 py-2 rounded-lg text-white font-medium ${!isForInvestment ? "bg-[var(--theme-color-3)]" : "bg-gray-400"}`}
+                      className={`px-6 py-2 rounded-lg text-white font-medium ${!isForInvestment ? "bg-[var(--theme-color-1)]" : "bg-gray-400"}`}
                     >
                       No
                     </button>
@@ -230,7 +272,7 @@ const PropertyForm = () => {
                 )}
               </div>
               
-              <button type="submit" className="w-full bg-[var(--theme-color-3)] hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition" disabled={loading}>
+              <button type="submit" className="w-full bg-[var(--theme-color-1)] hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition" disabled={loading}>
                 {loading ? 'Submitting...' : 'Submit Property'}
               </button>
             </form>

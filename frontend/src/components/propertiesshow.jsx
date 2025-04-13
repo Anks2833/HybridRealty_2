@@ -16,8 +16,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { Backendurl } from '../App';
 import PropTypes from "prop-types";
-import { toast } from 'react-hot-toast'; // Import toast for notifications
-
+import { toast } from "react-toastify";
 
 
 const PropertyCard = ({ property }) => {
@@ -34,7 +33,7 @@ const PropertyCard = ({ property }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        toast.error('Please log in to add properties to your favorites');
+        // toast.error('Please log in to add properties to your favorites');
         return;
       }
   
@@ -84,43 +83,10 @@ const PropertyCard = ({ property }) => {
     navigate(`/properties/single/${property._id}`);
   };
 
-  // const toggleFavorite = (e) => {
-  //   e.stopPropagation(); // Prevent navigating to property details
-    
-  //   // Get current favorites from localStorage
-  //   const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    
-  //   if (isFavorite) {
-  //     // Remove from favorites
-  //     const updatedFavorites = favorites.filter(fav => fav._id !== property._id);
-  //     const response = axios.post(`${Backendurl}/api/toggle-wishlist`, { propertyId: property._id });
-  //     setIsFavorite(false);
-  //     toast.success(`${property.title} removed from favorites`);
-  //   } else {
-  //     // Add to favorites - save minimal property info to save space
-  //     const propertyToSave = {
-  //       _id: property._id,
-  //       title: property.title,
-  //       location: property.location,
-  //       price: property.price,
-  //       type: property.type,
-  //       availability: property.availability,
-  //       image: property.image[0] // Just save first image
-  //     };
-  //     const updatedFavorites = [...favorites, propertyToSave];
-  //     const response = axios.post(`${Backendurl}/api/toggle-wishlist`, { propertyId: property._id });
-  //     setIsFavorite(true);
-  //     toast.success(`${property.title} added to favorites`);
-  //   }
-
-  //   // You could also implement API call here if you want to store favorites on server
-  //   // Example: axios.post(`${Backendurl}/api/favorites/toggle`, { propertyId: property._id });
-  // };
-
-
   const toggleFavorite = async (e) => {
     e.stopPropagation(); // Prevent navigating to property details
     
+    console.log("property card fav button clicked")
     try {
       // Check if user is logged in
       const token = localStorage.getItem('token');
@@ -139,14 +105,16 @@ const PropertyCard = ({ property }) => {
           }
         }
       );
-      
+
       if (response.data.success) {
         // Update local state based on server response
         // setIsFavorite(response.data.isFavorite);
         
         setIsFavorite(!isFavorite);
+
+        // console.log(response.data);
         // Provide user feedback
-        if (response.data.isFavorite) {
+        if (response.data.isInWishlist) {
           toast.success(`${property.title} added to favorites`);
         } else {
           toast.success(`${property.title} removed from favorites`);
@@ -227,6 +195,8 @@ const PropertyCard = ({ property }) => {
           </span>
         </div>
         
+
+        {/* fav button */}
         <button 
           onClick={(e) => {
             e.stopPropagation(); // Stop propagation at the earliest point
