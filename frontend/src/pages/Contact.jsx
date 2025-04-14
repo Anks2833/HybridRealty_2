@@ -33,7 +33,7 @@ const Contact = () => {
         transition={{ duration: 0.5 }}
         className="pt-16 relative z-10"
       >
-        <ContactHero />
+        {/* <ContactHero /> */}
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="mb-16 text-center max-w-3xl mx-auto">

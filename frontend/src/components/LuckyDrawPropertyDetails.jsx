@@ -310,7 +310,7 @@ const LuckyDrawPropertyDetails = () => {
             </AnimatePresence>
 
             {/* Lucky Draw Badge */}
-            <div className="absolute top-4 left-4 bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-yellow-400 text-white px-4 py-2 rounded-lg shadow-md flex items-center gap-2">
+            <div className="absolute top-4 left-4 bg-[var(--theme-investment-card-tag)] text-white px-4 py-2 rounded-lg shadow-md flex items-center gap-2">
               <Gift className="w-5 h-5" />
               <span className="font-medium">Lucky Draw Property</span>
             </div>

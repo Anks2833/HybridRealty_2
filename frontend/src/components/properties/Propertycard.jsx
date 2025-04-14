@@ -188,6 +188,7 @@ const PropertyCard = ({ property, viewType, availability }) => {
         </div>
       </div>
 
+{/* const response = axios.post("") */}
       {/* Content Section */}
       <div className={`flex-1 p-6 ${isGrid ? '' : 'flex flex-col justify-between'}`}>
         <div className="space-y-4">

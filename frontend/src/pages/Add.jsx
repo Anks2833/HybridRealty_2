@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { Backendurl } from "../App";
 import {
@@ -133,6 +133,48 @@ const PropertyForm = () => {
       }
     });
   };
+
+  const sellButtonHandle = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const token = await localStorage.getItem("token");
+
+      if (!token) {
+          toast.error("Log in to Sell Property");
+          return;
+      }
+
+      setAvailability("sell");
+    } catch (err) {
+        console.log("Error : ", err);
+        return;
+    } finally {
+        setLoading(false);
+    }
+  } 
+
+  const rentButtonHandle = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const token = await localStorage.getItem("token");
+
+      if (!token) {
+          toast.error("Log in to Rent Property");
+          return;
+      }
+
+      setAvailability("rent");
+    } catch (err) {
+        console.log("Error : ", err);
+        return;
+    } finally {
+        setLoading(false);
+    }
+  } 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -310,7 +352,7 @@ const PropertyForm = () => {
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => setAvailability("sell")}
+                  onClick={sellButtonHandle}
                   className="group relative overflow-hidden h-48 rounded-2xl shadow-lg bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-all duration-300"
                 >
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
@@ -329,7 +371,7 @@ const PropertyForm = () => {
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => setAvailability("rent")}
+                  onClick={rentButtonHandle}
                   className="group relative overflow-hidden h-48 rounded-2xl shadow-lg bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-all duration-300"
                 >
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-6">

@@ -293,7 +293,7 @@ const AnimatedLogo = () => {
         />
       </div>
 
-      <div className="ml-3">
+      {/* <div className="ml-3">
         <motion.h2
           className="text-xl font-bold bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] bg-clip-text text-transparent"
           whileHover={{ scale: 1.03 }}
@@ -301,7 +301,7 @@ const AnimatedLogo = () => {
           Hybrid Realty
         </motion.h2>
         <p className="text-xs text-gray-500">Your Real Estate Partner</p>
-      </div>
+      </div> */}
     </motion.div>
   );
 };

@@ -133,7 +133,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full mt-11 h-screen overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 w-full h-full z-0">
         <video
@@ -290,7 +290,7 @@ const Hero = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div
+        {/* <motion.div
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -318,7 +318,7 @@ const Hero = () => {
               className="w-1.5 h-3 bg-white/70 rounded-full mt-1.5"
             />
           </motion.div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </div>
   );
