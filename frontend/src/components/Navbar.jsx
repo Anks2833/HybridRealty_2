@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -82,16 +82,12 @@ const Navbar = () => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 shadow-md backdrop-blur-lg"
-          : "bg-white/80 backdrop-blur-md border-b border-gray-200"
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-0">
+        <div className="w-full flex justify-around items-center gap-20 h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group">
+          <NavLink to="/" className="flex items-center space-x-2 sm:space-x-3 group">
             <motion.div className="p-1 sm:p-2 rounded-lg">
               <img
                 src={logo}
@@ -106,12 +102,13 @@ const Navbar = () => {
               Hybrid Realty
             </span> 
             */}
-          </Link>
+          </NavLink>
 
+
+            <NavLinks currentPath={location.pathname} />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <NavLinks currentPath={location.pathname} />
 
             {/* Auth Buttons */}
             <div className="flex items-center space-x-4">
@@ -170,22 +167,22 @@ const Navbar = () => {
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
-                  <Link
+                  <NavLink
                     to="/login"
                     className="text-gray-700 hover:text-[var(--theme-color-1)] font-medium transition-colors"
                   >
                     Sign in
-                  </Link>
+                  </NavLink>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Link
+                    <NavLink
                       to="/signup"
                       className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white px-5 py-2 rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to-[var(--theme-hover-color-1)] transition-all duration-200 shadow-md hover:shadow-lg font-medium"
                     >
                       Get started
-                    </Link>
+                    </NavLink>
                   </motion.div>
                 </div>
               )}
@@ -238,9 +235,9 @@ const Navbar = () => {
 const NavLinks = ({ currentPath }) => {
   // Enhanced NavLinks with special highlight for AI Property Hub
   const navLinks = [
-    { name: "Invest", path: "/invest", icon: Building },
     { name: "Home", path: "/", icon: Home },
     { name: "Add", path: "/add", icon: PlusSquare },
+    { name: "Invest", path: "/invest", icon: Building },
     { name: "Properties", path: "/properties", icon: Search },
     // Added Lucky Draw to the nav links
     { name: "Lucky Draw", path: "/lucky-draw", icon: Gift },
@@ -259,20 +256,20 @@ const NavLinks = ({ currentPath }) => {
   }, []);
 
   return (
-    <div className="flex space-x-6 items-center">
+    <div className="flex space-x-4 items-center">
       {navLinks.map(({ name, path, icon: Icon }) => {
         const isActive =
           path === "/" ? currentPath === path : currentPath.startsWith(path);
 
         return (
-          <Link
+          <NavLink
             key={name}
             to={path}
             className={`relative font-medium transition-colors duration-200 flex items-center gap-1.5 px-2 py-1 rounded-md
               ${
                 isActive
-                  ? "text-[var(--theme-color-1)] bg-blue-50"
-                  : "text-gray-700 hover:text-[var(--theme-color-1)] hover:bg-blue-50/50"
+                  ? "text-[var(--theme-color-1)] bg-tranparent text-black"
+                  : "text-zinc-500 hover:text-[var(--theme-color-1)] hover:bg-white hover:text-black"
               }
             `}
           >
@@ -285,7 +282,7 @@ const NavLinks = ({ currentPath }) => {
                 initial={false}
               />
             )}
-          </Link>
+          </NavLink>
         );
       })}
     </div>
@@ -322,7 +319,7 @@ const MobileNavLinks = ({
 
         return (
           <motion.div key={name} whileTap={{ scale: 0.97 }}>
-            <Link
+            <NavLink
               to={path}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
                 ${
@@ -335,7 +332,7 @@ const MobileNavLinks = ({
             >
               <Icon className="w-5 h-5" />
               {name}
-            </Link>
+            </NavLink>
           </motion.div>
         );
       })}
@@ -370,22 +367,22 @@ const MobileNavLinks = ({
         ) : (
           <div className="flex flex-col space-y-3 px-3">
             <motion.div whileTap={{ scale: 0.97 }}>
-              <Link
+              <NavLink
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full flex items-center justify-center px-4 py-3 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all font-medium"
               >
                 Sign in
-              </Link>
+              </NavLink>
             </motion.div>
             <motion.div whileTap={{ scale: 0.97 }}>
-              <Link
+              <NavLink
                 to="/signup"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full flex items-center justify-center px-4 py-3 bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to-[var(--theme-hover-color-1)] transition-all font-medium shadow-md shadow-[var(--theme-hover-color-1)]/20"
               >
                 Create account
-              </Link>
+              </NavLink>
             </motion.div>
           </div>
         )}
