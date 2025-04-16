@@ -173,7 +173,7 @@ const Hero = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 text-center">
-              Invest Settle{" "}
+              Invest, Settle{" "}
               <span className="text-blue-200 drop-shadow-md">&</span>{" "}
               <span className="text-blue-100 drop-shadow-lg">Grow</span>
             </h1>
