@@ -67,8 +67,8 @@ const LuckyDrawPage = () => {
         >
           <div className="flex flex-col items-center justify-center">
             <Loader className="w-12 h-12 text-[var(--theme-color-1)] animate-spin mb-4" />
-            <h3 className="text-xl font-bold text-gray-800 mb-2">Loading Lucky Draw Properties</h3>
-            <p className="text-gray-600">Please wait while we fetch the latest opportunities...</p>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">Loading...</h3>
+            {/* <p className="text-gray-600">Please wait while we fetch the latest opportunities...</p> */}
           </div>
         </motion.div>
       </div>
@@ -101,21 +101,21 @@ const LuckyDrawPage = () => {
       animate={{ opacity: 1 }}
       className="min-h-screen bg-gray-50 pt-16"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <motion.header
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="text-center mb-12"
         >
-          <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mb-4">
+          {/* <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mb-4">
             Limited Time Opportunity
-          </div>
+          </div> */}
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Property Lucky Draw
+            Lucky Draw
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+          {/* <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             Register for a chance to be selected for exclusive property opportunities
-          </p>
+          </p> */}
         </motion.header>
 
         
