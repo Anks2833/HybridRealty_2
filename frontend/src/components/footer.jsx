@@ -173,17 +173,17 @@ const Newsletter = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-sm font-bold tracking-wider text-gray-700 uppercase mb-4 relative">
+      {/* <h3 className="text-sm font-bold tracking-wider text-gray-700 uppercase mb-4 relative">
         <span className="relative z-10">Stay Updated</span>
         <span className="absolute left-0 bottom-0 w-8 h-0.5 bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)]"></span>
-      </h3>
+      </h3> */}
 
-      <p className="text-gray-600 mb-4 text-sm">
+      {/* <p className="text-gray-600 mb-4 text-sm">
         Subscribe to our newsletter for the latest property listings and real
         estate insights.
-      </p>
+      </p> */}
 
-      <form onSubmit={handleSubmit} className="mt-4">
+      {/* <form onSubmit={handleSubmit} className="mt-4">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-grow">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -217,15 +217,15 @@ const Newsletter = () => {
             </div>
           </motion.button>
         </div>
-      </form>
+      </form> */}
 
-      <p className="mt-3 text-xs text-gray-500">
+      {/* <p className="mt-3 text-xs text-gray-500">
         By subscribing, you agree to our{" "}
         <a href="#" className="underline hover:text-[var(--theme-color-1)]">
           Privacy Policy
         </a>
         .
-      </p>
+      </p> */}
     </div>
   );
 };
@@ -240,10 +240,10 @@ const companyLinks = [
 ];
 
 const helpLinks = [
-  { name: "Customer Support", href: "/" },
-  { name: "FAQs", href: "/" },
-  { name: "Terms & Conditions", href: "/" },
-  { name: "Privacy Policy", href: "/" },
+  // { name: "Customer Support", href: "/" },
+  // { name: "FAQs", href: "/" },
+  // { name: "Terms & Conditions", href: "/" },
+  // { name: "Privacy Policy", href: "/" },
 ];
 
 const contactInfo = [
@@ -419,7 +419,7 @@ const Footer = () => {
             </FooterColumn>
 
             {/* Help Column */}
-            <FooterColumn title="Support" className="col-span-2" delay={0.3}>
+            {/* <FooterColumn title="Support" className="col-span-2" delay={0.3}>
               <ul className="space-y-3">
                 {helpLinks.map((link, index) => (
                   <motion.li
@@ -434,7 +434,7 @@ const Footer = () => {
                   </motion.li>
                 ))}
               </ul>
-            </FooterColumn>
+            </FooterColumn> */}
 
             {/* Contact Info */}
             <FooterColumn title="Contact Us" className="col-span-3" delay={0.4}>

@@ -22,6 +22,7 @@ import {
 import SearchBar from "../components/properties/Searchbar.jsx";
 import PropertyCard from "../components/properties/Propertycard.jsx";
 import { Backendurl } from "../App.jsx";
+import { NavLink } from "react-router";
 
 const InvestPage = () => {
   const [viewState, setViewState] = useState({
@@ -660,7 +661,7 @@ const InvestPage = () => {
                   className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center"
                 >
                   <Mail className="w-5 h-5 mr-2" />
-                  Schedule a Consultation
+                  <NavLink to="/contact">Schedule a Consultation</NavLink>
                 </motion.button>
 
                 {/* <motion.button
