@@ -164,13 +164,13 @@ const Hero = () => {
             transition={{ duration: 1 }}
             className="mb-8 flex flex-col items-center"
           >
-            <div className="px-10 py-6 bg-white/10 backdrop-blur-md rounded-full mb-6 shadow-lg border border-white/20 hover:bg-white/15 transition-all">
+            {/* <div className="px-10 py-6 bg-white/10 backdrop-blur-md rounded-full mb-6 shadow-lg border border-white/20 hover:bg-white/15 transition-all">
               <img
                 src={hybridLogo}
                 alt="Hybrid Realty"
                 className="w-28 sm:w-32 md:w-40 lg:w-44"
               />
-            </div>
+            </div> */}
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 text-center">
               Invest, Settle{" "}
