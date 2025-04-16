@@ -133,26 +133,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full mt-11 h-screen overflow-hidden">
-      {/* Enhanced Gradient Background */}
-      <div className="absolute inset-0 w-full h-full z-0">
-        {/* Primary Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-900"></div>
-        
-        {/* Animated Gradient Overlay */}
-        <div className="absolute inset-0 opacity-30 bg-[linear-gradient(40deg,var(--theme-color-1),transparent,var(--theme-hover-color-1),transparent)] bg-[length:200%_200%] animate-gradient-slow"></div>
-        
-        {/* Radial Accent */}
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-        
-        {/* Subtle Noise Texture */}
-        <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giIHJlc3VsdD0ibm9pc2UiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNub2lzZSkiIG9wYWNpdHk9IjAuNCIvPjwvc3ZnPg==')]"></div>
-      </div>
-
-      {/* Semi-transparent light beams */}
-      <div className="absolute left-1/3 top-0 w-1/4 h-full bg-white opacity-[0.03] rotate-12 transform -translate-x-1/2"></div>
-      <div className="absolute right-1/4 top-0 w-1/5 h-full bg-white opacity-[0.02] -rotate-12"></div>
+    <div className="relative w-full mt-11 h-screen overflow-hidden bg-white">
 
       {/* Content */}
       <div className="relative z-20 w-full h-full flex flex-col items-center justify-center px-4">
@@ -172,13 +153,13 @@ const Hero = () => {
               />
             </div> */}
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-800 mb-4 text-center">
               Invest, Settle{" "}
-              <span className="text-blue-200 drop-shadow-md">&</span>{" "}
-              <span className="text-blue-100 drop-shadow-lg">Grow</span>
+              <span className="text-zinc-900">&</span>{" "}
+              <span className="text-[var(--theme-color-1)]">Grow</span>
             </h1>
 
-            {/* <p className="text-xl md:text-2xl text-white/90 max-w-3xl text-center mb-6 drop-shadow-md">
+            {/* <p className="text-xl md:text-2xl text-zinc-700 max-w-3xl text-center mb-6">
               Discover the perfect property to call home or invest in your
               future
             </p> */}
@@ -191,9 +172,9 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.5 }}
             className="w-full max-w-3xl mx-auto relative"
           >
-            <div className="flex flex-col md:flex-row gap-4 p-2.5 bg-white/15 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 hover:bg-white/20 transition-all">
+            <div className="flex flex-col md:flex-row gap-4 p-2.5 bg-white rounded-2xl shadow-md border border-zinc-200 transition-all">
               <div className="relative flex-1">
-                <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/70" />
+                <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-zinc-500" />
                 <input
                   type="text"
                   value={searchQuery}
@@ -203,13 +184,13 @@ const Hero = () => {
                     setTimeout(() => setShowSuggestions(false), 150)
                   }
                   placeholder="Enter location or property type..."
-                  className="w-full pl-12 pr-4 py-4 rounded-xl border-0 bg-white/10 backdrop-blur-md text-white placeholder-white/70 shadow-inner focus:ring-2 focus:ring-[var(--theme-hover-color-1)]/50 focus:bg-white/20 transition-all"
+                  className="w-full pl-12 pr-4 py-4 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 placeholder-zinc-400 shadow-sm focus:ring-2 focus:ring-[var(--theme-hover-color-1)]/50 focus:border-[var(--theme-color-1)] transition-all"
                 />
               </div>
 
               <button
                 onClick={() => handleSubmit()}
-                className="md:w-auto w-full bg-[var(--theme-color-1)] text-white px-8 py-4 rounded-xl hover:bg-[var(--theme-hover-color-1)] transition-all flex items-center justify-center gap-2 font-medium shadow-lg transform hover:scale-105 active:scale-95"
+                className="md:w-auto w-full bg-[var(--theme-color-1)] text-white px-8 py-4 rounded-xl hover:bg-[var(--theme-hover-color-1)] transition-all flex items-center justify-center gap-2 font-medium shadow-md transform hover:scale-105 active:scale-95"
               >
                 <Search className="w-5 h-5" />
                 <span>Search</span>
@@ -227,30 +208,30 @@ const Hero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all shadow-lg"
+              className="flex items-center gap-2 px-5 py-3 bg-zinc-50 rounded-xl border border-zinc-200 text-zinc-800 hover:bg-zinc-100 transition-all shadow-md"
               onClick={() => navigate("/properties")}
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-5 h-5 text-[var(--theme-color-1)]" />
               <span>All Properties</span>
             </motion.button>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all shadow-lg"
+              className="flex items-center gap-2 px-5 py-3 bg-zinc-50 rounded-xl border border-zinc-200 text-zinc-800 hover:bg-zinc-100 transition-all shadow-md"
               onClick={() => navigate("/invest")}
             >
-              <Building className="w-5 h-5" />
+              <Building className="w-5 h-5 text-[var(--theme-color-1)]" />
               <span>Investment Options</span>
             </motion.button>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all shadow-lg"
+              className="flex items-center gap-2 px-5 py-3 bg-zinc-50 rounded-xl border border-zinc-200 text-zinc-800 hover:bg-zinc-100 transition-all shadow-md"
               onClick={() => navigate("/add")}
             >
-              <PlusCircle className="w-5 h-5" />
+              <PlusCircle className="w-5 h-5 text-[var(--theme-color-1)]" />
               <span>Add Property</span>
             </motion.button>
           </motion.div>

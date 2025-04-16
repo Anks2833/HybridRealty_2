@@ -272,14 +272,14 @@ const InvestmentPropertyCard = ({ property }) => {
             </div>
             
             <div>
-              <p className="text-xs text-green-700 font-medium">Annual Yield</p>
-              <p className="font-bold text-green-500">{annualYield}%</p>
+              <p className="text-xs text-green-700 font-medium">Annual Return</p>
+              <p className="font-bold text-green-500">{annualYield}x</p>
             </div>
             
-            <div>
+            {/* <div>
               <p className="text-xs text-green-700 font-medium">ROI Period</p>
               <p className="font-bold text-green-500">{roiYears} years</p>
-            </div>
+            </div> */}
           </div>
         </div>
         
@@ -459,14 +459,14 @@ const FeaturedInvestedProperties = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-blue-600 font-semibold tracking-wide uppercase text-sm">Smart Investments</span>
+          {/* <span className="text-blue-600 font-semibold tracking-wide uppercase text-sm">Smart Investments</span> */}
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-            Investment Opportunities
+            Invest
           </h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          {/* <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover premium properties with excellent rental income potential and strong investment returns
-          </p>
+          </p> */}
         </motion.div>
 
         {/* Category filter */}
