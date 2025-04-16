@@ -137,7 +137,7 @@ const LuckyDrawPropertyCard = ({ property }) => {
       {/* Content Section */}
       <div className="p-5 space-y-4">
         <div className="flex items-center text-gray-500 text-sm">
-          <MapPin className="w-4 h-4 mr-2 text-amber-500" />
+          <MapPin className="w-4 h-4 mr-2 text-blue-500" />
           {property.location}
         </div>
 
@@ -147,17 +147,17 @@ const LuckyDrawPropertyCard = ({ property }) => {
         </h3>
         
         <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col gap-1 p-2 rounded-lg bg-amber-50">
-            <div className="flex items-center text-amber-700 text-sm font-medium">
-              <Calendar className="w-4 h-4 mr-1 text-amber-500" />
+          <div className="flex flex-col gap-1 p-2 rounded-lg bg-blue-50">
+            <div className="flex items-center text-blue-700 text-sm font-medium">
+              <Calendar className="w-4 h-4 mr-1 text-blue-500" />
               Start Date
             </div>
             <span className="text-sm text-gray-700">{formatDate(property.biddingStartDate)}</span>
           </div>
           
-          <div className="flex flex-col gap-1 p-2 rounded-lg bg-amber-50">
-            <div className="flex items-center text-amber-700 text-sm font-medium">
-              <Calendar className="w-4 h-4 mr-1 text-amber-500" />
+          <div className="flex flex-col gap-1 p-2 rounded-lg bg-blue-50">
+            <div className="flex items-center text-blue-700 text-sm font-medium">
+              <Calendar className="w-4 h-4 mr-1 text-blue-500" />
               End Date
             </div>
             <span className="text-sm text-gray-700">{formatDate(property.biddingEndDate)}</span>
@@ -184,7 +184,7 @@ const LuckyDrawPropertyCard = ({ property }) => {
               className={`px-4 py-2 rounded-lg text-sm font-medium shadow-sm 
                 ${registered 
                   ? "bg-green-100 text-green-700 border border-green-200" 
-                  : "bg-amber-500 text-white hover:bg-amber-600"}`}
+                  : "bg-blue-500 text-white hover:bg-blue-600"}`}
             >
               {registered ? "Registered" : "Register Now"}
             </motion.button>

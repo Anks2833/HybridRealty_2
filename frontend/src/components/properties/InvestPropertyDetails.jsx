@@ -346,7 +346,7 @@ const InvestPropertyDetails = () => {
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-xl font-bold text-amber-600">
+          <span className="text-xl font-bold text-blue-600">
             {percentage.toFixed(1)}%
           </span>
         </div>
@@ -356,19 +356,19 @@ const InvestPropertyDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-amber-50 to-white relative overflow-hidden pt-16">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white relative overflow-hidden pt-16">
         {bgPattern}
 
         {/* Decorative blobs */}
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-amber-100 rounded-full filter blur-3xl opacity-30"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-amber-100 rounded-full filter blur-3xl opacity-30"></div>
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-100 rounded-full filter blur-3xl opacity-30"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-100 rounded-full filter blur-3xl opacity-30"></div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center relative z-10 p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl max-w-md"
         >
-          <div className="w-24 h-24 bg-gradient-to-r from-amber-500 to-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-6 relative shadow-lg">
+          <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-6 relative shadow-lg">
             <motion.div
               animate={{
                 rotate: [0, 360],
@@ -379,7 +379,7 @@ const InvestPropertyDetails = () => {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="absolute inset-0 rounded-2xl bg-amber-500/20"
+              className="absolute inset-0 rounded-2xl bg-blue-500/20"
             />
             <TrendingUp className="w-12 h-12 text-white" />
           </div>
@@ -395,7 +395,7 @@ const InvestPropertyDetails = () => {
 
           <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
             <motion.div
-              className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-amber-500 to-amber-400"
+              className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-blue-500 to-blue-400"
               animate={{
                 width: ["0%", "100%"],
               }}
@@ -410,7 +410,7 @@ const InvestPropertyDetails = () => {
             <motion.div
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-2 h-2 bg-amber-500 rounded-full mr-2"
+              className="w-2 h-2 bg-blue-500 rounded-full mr-2"
             />
             Loading investment metrics and property details...
           </div>
@@ -421,7 +421,7 @@ const InvestPropertyDetails = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-amber-50 to-white relative overflow-hidden pt-16">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white relative overflow-hidden pt-16">
         {bgPattern}
 
         <motion.div
@@ -452,7 +452,7 @@ const InvestPropertyDetails = () => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate("/invest")}
-              className="px-5 py-2 bg-gradient-to-r from-amber-500 to-amber-400 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium flex items-center"
+              className="px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium flex items-center"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Investments
@@ -471,13 +471,13 @@ const InvestPropertyDetails = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-b from-amber-50 to-white pt-16 pb-20 relative overflow-hidden"
+      className="min-h-screen bg-gradient-to-b from-blue-50 to-white pt-16 pb-20 relative overflow-hidden"
     >
       {bgPattern}
 
       {/* Decorative blobs */}
-      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-amber-100 rounded-full filter blur-3xl opacity-20"></div>
-      <div className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-amber-100 rounded-full filter blur-3xl opacity-20"></div>
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20"></div>
+      <div className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-20"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         {/* Navigation */}
@@ -488,7 +488,7 @@ const InvestPropertyDetails = () => {
         >
           <Link
             onClick={() => navigate("/invest")}
-            className="inline-flex items-center text-amber-600 hover:text-amber-700 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group"
+            className="inline-flex items-center text-blue-600 hover:text-blue-700 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group"
           >
             <motion.div whileHover={{ x: -3 }} className="flex items-center">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -553,7 +553,7 @@ const InvestPropertyDetails = () => {
           className="flex flex-wrap items-center gap-3 mb-6"
         >
           {property.serialNumber && (
-            <div className="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-sm font-medium flex items-center shadow-sm">
+            <div className="bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full text-sm font-medium flex items-center shadow-sm">
               <Hash className="w-4 h-4 mr-1.5" />
               Property #{property.serialNumber}
             </div>
@@ -576,7 +576,7 @@ const InvestPropertyDetails = () => {
             For {property.availability === "rent" ? "Rent" : "Sale"}
           </div>
 
-          <div className="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-sm font-medium flex items-center shadow-sm">
+          <div className="bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full text-sm font-medium flex items-center shadow-sm">
             <Sparkles className="w-4 h-4 mr-1.5" />
             Investment Property
           </div>
@@ -592,7 +592,7 @@ const InvestPropertyDetails = () => {
           initial={{ y: -10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="bg-gradient-to-r from-amber-500 to-amber-400 rounded-xl p-5 mb-8 text-white shadow-lg"
+          className="bg-gradient-to-r from-blue-500 to-blue-400 rounded-xl p-5 mb-8 text-white shadow-lg"
         >
           <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-6">
             <div className="flex items-center gap-4">
@@ -604,9 +604,9 @@ const InvestPropertyDetails = () => {
                   Premium Investment Opportunity
                 </h2>
                 <p className="text-white/90 text-sm">
-                  Annual Yield:{" "}
+                  Annual Return:{" "}
                   <span className="font-bold text-white">
-                    {investmentMetrics.annualYield.toFixed(2)}%
+                    {investmentMetrics.annualYield.toFixed(2)}x
                   </span>
                 </p>
               </div>
@@ -618,21 +618,21 @@ const InvestPropertyDetails = () => {
                 </div>
                 <div className="text-xs text-white/80">Monthly Income</div>
               </div>
-              <div className="text-center">
+              {/* <div className="text-center">
                 <div className="text-2xl font-bold">
                   {investmentMetrics.roiYears.toFixed(1)}
                 </div>
                 <div className="text-xs text-white/80">ROI (Years)</div>
-              </div>
-              <motion.button
+              </div> */}
+              {/* <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowCalculator(true)}
-                className="bg-white text-amber-500 px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium flex items-center gap-2"
+                className="bg-white text-blue-500 px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium flex items-center gap-2"
               >
                 <Calculator className="w-4 h-4" />
                 <span>ROI Calculator</span>
-              </motion.button>
+              </motion.button> */}
             </div>
           </div>
         </motion.div>
@@ -648,7 +648,7 @@ const InvestPropertyDetails = () => {
             {property.title}
           </h1>
           <div className="flex items-center text-gray-600">
-            <MapPin className="w-5 h-5 mr-2 text-amber-500" />
+            <MapPin className="w-5 h-5 mr-2 text-blue-500" />
             {property.location}
           </div>
         </motion.div>
@@ -719,7 +719,7 @@ const InvestPropertyDetails = () => {
 
                 {/* Serial Number Badge */}
                 {property.serialNumber && (
-                  <div className="absolute top-4 left-20 bg-amber-600/90 text-white px-3 py-1.5 rounded-lg font-medium flex items-center z-10">
+                  <div className="absolute top-4 left-20 bg-blue-600/90 text-white px-3 py-1.5 rounded-lg font-medium flex items-center z-10">
                     <Hash className="w-4 h-4 mr-1.5" />
                     <span> {property.serialNumber}</span>
                   </div>
@@ -778,7 +778,7 @@ const InvestPropertyDetails = () => {
                       onClick={() => scrollToImage(index)}
                       className={`relative rounded-lg overflow-hidden cursor-pointer flex-shrink-0 border-2 ${
                         activeImage === index
-                          ? "border-amber-500"
+                          ? "border-blue-500"
                           : "border-transparent hover:border-gray-300"
                       }`}
                       style={{ width: "80px", height: "60px" }}
@@ -789,7 +789,7 @@ const InvestPropertyDetails = () => {
                         className="w-full h-full object-cover"
                       />
                       {activeImage === index && (
-                        <div className="absolute inset-0 bg-amber-500/10 border-2 border-amber-500 rounded-lg"></div>
+                        <div className="absolute inset-0 bg-blue-500/10 border-2 border-blue-500 rounded-lg"></div>
                       )}
                     </motion.div>
                   ))}
@@ -800,13 +800,13 @@ const InvestPropertyDetails = () => {
             {/* Property Features Grid */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 mb-8">
               <h2 className="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2">
-                <Home className="w-5 h-5 text-amber-500" />
+                <Home className="w-5 h-5 text-blue-500" />
                 Property Features
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="bg-amber-50 p-5 rounded-xl text-center flex flex-col items-center justify-center border border-amber-100">
-                  <BedDouble className="w-8 h-8 text-amber-500 mb-3" />
+                <div className="bg-blue-50 p-5 rounded-xl text-center flex flex-col items-center justify-center border border-blue-100">
+                  <BedDouble className="w-8 h-8 text-blue-500 mb-3" />
                   <p className="text-lg font-semibold text-gray-800">
                     {property.beds} {property.beds > 1 ? "Beds" : "Bed"}
                   </p>
@@ -814,15 +814,15 @@ const InvestPropertyDetails = () => {
                     Comfortable Sleeping Areas
                   </p>
                 </div>
-                <div className="bg-amber-50 p-5 rounded-xl text-center flex flex-col items-center justify-center border border-amber-100">
-                  <Bath className="w-8 h-8 text-amber-500 mb-3" />
+                <div className="bg-blue-50 p-5 rounded-xl text-center flex flex-col items-center justify-center border border-blue-100">
+                  <Bath className="w-8 h-8 text-blue-500 mb-3" />
                   <p className="text-lg font-semibold text-gray-800">
                     {property.baths} {property.baths > 1 ? "Baths" : "Bath"}
                   </p>
                   <p className="text-sm text-gray-500">Modern Bathrooms</p>
                 </div>
-                <div className="bg-amber-50 p-5 rounded-xl text-center flex flex-col items-center justify-center border border-amber-100">
-                  <Square className="w-8 h-8 text-amber-500 mb-3" />
+                <div className="bg-blue-50 p-5 rounded-xl text-center flex flex-col items-center justify-center border border-blue-100">
+                  <Square className="w-8 h-8 text-blue-500 mb-3" />
                   <p className="text-lg font-semibold text-gray-800">
                     {property.sqft} sqft
                   </p>
@@ -842,7 +842,7 @@ const InvestPropertyDetails = () => {
               {/* Amenities Grid */}
               <div>
                 <h3 className="text-lg font-medium text-gray-800 mb-4 flex items-center gap-2">
-                  <Building className="w-5 h-5 text-amber-500" />
+                  <Building className="w-5 h-5 text-blue-500" />
                   Amenities & Facilities
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4">
@@ -851,10 +851,10 @@ const InvestPropertyDetails = () => {
                       key={index}
                       className="flex items-center text-gray-700 group"
                     >
-                      <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center mr-3 group-hover:bg-amber-100 transition-colors">
-                        <CheckCircle className="w-4 h-4 text-amber-500" />
+                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-3 group-hover:bg-blue-100 transition-colors">
+                        <CheckCircle className="w-4 h-4 text-blue-500" />
                       </div>
-                      <span className="group-hover:text-amber-600 transition-colors">
+                      <span className="group-hover:text-blue-600 transition-colors">
                         {amenity}
                       </span>
                     </div>
@@ -866,8 +866,8 @@ const InvestPropertyDetails = () => {
             {/* Location Section with Map */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-6">
               <div className="flex items-center gap-2 text-gray-900 mb-4">
-                <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
-                  <Compass className="w-5 h-5 text-amber-500" />
+                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                  <Compass className="w-5 h-5 text-blue-500" />
                 </div>
                 <h2 className="text-xl font-bold">Location</h2>
               </div>
@@ -875,9 +875,9 @@ const InvestPropertyDetails = () => {
               <p className="text-gray-700 mb-4 pl-12">{property.location}</p>
 
               {/* Map Placeholder - You would integrate Google Maps here */}
-              <div className="relative h-64 bg-amber-50 rounded-xl overflow-hidden flex items-center justify-center mb-4 border border-amber-100">
-                <MapPin className="w-10 h-10 text-amber-500 absolute" />
-                <div className="absolute inset-0 bg-amber-200/20"></div>
+              <div className="relative h-64 bg-blue-50 rounded-xl overflow-hidden flex items-center justify-center mb-4 border border-blue-100">
+                <MapPin className="w-10 h-10 text-blue-500 absolute" />
+                <div className="absolute inset-0 bg-blue-200/20"></div>
               </div>
 
               <a
@@ -886,7 +886,7 @@ const InvestPropertyDetails = () => {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 border border-amber-500 hover:border-amber-600 px-4 py-2 rounded-lg font-medium transition-colors"
+                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 border border-blue-500 hover:border-blue-600 px-4 py-2 rounded-lg font-medium transition-colors"
               >
                 <MapPin className="w-4 h-4" />
                 View on Google Maps
@@ -905,7 +905,7 @@ const InvestPropertyDetails = () => {
           >
             {/* Investment Analysis Card */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
-              <div className="bg-gradient-to-r from-amber-500 to-amber-400 p-6 text-white">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-400 p-6 text-white">
                 <div className="flex justify-between items-center">
                   <h3 className="text-lg font-semibold">Investment Analysis</h3>
                   <div className="px-2 py-1 rounded-full bg-white/20 text-xs font-medium">
@@ -926,47 +926,47 @@ const InvestPropertyDetails = () => {
               <div className="p-6">
                 {/* Key Investment Metrics */}
                 <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-amber-50 p-4 rounded-xl border border-amber-100">
+                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
                     <div className="flex items-center mb-2">
-                      <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-2">
-                        <IndianRupee className="w-4 h-4 text-amber-500" />
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                        <IndianRupee className="w-4 h-4 text-blue-500" />
                       </div>
                       <span className="text-sm font-medium text-gray-600">
                         Monthly Income
                       </span>
                     </div>
-                    <p className="text-xl font-bold text-amber-600">
+                    <p className="text-xl font-bold text-blue-600">
                       ₹{Number(investmentPrice).toLocaleString("en-IN")}
                     </p>
                   </div>
 
-                  <div className="bg-amber-50 p-4 rounded-xl border border-amber-100">
+                  <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
                     <div className="flex items-center mb-2">
-                      <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-2">
-                        <Percent className="w-4 h-4 text-amber-500" />
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                        <Percent className="w-4 h-4 text-blue-500" />
                       </div>
                       <span className="text-sm font-medium text-gray-600">
                         Annual Yield
                       </span>
                     </div>
-                    <p className="text-xl font-bold text-amber-600">
+                    <p className="text-xl font-bold text-blue-600">
                       {investmentMetrics.annualYield.toFixed(2)}%
                     </p>
                   </div>
                 </div>
 
                 {/* ROI Visualization */}
-                <div className="bg-amber-50 p-4 rounded-xl border border-amber-100 mb-6 flex items-center justify-between">
+                {/* <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6 flex items-center justify-between">
                   <div>
                     <div className="flex items-center mb-2">
-                      <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-2">
-                        <PieChart className="w-4 h-4 text-amber-500" />
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                        <PieChart className="w-4 h-4 text-blue-500" />
                       </div>
                       <span className="text-sm font-medium text-gray-600">
                         ROI Period
                       </span>
                     </div>
-                    <p className="text-xl font-bold text-amber-600">
+                    <p className="text-xl font-bold text-blue-600">
                       {investmentMetrics.roiYears.toFixed(1)} years
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
@@ -975,57 +975,57 @@ const InvestPropertyDetails = () => {
                   </div>
 
                   <RoiChart percentage={investmentMetrics.annualYield} />
-                </div>
+                </div> */}
 
                 {/* Investment Advantages */}
-                <div className="mb-6">
+                {/* <div className="mb-6">
                   <h4 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
-                    <Sparkles className="w-4 h-4 mr-2 text-amber-500" />
+                    <Sparkles className="w-4 h-4 mr-2 text-blue-500" />
                     Investment Advantages
                   </h4>
                   <ul className="space-y-2">
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-amber-500 mr-2 mt-0.5" />
+                      <CheckCircle className="w-4 h-4 text-blue-500 mr-2 mt-0.5" />
                       <span className="text-sm text-gray-600">
                         Strong rental demand in this location
                       </span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-amber-500 mr-2 mt-0.5" />
+                      <CheckCircle className="w-4 h-4 text-blue-500 mr-2 mt-0.5" />
                       <span className="text-sm text-gray-600">
                         Higher than average yield of{" "}
                         {investmentMetrics.annualYield.toFixed(1)}%
                       </span>
                     </li>
                     <li className="flex items-start">
-                      <CheckCircle className="w-4 h-4 text-amber-500 mr-2 mt-0.5" />
+                      <CheckCircle className="w-4 h-4 text-blue-500 mr-2 mt-0.5" />
                       <span className="text-sm text-gray-600">
                         Potential for capital appreciation in this area
                       </span>
                     </li>
                   </ul>
-                </div>
+                </div> */}
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
-                  <motion.button
+                  {/* <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setShowCalculator(true)}
-                    className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-3 rounded-xl 
+                    className="w-full bg-gradient-to-r from-blue-500 to-blue-400 text-white py-3 rounded-xl 
                       hover:shadow-lg transition-all duration-300 flex items-center 
                       justify-center gap-2 font-medium"
                   >
                     <Calculator className="w-5 h-5" />
                     Investment Calculator
-                  </motion.button>
+                  </motion.button> */}
 
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setShowSchedule(true)}
-                    className="w-full bg-white border border-amber-200 text-amber-600 py-3 rounded-xl
-                      hover:bg-amber-50 transition-all duration-300 flex items-center
+                    className="w-full bg-white border border-blue-200 text-blue-600 py-3 rounded-xl
+                      hover:bg-blue-50 transition-all duration-300 flex items-center
                       justify-center gap-2 font-medium"
                   >
                     <Calendar className="w-5 h-5" />
@@ -1064,14 +1064,14 @@ const InvestPropertyDetails = () => {
             {/* Contact Card */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-6 mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <Mail className="w-5 h-5 text-amber-500" />
+                <Mail className="w-5 h-5 text-blue-500" />
                 Contact Investment Advisor
               </h3>
 
               <div className="space-y-4 mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-amber-500" />
+                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-blue-500" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-800">
@@ -1084,8 +1084,8 @@ const InvestPropertyDetails = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-amber-500" />
+                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Mail className="w-5 h-5 text-blue-500" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-800">
@@ -1102,7 +1102,7 @@ const InvestPropertyDetails = () => {
                 href={`tel:${
                   import.meta.env.VITE_CONTACT_NUMBER || "9999999999"
                 }`}
-                className="w-full bg-amber-100 text-amber-700 py-3 rounded-xl hover:bg-amber-200 transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+                className="w-full bg-blue-100 text-blue-700 py-3 rounded-xl hover:bg-blue-200 transition-all duration-300 flex items-center justify-center gap-2 font-medium"
               >
                 <Phone className="w-5 h-5" />
                 Call Now
@@ -1112,15 +1112,15 @@ const InvestPropertyDetails = () => {
             {/* Property Information Card */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <BookMarked className="w-5 h-5 text-amber-500" />
+                <BookMarked className="w-5 h-5 text-blue-500" />
                 Property Information
               </h3>
 
               <div className="space-y-4">
                 {property.serialNumber && (
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center">
-                      <Hash className="w-4 h-4 text-amber-500" />
+                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                      <Hash className="w-4 h-4 text-blue-500" />
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Property ID</p>
@@ -1132,8 +1132,8 @@ const InvestPropertyDetails = () => {
                 )}
 
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center">
-                    <Home className="w-4 h-4 text-amber-500" />
+                  <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Home className="w-4 h-4 text-blue-500" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Property Type</p>
@@ -1144,8 +1144,8 @@ const InvestPropertyDetails = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center">
-                    <Square className="w-4 h-4 text-amber-500" />
+                  <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Square className="w-4 h-4 text-blue-500" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Area</p>
@@ -1156,8 +1156,8 @@ const InvestPropertyDetails = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center">
-                    <Calendar className="w-4 h-4 text-amber-500" />
+                  <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Calendar className="w-4 h-4 text-blue-500" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Listed Date</p>
@@ -1176,14 +1176,14 @@ const InvestPropertyDetails = () => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="bg-amber-50 rounded-2xl shadow-lg p-8 text-center relative overflow-hidden border border-amber-100"
+          className="bg-blue-50 rounded-2xl shadow-lg p-8 text-center relative overflow-hidden border border-blue-100"
         >
-          <div className="absolute right-0 top-0 transform translate-x-1/3 -translate-y-1/3 w-64 h-64 bg-amber-100 rounded-full opacity-50"></div>
-          <div className="absolute left-0 bottom-0 transform -translate-x-1/3 translate-y-1/3 w-64 h-64 bg-amber-100 rounded-full opacity-50"></div>
+          <div className="absolute right-0 top-0 transform translate-x-1/3 -translate-y-1/3 w-64 h-64 bg-blue-100 rounded-full opacity-50"></div>
+          <div className="absolute left-0 bottom-0 transform -translate-x-1/3 translate-y-1/3 w-64 h-64 bg-blue-100 rounded-full opacity-50"></div>
 
           <div className="relative z-10">
-            <div className="p-4 bg-amber-100 rounded-full w-16 h-16 mx-auto mb-5 flex items-center justify-center">
-              <FileText className="w-8 h-8 text-amber-500" />
+            <div className="p-4 bg-blue-100 rounded-full w-16 h-16 mx-auto mb-5 flex items-center justify-center">
+              <FileText className="w-8 h-8 text-blue-500" />
             </div>
 
             <h2 className="text-2xl font-bold text-gray-900 mb-3">
@@ -1198,7 +1198,7 @@ const InvestPropertyDetails = () => {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-400 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center mx-auto"
+              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center mx-auto"
             >
               <Download className="w-5 h-5 mr-2" />
               Download Investment Brochure
@@ -1291,7 +1291,7 @@ const InvestPropertyDetails = () => {
               >
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-xl font-bold text-gray-900 flex items-center">
-                    <Calculator className="w-5 h-5 mr-2 text-amber-500" />
+                    <Calculator className="w-5 h-5 mr-2 text-blue-500" />
                     Investment Calculator
                   </h3>
                   <button
@@ -1324,7 +1324,7 @@ const InvestPropertyDetails = () => {
                             downPayment: Number(e.target.value),
                           })
                         }
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
                       />
                       <div className="flex justify-between text-xs text-gray-500 mt-1">
                         <span>10%</span>
@@ -1349,7 +1349,7 @@ const InvestPropertyDetails = () => {
                             interestRate: Number(e.target.value),
                           })
                         }
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
                       />
                       <div className="flex justify-between text-xs text-gray-500 mt-1">
                         <span>5%</span>
@@ -1374,7 +1374,7 @@ const InvestPropertyDetails = () => {
                             loanTerm: Number(e.target.value),
                           })
                         }
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
                       />
                       <div className="flex justify-between text-xs text-gray-500 mt-1">
                         <span>5 yrs</span>
@@ -1384,7 +1384,7 @@ const InvestPropertyDetails = () => {
                     </div>
 
                     <div className="pt-3">
-                      <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                      <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                         <div className="flex justify-between mb-1">
                           <span className="text-sm text-gray-600">
                             Purchase Price:
@@ -1427,7 +1427,7 @@ const InvestPropertyDetails = () => {
                       Investment Returns
                     </h4>
 
-                    <div className="bg-gradient-to-r from-amber-500 to-amber-400 p-4 rounded-lg text-white">
+                    <div className="bg-gradient-to-r from-blue-500 to-blue-400 p-4 rounded-lg text-white">
                       <div className="text-center mb-4">
                         <div className="text-xs uppercase tracking-wider mb-1">
                           Monthly Mortgage Payment
@@ -1468,7 +1468,7 @@ const InvestPropertyDetails = () => {
                         <span className="text-sm text-gray-600">
                           Annual Rental Yield:
                         </span>
-                        <span className="font-medium text-amber-600">
+                        <span className="font-medium text-blue-600">
                           {investmentMetrics.annualYield.toFixed(2)}%
                         </span>
                       </div>
@@ -1477,7 +1477,7 @@ const InvestPropertyDetails = () => {
                         <span className="text-sm text-gray-600">
                           Cash-on-Cash Return:
                         </span>
-                        <span className="font-medium text-amber-600">
+                        <span className="font-medium text-blue-600">
                           {investmentMetrics.cashOnCash.toFixed(2)}%
                         </span>
                       </div>
@@ -1486,7 +1486,7 @@ const InvestPropertyDetails = () => {
                         <span className="text-sm text-gray-600">
                           ROI Duration:
                         </span>
-                        <span className="font-medium text-amber-600">
+                        <span className="font-medium text-blue-600">
                           {investmentMetrics.roiYears.toFixed(1)} years
                         </span>
                       </div>
@@ -1495,7 +1495,7 @@ const InvestPropertyDetails = () => {
                         <span className="text-sm text-gray-600">
                           Estimated 20-Year Return:
                         </span>
-                        <span className="font-medium text-amber-600">
+                        <span className="font-medium text-blue-600">
                           {investmentMetrics.totalReturn.toFixed(0)}%
                         </span>
                       </div>
@@ -1505,7 +1505,7 @@ const InvestPropertyDetails = () => {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full bg-amber-100 text-amber-700 py-3 rounded-lg hover:bg-amber-200 transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+                        className="w-full bg-blue-100 text-blue-700 py-3 rounded-lg hover:bg-blue-200 transition-all duration-300 flex items-center justify-center gap-2 font-medium"
                       >
                         <Download className="w-5 h-5" />
                         Download Full Analysis

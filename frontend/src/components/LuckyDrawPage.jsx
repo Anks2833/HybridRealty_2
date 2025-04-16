@@ -107,7 +107,7 @@ const LuckyDrawPage = () => {
           animate={{ y: 0, opacity: 1 }}
           className="text-center mb-12"
         >
-          <div className="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold mb-4">
+          <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mb-4">
             Limited Time Opportunity
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
