@@ -22,10 +22,6 @@ import { Backendurl } from "../../App";
 import { toast } from "react-toastify";
 
 
-
-
-
-
 const InvestmentPropertyCard = ({ property }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -243,7 +239,7 @@ const InvestmentPropertyCard = ({ property }) => {
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
-                className="px-5 py-3 bg-white text-amber-500 rounded-lg font-medium flex items-center gap-2 shadow-lg"
+                className="px-5 py-3 bg-white text-blue-500 rounded-lg font-medium flex items-center gap-2 shadow-lg"
               >
                 <Eye className="w-5 h-5" />
                 View Investment
@@ -255,34 +251,34 @@ const InvestmentPropertyCard = ({ property }) => {
       
       {/* Property Content */}
       <div className="p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-1 group-hover:text-amber-500 transition-colors">
+        <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-1 group-hover:text-blue-500 transition-colors">
           {property.title}
         </h3>
         
         <div className="flex items-center text-gray-600 mb-4">
-          <MapPin className="h-4 w-4 mr-2 flex-shrink-0 text-amber-500" />
+          <MapPin className="h-4 w-4 mr-2 flex-shrink-0 text-blue-500" />
           <span className="line-clamp-1">{property.location}</span>
         </div>
         
         {/* Investment Highlight */}
-        <div className="bg-amber-50 p-3 rounded-lg mb-4">
+        <div className="bg-blue-50 p-3 rounded-lg mb-4">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-xs text-amber-700 font-medium">Monthly Income</p>
-              <div className="flex items-center text-amber-500 font-bold">
+              <p className="text-xs text-blue-700 font-medium">Monthly Income</p>
+              <div className="flex items-center text-blue-500 font-bold">
                 <IndianRupee className="h-4 w-4" />
                 <span>{Number(monthlyIncome).toLocaleString('en-IN')}</span>
               </div>
             </div>
             
             <div>
-              <p className="text-xs text-amber-700 font-medium">Annual Yield</p>
-              <p className="font-bold text-amber-500">{annualYield}%</p>
+              <p className="text-xs text-blue-700 font-medium">Annual Yield</p>
+              <p className="font-bold text-blue-500">{annualYield}%</p>
             </div>
             
             <div>
-              <p className="text-xs text-amber-700 font-medium">ROI Period</p>
-              <p className="font-bold text-amber-500">{roiYears} years</p>
+              <p className="text-xs text-blue-700 font-medium">ROI Period</p>
+              <p className="font-bold text-blue-500">{roiYears} years</p>
             </div>
           </div>
         </div>
@@ -290,15 +286,15 @@ const InvestmentPropertyCard = ({ property }) => {
         {/* Property Features */}
         <div className="flex justify-between items-center py-3 border-y border-gray-100 mb-4">
           <div className="flex items-center gap-1">
-            <BedDouble className="w-4 h-4 text-amber-500" />
+            <BedDouble className="w-4 h-4 text-blue-500" />
             <span className="text-sm text-gray-600">{property.beds} {property.beds > 1 ? 'Beds' : 'Bed'}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Bath className="w-4 h-4 text-amber-500" />
+            <Bath className="w-4 h-4 text-blue-500" />
             <span className="text-sm text-gray-600">{property.baths} {property.baths > 1 ? 'Baths' : 'Bath'}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Maximize className="w-4 h-4 text-amber-500" />
+            <Maximize className="w-4 h-4 text-blue-500" />
             <span className="text-sm text-gray-600">{property.sqft} sqft</span>
           </div>
         </div>
@@ -309,7 +305,7 @@ const InvestmentPropertyCard = ({ property }) => {
             <span className="text-xl">{Number(property.price).toLocaleString('en-IN')}</span>
           </div>
           
-          <div className="text-sm bg-amber-50 text-amber-700 px-2 py-1 rounded-md flex items-center">
+          <div className="text-sm bg-blue-50 text-blue-700 px-2 py-1 rounded-md flex items-center">
             <TrendingUp className="w-3.5 h-3.5 mr-1" />
             Investment
           </div>
@@ -421,28 +417,28 @@ const FeaturedInvestedProperties = () => {
 
   if (loading) {
     return (
-      <div className="py-20 bg-amber-50/30">
+      <div className="py-20 bg-blue-50/30">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="animate-pulse">
-            <div className="h-10 bg-amber-200/50 rounded w-1/3 mx-auto mb-4"></div>
-            <div className="h-5 bg-amber-100/50 rounded w-1/4 mx-auto mb-16"></div>
+            <div className="h-10 bg-blue-200/50 rounded w-1/3 mx-auto mb-4"></div>
+            <div className="h-5 bg-blue-100/50 rounded w-1/4 mx-auto mb-16"></div>
             
-            <div className="h-10 bg-amber-100/30 rounded-lg w-full max-w-md mx-auto mb-8 flex justify-center gap-4">
+            <div className="h-10 bg-blue-100/30 rounded-lg w-full max-w-md mx-auto mb-8 flex justify-center gap-4">
               {[1, 2, 3, 4].map(n => (
-                <div key={n} className="h-8 bg-amber-200/40 rounded-full w-24"></div>
+                <div key={n} className="h-8 bg-blue-200/40 rounded-full w-24"></div>
               ))}
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3].map((n) => (
                 <div key={n} className="bg-white rounded-xl shadow h-96">
-                  <div className="h-64 bg-amber-100/50 rounded-t-xl"></div>
+                  <div className="h-64 bg-blue-100/50 rounded-t-xl"></div>
                   <div className="p-6">
-                    <div className="h-6 bg-amber-100/50 rounded w-3/4 mb-4"></div>
-                    <div className="h-4 bg-amber-100/30 rounded w-1/2 mb-4"></div>
+                    <div className="h-6 bg-blue-100/50 rounded w-3/4 mb-4"></div>
+                    <div className="h-4 bg-blue-100/30 rounded w-1/2 mb-4"></div>
                     <div className="flex justify-between">
-                      <div className="h-6 bg-amber-100/40 rounded w-1/3"></div>
-                      <div className="h-6 bg-amber-100/40 rounded w-1/4"></div>
+                      <div className="h-6 bg-blue-100/40 rounded w-1/3"></div>
+                      <div className="h-6 bg-blue-100/40 rounded w-1/4"></div>
                     </div>
                   </div>
                 </div>
@@ -455,23 +451,23 @@ const FeaturedInvestedProperties = () => {
   }
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-amber-50/20">
+    <section className="py-24 bg-gradient-to-b from-white to-blue-50/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* <motion.div 
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-amber-600 font-semibold tracking-wide uppercase text-sm">Smart Investments</span>
+          <span className="text-blue-600 font-semibold tracking-wide uppercase text-sm">Smart Investments</span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
             Investment Opportunities
           </h2>
-          <div className="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
+          <div className="w-24 h-1 bg-blue-500 mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover premium properties with excellent rental income potential and strong investment returns
           </p>
-        </motion.div> */}
+        </motion.div>
 
         {/* Category filter */}
         <motion.div 
@@ -488,7 +484,7 @@ const FeaturedInvestedProperties = () => {
         onClick={() => setActiveCategory(category.id)}
         className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-200
           ${activeCategory === category.id 
-            ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' 
+            ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' 
             : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm'}`}
       >
         {category.label}
@@ -501,8 +497,8 @@ const FeaturedInvestedProperties = () => {
     <button
       onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
       className="flex items-center justify-center w-[200px] gap-2 px-4 py-2.5 rounded-full font-medium text-sm shadow-md
-        bg-amber-500 text-white border border-amber-500/20 
-        transition-all duration-200 hover:shadow-lg hover:shadow-amber-500/10"
+        bg-blue-500 text-white border border-blue-500/20 
+        transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/10"
     >
       <span>
         {categories.find(c => c.id === activeCategory)?.label || 'Select Category'}
@@ -535,7 +531,7 @@ const FeaturedInvestedProperties = () => {
               }}
               className={`w-full text-left px-4 py-3 text-sm transition-all
                 ${activeCategory === category.id 
-                  ? 'bg-gray-50 text-amber-500 font-medium border-l-4 border-amber-500' 
+                  ? 'bg-gray-50 text-blue-500 font-medium border-l-4 border-blue-500' 
                   : 'text-gray-700 hover:bg-gray-50 border-l-4 border-transparent'}`}
             >
               {category.label}
@@ -551,7 +547,7 @@ const FeaturedInvestedProperties = () => {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-amber-700 bg-amber-50 p-4 rounded-lg border border-amber-200 mb-8 max-w-md mx-auto text-center"
+            className="text-blue-700 bg-blue-50 p-4 rounded-lg border border-blue-200 mb-8 max-w-md mx-auto text-center"
           >
             <p className="font-medium mb-1">Note: {error}</p>
             <p className="text-sm">Showing sample investment properties for demonstration.</p>
@@ -573,12 +569,12 @@ const FeaturedInvestedProperties = () => {
           </motion.div>
         ) : (
           <div className="text-center py-10 bg-white rounded-xl shadow-sm">
-            <TrendingUp className="w-12 h-12 text-amber-300 mx-auto mb-4" />
+            <TrendingUp className="w-12 h-12 text-blue-300 mx-auto mb-4" />
             <h3 className="text-xl font-medium text-gray-800 mb-2">No investment properties available</h3>
             <p className="text-gray-600 mb-6">No investment properties found in this category.</p>
             <button 
               onClick={() => setActiveCategory('all')} 
-              className="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               View All Investments
             </button>
@@ -593,7 +589,7 @@ const FeaturedInvestedProperties = () => {
         >
           <button
             onClick={viewAllInvestments}
-            className="inline-flex items-center px-6 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors shadow-lg shadow-amber-500/20 font-medium"
+            className="inline-flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20 font-medium"
           >
             Browse All Investment Properties
             <ArrowRight className="ml-2 w-4 h-4" />

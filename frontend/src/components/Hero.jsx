@@ -134,26 +134,25 @@ const Hero = () => {
 
   return (
     <div className="relative w-full mt-11 h-screen overflow-hidden">
-      {/* Video Background */}
+      {/* Enhanced Gradient Background */}
       <div className="absolute inset-0 w-full h-full z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute min-w-full min-h-full object-cover"
-        >
-          <source
-            src="https://videos.pexels.com/video-files/4770380/4770380-sd_640_360_30fps.mp4"
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70 z-10"></div>
+        {/* Primary Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-900"></div>
+        
+        {/* Animated Gradient Overlay */}
+        <div className="absolute inset-0 opacity-30 bg-[linear-gradient(40deg,var(--theme-color-1),transparent,var(--theme-hover-color-1),transparent)] bg-[length:200%_200%] animate-gradient-slow"></div>
+        
+        {/* Radial Accent */}
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        
+        {/* Subtle Noise Texture */}
+        <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJub2lzZSIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giIHJlc3VsdD0ibm9pc2UiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNub2lzZSkiIG9wYWNpdHk9IjAuNCIvPjwvc3ZnPg==')]"></div>
       </div>
+
+      {/* Semi-transparent light beams */}
+      <div className="absolute left-1/3 top-0 w-1/4 h-full bg-white opacity-[0.03] rotate-12 transform -translate-x-1/2"></div>
+      <div className="absolute right-1/4 top-0 w-1/5 h-full bg-white opacity-[0.02] -rotate-12"></div>
 
       {/* Content */}
       <div className="relative z-20 w-full h-full flex flex-col items-center justify-center px-4">
@@ -165,7 +164,7 @@ const Hero = () => {
             transition={{ duration: 1 }}
             className="mb-8 flex flex-col items-center"
           >
-            <div className="px-10 py-6 bg-white/10 backdrop-blur-md rounded-full mb-6">
+            <div className="px-10 py-6 bg-white/10 backdrop-blur-md rounded-full mb-6 shadow-lg border border-white/20 hover:bg-white/15 transition-all">
               <img
                 src={hybridLogo}
                 alt="Hybrid Realty"
@@ -174,21 +173,15 @@ const Hero = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 text-center">
-              Find Your{" "}
-              <span className="text-blue-200">{typedText}</span>
-              <span
-                className={`${
-                  cursorVisible ? "opacity-100" : "opacity-0"
-                } transition-opacity duration-100`}
-              >
-                |
-              </span>
+              Invest Settle{" "}
+              <span className="text-blue-200 drop-shadow-md">&</span>{" "}
+              <span className="text-blue-100 drop-shadow-lg">Grow</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl text-center mb-6">
+            {/* <p className="text-xl md:text-2xl text-white/90 max-w-3xl text-center mb-6 drop-shadow-md">
               Discover the perfect property to call home or invest in your
               future
-            </p>
+            </p> */}
           </motion.div>
 
           {/* Search Bar */}
@@ -198,7 +191,7 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.5 }}
             className="w-full max-w-3xl mx-auto relative"
           >
-            <div className="flex flex-col md:flex-row gap-4 p-2.5 bg-white/15 backdrop-blur-md rounded-2xl shadow-xl border border-white/20">
+            <div className="flex flex-col md:flex-row gap-4 p-2.5 bg-white/15 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 hover:bg-white/20 transition-all">
               <div className="relative flex-1">
                 <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/70" />
                 <input
@@ -212,32 +205,6 @@ const Hero = () => {
                   placeholder="Enter location or property type..."
                   className="w-full pl-12 pr-4 py-4 rounded-xl border-0 bg-white/10 backdrop-blur-md text-white placeholder-white/70 shadow-inner focus:ring-2 focus:ring-[var(--theme-hover-color-1)]/50 focus:bg-white/20 transition-all"
                 />
-
-                {/* Location Suggestions */}
-                {/* <AnimatePresence>
-                  {showSuggestions && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute left-0 right-0 mt-2 py-2 bg-white/20 backdrop-blur-xl rounded-xl shadow-lg z-20 border border-white/30"
-                    >
-                      {popularLocations.map((location, index) => (
-                        <motion.div
-                          key={location}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: index * 0.05 }}
-                          onClick={() => handleSuggestionClick(location)}
-                          className="px-4 py-2 hover:bg-white/20 cursor-pointer text-white flex items-center"
-                        >
-                          <MapPin className="w-4 h-4 mr-2 text-[var(--theme-color-1)]" />
-                          {location}
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence> */}
               </div>
 
               <button
@@ -260,7 +227,7 @@ const Hero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all"
+              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all shadow-lg"
               onClick={() => navigate("/properties")}
             >
               <Home className="w-5 h-5" />
@@ -270,7 +237,7 @@ const Hero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all"
+              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all shadow-lg"
               onClick={() => navigate("/invest")}
             >
               <Building className="w-5 h-5" />
@@ -280,7 +247,7 @@ const Hero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all"
+              className="flex items-center gap-2 px-5 py-3 bg-white/15 backdrop-blur-md rounded-xl border border-white/20 text-white hover:bg-white/25 transition-all shadow-lg"
               onClick={() => navigate("/add")}
             >
               <PlusCircle className="w-5 h-5" />
@@ -288,37 +255,6 @@ const Hero = () => {
             </motion.button>
           </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        {/* <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-        >
-          <p className="text-white/70 text-sm mb-2">Scroll to explore</p>
-          <motion.div
-            animate={{
-              y: [0, 10, 0],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 1.5,
-              ease: "easeInOut",
-            }}
-            className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center"
-          >
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 1.5,
-                ease: "easeInOut",
-              }}
-              className="w-1.5 h-3 bg-white/70 rounded-full mt-1.5"
-            />
-          </motion.div>
-        </motion.div> */}
       </div>
     </div>
   );
