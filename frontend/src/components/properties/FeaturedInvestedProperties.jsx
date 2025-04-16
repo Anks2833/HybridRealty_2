@@ -261,24 +261,24 @@ const InvestmentPropertyCard = ({ property }) => {
         </div>
         
         {/* Investment Highlight */}
-        <div className="bg-blue-50 p-3 rounded-lg mb-4">
+        <div className="bg-green-50 p-3 rounded-lg mb-4">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-xs text-blue-700 font-medium">Monthly Income</p>
-              <div className="flex items-center text-blue-500 font-bold">
+              <p className="text-xs text-green-700 font-medium">Monthly Income</p>
+              <div className="flex items-center text-green-500 font-bold">
                 <IndianRupee className="h-4 w-4" />
                 <span>{Number(monthlyIncome).toLocaleString('en-IN')}</span>
               </div>
             </div>
             
             <div>
-              <p className="text-xs text-blue-700 font-medium">Annual Yield</p>
-              <p className="font-bold text-blue-500">{annualYield}%</p>
+              <p className="text-xs text-green-700 font-medium">Annual Yield</p>
+              <p className="font-bold text-green-500">{annualYield}%</p>
             </div>
             
             <div>
-              <p className="text-xs text-blue-700 font-medium">ROI Period</p>
-              <p className="font-bold text-blue-500">{roiYears} years</p>
+              <p className="text-xs text-green-700 font-medium">ROI Period</p>
+              <p className="font-bold text-green-500">{roiYears} years</p>
             </div>
           </div>
         </div>
@@ -305,7 +305,7 @@ const InvestmentPropertyCard = ({ property }) => {
             <span className="text-xl">{Number(property.price).toLocaleString('en-IN')}</span>
           </div>
           
-          <div className="text-sm bg-blue-50 text-blue-700 px-2 py-1 rounded-md flex items-center">
+          <div className="text-sm bg-green-50 text-green-700 px-2 py-1 rounded-md flex items-center">
             <TrendingUp className="w-3.5 h-3.5 mr-1" />
             Investment
           </div>
