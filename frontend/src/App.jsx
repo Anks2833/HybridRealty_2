@@ -29,8 +29,8 @@ import LuckyDrawPage from "./components/LuckyDrawPage";
 import LuckyDrawPropertyDetails from "./components/LuckyDrawPropertyDetails";
 import InvestPropertyDetails from "./components/properties/InvestPropertyDetails";
 
-// export const Backendurl = import.meta.env.VITE_BACKEND_URL;
-export const Backendurl = "https://hybridrealty-dev-backend.onrender.com";
+export const Backendurl = import.meta.env.VITE_BACKEND_URL;
+// export const Backendurl = "https://hybridrealty-dev-backend.onrender.com";
 
 // Define routes that should not have Navbar and Footer
 const routesWithoutNavbarFooter = [

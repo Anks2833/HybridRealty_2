@@ -22,7 +22,8 @@ import AdminLuckyDrawManagement from "./pages/AdminLuckyDrawManagement"; // Impo
 import LuckyDrawPropertyDetails from "./pages/LuckyDrawPropertyDetails"; // Import Lucky Draw Property Details
 
 // Config
-export const backendurl = 'https://hybridrealty-dev-backend.onrender.com';
+// export const backendurl = 'https://hybridrealty-dev-backend.onrender.com';
+export const backendurl = 'http://localhost:4000';
 
 // Page transition variants
 const pageVariants = {

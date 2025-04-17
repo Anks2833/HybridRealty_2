@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiTrash2, FiSearch, FiX, FiHash } from "react-icons/fi";  // Added search, clear, and hash icons
+import { backendurl } from "../App";
 
 const ApproveProperty = () => {
   const [properties, setProperties] = useState([]);
@@ -11,13 +12,15 @@ const ApproveProperty = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
   const navigate = useNavigate();
-  // const Backendurl = "http://localhost:4000";
-  const Backendurl = "https://hybridrealty-dev-backend.onrender.com";
+  // const backendurl = "http://localhost:4000";
+
+  
+  // const backendurl = "https://hybridrealty-dev-backend.onrender.com";
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get(`${Backendurl}/api/properties/admin/approved`);
+        const response = await axios.get(`${backendurl}/api/properties/admin/approved`);
         setProperties(response.data.properties);
       } catch (err) {
         setError("Failed to fetch properties");
@@ -30,7 +33,7 @@ const ApproveProperty = () => {
 
   const updateApproval = async (id, newStatus) => {
     try {
-      await axios.put(`${Backendurl}/api/properties/admin/approved/${id}`, { isApproved: newStatus });
+      await axios.put(`${backendurl}/api/properties/admin/approved/${id}`, { isApproved: newStatus });
       setProperties(prev =>
         prev.map(property =>
           property._id === id ? { ...property, isApproved: newStatus } : property
@@ -46,7 +49,7 @@ const ApproveProperty = () => {
     if (!window.confirm("Are you sure you want to delete this property?")) return;
 
     try {
-      await axios.delete(`${Backendurl}/api/properties/admin/approved/${id}`);
+      await axios.delete(`${backendurl}/api/properties/admin/approved/${id}`);
       setProperties(prev => prev.filter(property => property._id !== id));
     } catch (error) {
       console.error("Error deleting property:", error);
