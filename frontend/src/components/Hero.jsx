@@ -212,7 +212,7 @@ const Hero = () => {
               onClick={() => navigate("/properties")}
             >
               <Home className="w-5 h-5 text-[var(--theme-color-1)]" />
-              <span>All Properties</span>
+              <span>Properties</span>
             </motion.button>
 
             <motion.button
@@ -222,7 +222,7 @@ const Hero = () => {
               onClick={() => navigate("/invest")}
             >
               <Building className="w-5 h-5 text-[var(--theme-color-1)]" />
-              <span>Investment Options</span>
+              <span>Invest</span>
             </motion.button>
 
             <motion.button
@@ -232,7 +232,7 @@ const Hero = () => {
               onClick={() => navigate("/add")}
             >
               <PlusCircle className="w-5 h-5 text-[var(--theme-color-1)]" />
-              <span>Add Property</span>
+              <span>Add</span>
             </motion.button>
           </motion.div>
         </div>
