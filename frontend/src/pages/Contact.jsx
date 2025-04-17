@@ -43,16 +43,16 @@ const Contact = () => {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
             >
-              Get in Touch With Us
+              Legal advice for property dispute
             </motion.h2>
-            <motion.p
+            {/* <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
               className="text-lg text-gray-600"
             >
               We're here to help with all your real estate needs. Reach out to our team for personalized assistance.
-            </motion.p>
+            </motion.p> */}
           </div>
           
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12">

@@ -221,14 +221,14 @@ function ContactForm() {
                 onChange={handleChange}
                 onFocus={() => setFocusedField("message")}
                 onBlur={() => setFocusedField(null)}
-                rows={5}
+                rows={10}
                 className={`w-full pl-10 pr-4 py-3 rounded-lg ${
                   focusedField === "message"
                     ? "bg-blue-50 border-[var(--theme-hover-color-1)]"
                     : "bg-gray-50 border-gray-200 hover:border-gray-300"
                 } border ${
                   errors.message ? "border-red-500" : ""
-                } focus:border-[var(--theme-hover-color-1)] transition-all duration-200`}
+                } focus:border-[var(--theme-hover-color-1)] transition-all duration-200 resize-none`}
                 placeholder="How can we help you today?"
               />
             </div>
