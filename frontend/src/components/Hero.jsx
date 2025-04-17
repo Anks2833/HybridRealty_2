@@ -153,10 +153,10 @@ const Hero = () => {
               />
             </div> */}
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-800 mb-4 text-center">
-              Invest, Settle{" "}
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-zinc-800 mb-4 text-center">
+              Invest, <span className="text-blue-600">Settle</span>{" "}
               <span className="text-zinc-900">&</span>{" "}
-              <span className="text-[var(--theme-color-1)]">Grow</span>
+              <span className="text-green-600">Grow</span>
             </h1>
 
             {/* <p className="text-xl md:text-2xl text-zinc-700 max-w-3xl text-center mb-6">
@@ -203,7 +203,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-wrap gap-4 mt-8 justify-center"
+            className="flex gap-4 mt-8 justify-center"
           >
             <motion.button
               whileHover={{ scale: 1.05 }}

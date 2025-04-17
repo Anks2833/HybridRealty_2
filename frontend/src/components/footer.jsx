@@ -276,8 +276,8 @@ const AnimatedLogo = () => {
     >
       <div className="bg-white p-2 rounded-xl shadow-md relative group">
         <motion.div
-          whileHover={{ rotate: [-1, 1, -1, 0], scale: 1.05 }}
-          transition={{ duration: 0.5 }}
+          // whileHover={{ rotate: [-1, 1, -1, 0], scale: 1.05 }}
+          // transition={{ duration: 0.5 }}
         >
           <img
             className="h-14 w-auto transition-all duration-300"
@@ -286,11 +286,11 @@ const AnimatedLogo = () => {
           />
         </motion.div>
 
-        <motion.div
+        {/* <motion.div
           className="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ repeat: Infinity, duration: 2 }}
-        />
+        /> */}
       </div>
 
       {/* <div className="ml-3">
