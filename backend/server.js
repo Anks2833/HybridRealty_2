@@ -18,11 +18,20 @@ import luckyrouter from "./routes/luckyDrawRoutes.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import upcomingProjectRouter from "./routes/upcomingProjectsRoutes.js";
+import adminUpcomingRouter from "./routes/adminUpcomingProjectsRoutes.js";
 
 dotenv.config();
 
 const app = express();
+import fileUpload from 'express-fileupload';
 
+// File upload middleware (add this before your routes)
+app.use(fileUpload({
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB max file(s) size
+  useTempFiles: true,
+  tempFileDir: '/tmp/'
+}));
 // Get directory paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -104,6 +113,8 @@ app.use("/api/admin", adminRouter);
 app.use("/api/properties", adminProperties);
 app.use("/api", propertyRoutes);
 app.use("/api", luckyrouter); // Add lucky draw routes
+app.use("/api", upcomingProjectRouter);
+app.use("/api", adminUpcomingRouter);
 
 // Status check endpoint
 app.get("/api/status", (req, res) => {
@@ -150,8 +161,6 @@ const port = process.env.PORT || 4000;
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, "0.0.0.0", () => {
     console.log(`Server running on port ${port}`);
-    console.log(`User frontend: http://localhost:${port}`);
-    console.log(`Admin frontend: http://localhost:${port}/admin`);
   });
 }
 

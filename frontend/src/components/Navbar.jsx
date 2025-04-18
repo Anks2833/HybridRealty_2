@@ -239,6 +239,7 @@ const NavLinks = ({ currentPath }) => {
     { name: "Invest", path: "/invest", icon: Building },
     { name: "Properties", path: "/properties", icon: Search },
     { name: "Lucky Draw", path: "/lucky-draw", icon: Gift },
+    { name: "Upcoming Projects", path: "/upcoming-projects", icon: Gift },
     { name: "Property Dispute", path: "/contact", icon: MessageCircle },
   ];
 

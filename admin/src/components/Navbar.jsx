@@ -39,6 +39,7 @@ const Navbar = () => {
     { path: '/list', label: 'Properties', icon: List },
     { path: '/admin/approved', label: 'Add Property', icon: PlusSquare },
     { path: '/admin/lucky-draw', label: 'Lucky Draw', icon: Gift }, // Added Lucky Draw item
+    { path: '/admin/upcoming-projects', label: 'Upcoming Projects', icon: Gift }, // Added Lucky Draw item
     { path: '/appointments', label: 'Appointments', icon: Calendar },
     { path: '/admin/users', label: 'Users', icon: Users },
   ];
