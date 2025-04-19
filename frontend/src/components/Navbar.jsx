@@ -290,10 +290,11 @@ const MobileNavLinks = ({
   const navLinks = [
     { name: "Home", path: "/", icon: Home },
     { name: "Add", path: "/add", icon: PlusSquare },
-    { name: "Invest", path: "/invest", icon: Building },
+    { name: "Invest", path: "/invest", icon: TrendingUp },
     { name: "Properties", path: "/properties", icon: Search },
     { name: "Lucky Draw", path: "/lucky-draw", icon: Gift },
-    { name: "Contact", path: "/contact", icon: MessageCircle },
+    { name: "Upcoming Projects", path: "/upcoming-projects", icon: Building },
+    { name: "Property Dispute", path: "/contact", icon: Gavel },
   ];
 
   return (
