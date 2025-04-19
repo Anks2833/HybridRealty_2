@@ -89,7 +89,7 @@ const Hero = () => {
     const typeSpeed = isDeleting ? 50 : 100;
     const cursorBlinkSpeed = 500;
 
-    // Cursor blinking effect
+    // Cursor blinking effectt
     const cursorInterval = setInterval(() => {
       setCursorVisible((prev) => !prev);
     }, cursorBlinkSpeed);
