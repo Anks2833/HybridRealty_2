@@ -84,7 +84,7 @@ function ContactForm() {
                 } border ${
                   errors.name ? "border-red-500" : ""
                 } focus:border-[var(--theme-hover-color-1)] transition-all duration-200`}
-                placeholder="Your full name"
+                placeholder="Harsh Taroliya"
               />
             </div>
             {errors.name && (
@@ -136,7 +136,7 @@ function ContactForm() {
                 } border ${
                   errors.email ? "border-red-500" : ""
                 } focus:border-[var(--theme-hover-color-1)] transition-all duration-200`}
-                placeholder="your.email@example.com"
+                placeholder="harsh@mail.com"
               />
             </div>
             {errors.email && (
@@ -186,7 +186,7 @@ function ContactForm() {
                     ? "bg-blue-50 border-[var(--theme-hover-color-1)]"
                     : "bg-gray-50 border-gray-200 hover:border-gray-300"
                 } border focus:border-[var(--theme-hover-color-1)] transition-all duration-200`}
-                placeholder="+1 (123) 456-7890"
+                placeholder="+91 9999999999"
               />
             </div>
           </motion.div>

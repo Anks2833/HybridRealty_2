@@ -48,25 +48,25 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Call Us",
-    content: "9999999999",
-    link: "tel:+919999999999",
+    content: "+91 9911791469",
+    link: "tel:9911791469",
   },
   {
     icon: Mail,
     title: "Email Us",
-    content: "aryankharia01@gmail.com",
-    link: "mailto:aryankharia01@gmail.com",
+    content: "Hybridrealty@gmail.com",
+    link: "mailto:Hybridrealty@gmail.com",
   },
   {
     icon: MapPin,
     title: "Visit Our Office",
-    content: "ABC Building, XYZ Street, City",
-    link: "#map",
+    content: "Dwarka Sector 17, New Delhi, India",
+    link: "https://maps.app.goo.gl/97ekGkf3HqFYS9nt7",
   },
   {
     icon: Clock,
     title: "Working Hours",
-    content: "Mon-Fri: 9 AM - 6 PM, Sat: 10 AM - 4 PM",
+    content: "Mon-Fri: 8 AM - 8 PM",
     link: "#",
   },
 ];
@@ -177,7 +177,7 @@ export default function ContactInfo() {
             <div className="w-3 h-3 bg-green-500 rounded-full mr-2 animate-pulse"></div>
             <p className="text-green-600 font-medium">We're Open Now</p>
             <span className="ml-2 text-xs text-gray-500">
-              (9:00 AM - 6:00 PM)
+              (8:00 AM - 8:00 PM)
             </span>
           </div>
         </motion.div>

@@ -10,7 +10,9 @@ import {
   Search,
   Building,
   PlusSquare,
+  TrendingUp,
   Users,
+  Gavel,
   MessageCircle,
   Sparkles,
   BotMessageSquare,
@@ -86,7 +88,7 @@ const Navbar = () => {
         scrolled ? "py-2" : "py-3"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
@@ -236,11 +238,11 @@ const NavLinks = ({ currentPath }) => {
   const navLinks = [
     { name: "Home", path: "/", icon: Home },
     { name: "Add", path: "/add", icon: PlusSquare },
-    { name: "Invest", path: "/invest", icon: Building },
+    { name: "Invest", path: "/invest", icon: TrendingUp },
     { name: "Properties", path: "/properties", icon: Search },
     { name: "Lucky Draw", path: "/lucky-draw", icon: Gift },
-    { name: "Upcoming Projects", path: "/upcoming-projects", icon: Gift },
-    { name: "Property Dispute", path: "/contact", icon: MessageCircle },
+    { name: "Upcoming Projects", path: "/upcoming-projects", icon: Building },
+    { name: "Property Dispute", path: "/contact", icon: Gavel },
   ];
 
   return (

@@ -8,6 +8,7 @@ import {
   Home,
   Building,
   PlusCircle,
+  TrendingUp
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -161,7 +162,7 @@ const Hero = () => {
           />
         </video>
         {/* Overlay for video */}
-        <div className="absolute inset-0 bg-black/50 z-10"></div>
+        <div className="absolute inset-0 bg-black/75   z-10"></div>
       </div>
 
       {/* Content */}
@@ -237,34 +238,34 @@ const Hero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-white/30 text-zinc-800 hover:bg-white/100 transition-all shadow-md"
+              className="flex items-center gap-2 px-3 py-2 bg-white/90 backdrop-blur-sm rounded-xl border border-white/30 text-zinc-800 hover:bg-white/100 transition-all shadow-md"
               onClick={() => navigate("/invest")}
             >
-              <Building className="w-5 h-5 text-[var(--theme-color-1)]" />
-              <span>Invest</span>
+              <TrendingUp className="w-3 h-3 text-[var(--theme-color-1)]" />
+              <span className="text-xs">Invest</span>
             </motion.button>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-white/30 text-zinc-800 hover:bg-white/100 transition-all shadow-md"
+              className="flex items-center gap-2 px-3 py-2 bg-white/90 backdrop-blur-sm rounded-xl border border-white/30 text-zinc-800 hover:bg-white/100 transition-all shadow-md"
               onClick={() => navigate("/add")}
             >
-              <PlusCircle className="w-5 h-5 text-[var(--theme-color-1)]" />
-              <span>Add</span>
+              <PlusCircle className="w-3 h-3 text-[var(--theme-color-1)]" />
+              <span className="text-xs">Add</span>
             </motion.button>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-white/30 text-zinc-800 hover:bg-white/100 transition-all shadow-md"
+              className="flex items-center gap-2 px-3 py-2 bg-white/90 backdrop-blur-sm rounded-xl border border-white/30 text-zinc-800 hover:bg-white/100 transition-all shadow-md"
               onClick={() => navigate("/properties")}
             >
-              <Home className="w-5 h-5 text-[var(--theme-color-1)]" />
-              <span>Properties</span>
+              <Search className="w-3 h-3 text-[var(--theme-color-1)]" />
+              <span className="text-xs">Properties</span>
             </motion.button>
 
-            <motion.button
+            {/* <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-sm rounded-xl border border-white/30 text-zinc-800 hover:bg-white/100 transition-all shadow-md"
@@ -272,7 +273,7 @@ const Hero = () => {
             >
               <MessageCircle className="w-5 h-5 text-[var(--theme-color-1)]" />
               <span>Property Dispute</span>
-            </motion.button>
+            </motion.button> */}
           </motion.div>
         </div>
       </div>

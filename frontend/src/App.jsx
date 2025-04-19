@@ -29,6 +29,8 @@ import LuckyDrawPage from "./components/LuckyDrawPage";
 import LuckyDrawPropertyDetails from "./components/LuckyDrawPropertyDetails";
 import InvestPropertyDetails from "./components/properties/InvestPropertyDetails";
 import UpcomingProjectsPage from "./components/UpcomingProjectsPage";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 
 export const Backendurl = import.meta.env.VITE_BACKEND_URL;
 // export const Backendurl = "https://hybridrealty-dev-backend.onrender.com";
@@ -63,6 +65,8 @@ const AppContent = () => {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset/:token" element={<ResetPassword />} />
         <Route path="/" element={<Home />} />

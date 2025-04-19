@@ -13,6 +13,7 @@ import {
   ArrowRight,
   ChevronDown,
   ExternalLink,
+  Linkedin,
   Heart,
   Building,
 } from "lucide-react";
@@ -99,12 +100,6 @@ const FooterLink = ({ href, children }) => {
 // Social Links Component
 const socialLinks = [
   {
-    icon: Twitter,
-    href: "#",
-    label: "Twitter",
-    color: "from-blue-400 to-blue-500",
-  },
-  {
     icon: Facebook,
     href: "#",
     label: "Facebook",
@@ -112,16 +107,28 @@ const socialLinks = [
   },
   {
     icon: Instagram,
-    href: "#",
+    href: "https://www.instagram.com/hybridrealty.in?igsh=aDAwZ3ZhbnV4a3Nk",
     label: "Instagram",
     color: "from-pink-500 via-purple-500 to-blue-500",
   },
   {
-    icon: Github,
+    icon: Twitter,
     href: "#",
-    label: "GitHub",
-    color: "from-gray-700 to-gray-900",
+    label: "Twitter",
+    color: "from-blue-400 to-blue-500",
   },
+  {
+    icon: Linkedin,
+    href: "#",
+    label: "Linkedin",
+    color: "from-blue-500 to-blue-700",
+  },
+  // {
+  //   icon: Github,
+  //   href: "#",
+  //   label: "GitHub",
+  //   color: "from-gray-700 to-gray-900",
+  // },
 ];
 
 const SocialLinks = () => {
@@ -233,34 +240,34 @@ const Newsletter = () => {
 // Main Footer Component
 const companyLinks = [
   { name: "Home", href: "/" },
-  { name: "Properties", href: "/properties" },
   { name: "Invest", href: "/invest" },
+  { name: "Properties", href: "/properties" },
   { name: "Lucky Draw", href: "/lucky-draw" },
-  { name: "Contact", href: "/contact" },
+  { name: "Property Dispute", href: "/contact" },
 ];
 
 const helpLinks = [
   // { name: "Customer Support", href: "/" },
   // { name: "FAQs", href: "/" },
-  // { name: "Terms & Conditions", href: "/" },
-  // { name: "Privacy Policy", href: "/" },
+  { name: "Terms & Conditions", href: "/terms" },
+  { name: "Privacy Policy", href: "/privacy" },
 ];
 
 const contactInfo = [
   {
     icon: MapPin,
-    text: "ABC Building, XYZ Street, City",
-    href: "https://maps.google.com",
+    text: "Dwarka Sector 17, New Delhi, India",
+    href: "https://maps.app.goo.gl/97ekGkf3HqFYS9nt7",
   },
   {
     icon: Phone,
-    text: "9999999999",
-    href: "tel:999999999",
+    text: "+91 9911791469",
+    href: "tel:9911791469",
   },
   {
     icon: Mail,
-    text: "harshtaroliya@gmail.com",
-    href: "mailto:harshtaroliya@gmail.com",
+    text: "Hybridrealty@gmail.com",
+    href: "mailto:Hybridrealty@gmail.com",
   },
 ];
 
@@ -293,7 +300,7 @@ const AnimatedLogo = () => {
         /> */}
       </div>
 
-      {/* <div className="ml-3">
+      <div className="ml-3">
         <motion.h2
           className="text-xl font-bold bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] bg-clip-text text-transparent"
           whileHover={{ scale: 1.03 }}
@@ -301,7 +308,7 @@ const AnimatedLogo = () => {
           Hybrid Realty
         </motion.h2>
         <p className="text-xs text-gray-500">Your Real Estate Partner</p>
-      </div> */}
+      </div>
     </motion.div>
   );
 };
@@ -419,7 +426,7 @@ const Footer = () => {
             </FooterColumn>
 
             {/* Help Column */}
-            {/* <FooterColumn title="Support" className="col-span-2" delay={0.3}>
+            <FooterColumn title="Support" className="col-span-2" delay={0.3}>
               <ul className="space-y-3">
                 {helpLinks.map((link, index) => (
                   <motion.li
@@ -434,7 +441,7 @@ const Footer = () => {
                   </motion.li>
                 ))}
               </ul>
-            </FooterColumn> */}
+            </FooterColumn>
 
             {/* Contact Info */}
             <FooterColumn title="Contact Us" className="col-span-3" delay={0.4}>
