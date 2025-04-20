@@ -8,7 +8,7 @@ import {
   Home,
   Building,
   PlusCircle,
-  TrendingUp
+  TrendingUp,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -150,16 +150,13 @@ const Hero = () => {
       <div className="absolute inset-0 w-full h-full z-0">
         <video
           ref={videoRef}
+          src="https://res.cloudinary.com/dhvqmxqhb/video/upload/v1745141097/buildings_tj0dmw.mp4"
           className="absolute w-full h-full object-cover"
           autoPlay
           loop
           muted
           playsInline
         >
-          <source
-            src="https://videos.pexels.com/video-files/2818559/2818559-sd_640_360_24fps.mp4"
-            type="video/mp4"
-          />
         </video>
         {/* Overlay for video */}
         <div className="absolute inset-0 bg-black/75   z-10"></div>
