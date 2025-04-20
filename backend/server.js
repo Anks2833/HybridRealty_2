@@ -62,6 +62,7 @@ app.use(
           "'self'",
           ...(process.env.ALLOWED_ORIGINS?.split(",") || []),
         ],
+        mediaSrc: ["*"], 
       },
     },
   })
