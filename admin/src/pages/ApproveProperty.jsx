@@ -15,7 +15,7 @@ const ApproveProperty = () => {
   // const backendurl = "http://localhost:4000";
 
   
-  // const backendurl = "https://hybridrealty-dev-backend.onrender.com";
+  const backendurl = "https://hybridrealty-dev-backend.onrender.com";
 
   useEffect(() => {
     const fetchProperties = async () => {

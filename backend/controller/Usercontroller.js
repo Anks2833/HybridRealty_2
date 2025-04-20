@@ -12,7 +12,7 @@ import { getWelcomeTemplate } from "../email.js";
 import { getPasswordResetTemplate } from "../email.js";
 import properties from "../models/propertymodel.js"; // Import your Property model
 import verificationModel from "../models/verificationmodel.js";
-const backendurl = process.env.BACKEND_URL;
+const backendurl = import.meta.process.env.BACKEND_URL;
 
 const createtoken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

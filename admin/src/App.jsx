@@ -24,7 +24,8 @@ import AdminUpcomingProjectsManagement from "./pages/AdminUpcomingProjectsManage
 
 // Config
 // export const backendurl = 'https://hybridrealty-dev-backend.onrender.com';
-export const backendurl = 'http://localhost:4000';
+// export const backendurl = 'http://localhost:4000';
+export const backendurl = import.meta.env.VITE_BACKEND_URL;
 
 // Page transition variants
 const pageVariants = {
