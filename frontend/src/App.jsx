@@ -32,8 +32,9 @@ import UpcomingProjectsPage from "./components/UpcomingProjectsPage";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 
-export const Backendurl = import.meta.env.VITE_BACKEND_URL;
+// export const Backendurl = import.meta.env.VITE_BACKEND_URL;
 // export const Backendurl = "https://hybridrealty-dev-backend.onrender.com";
+export const Backendurl = "";
 
 // Define routes that should not have Navbar and Footer
 const routesWithoutNavbarFooter = [

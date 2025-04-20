@@ -123,7 +123,7 @@ app.get("/api/status", (req, res) => {
 
 // Serve static files from frontend builds
 app.use("/admin", express.static(path.join(__dirname, "admin_dist")));
-app.use(express.static(path.join(__dirname, "user_dist")));
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 // Handle API errors
 app.use("/api", (err, req, res, next) => {
@@ -145,7 +145,7 @@ app.get("/admin/*", (req, res) => {
 
 // Route handler for user frontend - must be the last route
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "user_dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
 
 // Handle unhandled rejections
