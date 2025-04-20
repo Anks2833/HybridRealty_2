@@ -4,7 +4,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+// const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const backendUrl = "https://hybridrealty-dev-backend.onrender.com";
 
 const Login = () => {
   const [email, setEmail] = useState("");
