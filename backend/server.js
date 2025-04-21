@@ -24,14 +24,16 @@ import adminUpcomingRouter from "./routes/adminUpcomingProjectsRoutes.js";
 dotenv.config();
 
 const app = express();
-import fileUpload from 'express-fileupload';
+import fileUpload from "express-fileupload";
 
 // File upload middleware (add this before your routes)
-app.use(fileUpload({
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB max file(s) size
-  useTempFiles: true,
-  tempFileDir: '/tmp/'
-}));
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB max file(s) size
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
+);
 // Get directory paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -49,30 +51,6 @@ const limiter = rateLimit({
 });
 
 // Security middlewares
-app.use(limiter);
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "blob:"],
-        connectSrc: [
-          "'self'",
-          ...(process.env.ALLOWED_ORIGINS?.split(",") || []),
-        ],
-        mediaSrc: ["*"], 
-      },
-    },
-  })
-);
-app.use(compression());
-
-// Middleware
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-app.use(trackAPIStats);
 
 // CORS Configuration
 app.use(
@@ -88,6 +66,33 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
 );
+
+app.use(limiter);
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "blob:"],
+        connectSrc: [
+          "'self'",
+          "https://hybrid-realty-dev-admin.vercel.app",
+          "https://hybrid-realty-dev.vercel.app",
+          ...(process.env.ALLOWED_ORIGINS?.split(",") || []),
+        ],
+        mediaSrc: ["*"],
+      },
+    },
+  })
+);
+app.use(compression());
+
+// Middleware
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(trackAPIStats);
 
 // Database connection
 connectdb()
