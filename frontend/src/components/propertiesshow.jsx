@@ -296,7 +296,7 @@ const PropertiesShow = () => {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState("all");
   const navigate = useNavigate();
-
+  
   const categories = [
     { id: "all", label: "All Properties" },
     { id: "apartment", label: "Apartments" },
