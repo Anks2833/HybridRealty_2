@@ -167,14 +167,10 @@ const Signup = () => {
               transition={{ delay: 0.1, duration: 0.4 }}
             >
               <Link to="/" className="inline-block group">
-                <div className="flex items-center justify-center mb-2">
-                  <motion.div
-                    whileHover={{ rotate: [0, -5, 5, 0], scale: 1.05 }}
-                    transition={{ duration: 0.5 }}
-                    className="bg-gradient-to-br from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] p-3 rounded-xl shadow-lg shadow-blue-200"
-                  >
-                    <Building className="w-6 h-6 text-white" />
-                  </motion.div>
+                <div className="flex flex-col items-center justify-center mb-2">
+                  <img src="/hrLogo.svg" alt="Logo" className="w-32 h-32" />
+                  {/* <h1 className="text-3xl font-extrabold leading-none">Hybrid.</h1>
+                  <h1 className="text-md font-light">Realty</h1> */}
                 </div>
                 <motion.h2
                   whileHover={{ scale: 1.03 }}
