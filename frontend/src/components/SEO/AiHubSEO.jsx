@@ -11,7 +11,7 @@ const AiHubSEO = () => {
       <meta property="og:title" content="AI Property Hub | Hybrid Realty" />
       <meta property="og:description" content="AI-powered property analysis and location trends for smarter real estate decisions." />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://Hybrid Realty.vercel.app/ai-property-hub" />
+      <meta property="og:url" content="https://hybridrealty.in/ai-property-hub" />
       
       {/* Local availability note for crawlers */}
       <meta name="robots" content="index, follow" />

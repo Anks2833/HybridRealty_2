@@ -8,7 +8,6 @@ import { Backendurl } from "../App";
 import { authStyles } from "../styles/auth";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
-
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -76,7 +75,7 @@ const Login = () => {
   );
 
   return (
-    <div className="h-screen relative overflow-hidden flex items-center justify-center px-4 py-16 bg-gradient-to-br from-blue-50 via-white to-blue-100">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center px-4 py-6 bg-gradient-to-br from-blue-50 via-white to-blue-100">
       {/* Decorative elements */}
       {bgPattern}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-blue-100 to-transparent"></div>
@@ -104,13 +103,13 @@ const Login = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.1, duration: 0.4 }}
             >
-              <Link to="/" className="inline-block group">
+              {/* <Link to="/" className="inline-block group">
                 <div className="flex flex-col items-center justify-center mb-2">
                   <img src="/hrLogo.svg" alt="Logo" className="w-32 h-32" />
-                  {/* <h1 className="text-3xl font-extrabold leading-none">Hybrid.</h1>
-                  <h1 className="text-md font-light">Realty</h1> */}
+                  <h1 className="text-3xl font-extrabold leading-none">Hybrid.</h1>
+                  <h1 className="text-md font-light">Realty</h1>
                 </div>
-              </Link>
+              </Link> */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

@@ -31,7 +31,7 @@ const AdminLuckyDrawManagement = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [showAddPropertyModal, setShowAddPropertyModal] = useState(false);
-  
+
   useEffect(() => {
     fetchLuckyDrawProperties();
   }, []);

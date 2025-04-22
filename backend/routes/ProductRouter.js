@@ -5,7 +5,7 @@ import auth from '../middleware/auth.js';
 
 const propertyrouter = express.Router();
 
-propertyrouter.post('/add',auth, upload.fields([
+propertyrouter.post('/add', upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
     { name: "image3", maxCount: 1 },

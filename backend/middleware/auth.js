@@ -6,8 +6,8 @@ export default async function(req, res, next) {
 //   const token = req.header('Authorization')?.replace('Bearer ', '');
 
 const token = req.headers.authorization?.split(" ")[1];
-
-// console.log('token : ',token);
+// const token = localStorage.getItem("token");
+console.log('token : ',token);
   // Check if no token
   if (!token) {
     return res.status(401).json({ 

@@ -36,10 +36,48 @@ const LuckyDrawPropertyDetails = () => {
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   const [selectingWinner, setSelectingWinner] = useState(false);
   const [winner, setWinner] = useState(null);
-  
+  const [winnerEmail, setWinnerEmail] = useState('');
+  const [manualSelection, setManualSelection] = useState(false);
+  const [selectedWinnerId, setSelectedWinnerId] = useState('');
+  const [winnerId, setWinnerId] = useState('');
+  const [winnerData, setWinnerData] = useState(null);
+  const [loadingWinner, setLoadingWinner] = useState(false);
+
+
   useEffect(() => {
     fetchPropertyDetails();
   }, [id]);
+  
+  // New function to fetch winner details
+  const fetchWinnerDetails = async (winnerId) => {
+    if (!winnerId) return;
+    
+    try {
+      setLoadingWinner(true);
+      const token = localStorage.getItem("token");
+      
+      const response = await axios.get(
+        `${backendurl}/api/users/${winnerId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      // console.log('response : ',response.data.name);
+      
+      if (response) {
+        setWinnerData(response.data);
+      } else {
+        console.error("Failed to fetch winner details:", response.data.message);
+      }
+    } catch (err) {
+      console.error("Error fetching winner details:", err);
+    } finally {
+      setLoadingWinner(false);
+    }
+  };
   
   const fetchPropertyDetails = async () => {
     try {
@@ -61,13 +99,9 @@ const LuckyDrawPropertyDetails = () => {
         
         // Check if there's already a winner
         if (response.data.property.winner) {
-          const winnerInfo = response.data.property.registrations.find(
-            reg => reg.isWinner
-          );
-          
-          if (winnerInfo) {
-            setWinner(winnerInfo);
-          }
+          setWinnerId(response.data.property.winner);
+          // Fetch the winner's details
+          fetchWinnerDetails(response.data.property.winner);
         }
       } else {
         setError(response.data.message || "Failed to load property details");
@@ -113,9 +147,20 @@ const LuckyDrawPropertyDetails = () => {
       setSelectingWinner(true);
       const token = localStorage.getItem("token");
       
+      let endpoint = `${backendurl}/api/admin/lucky-draw/select-winner/${property._id}`;
+      let data = {};
+      
+      if (manualSelection && selectedWinnerId) {
+        endpoint = `${backendurl}/api/admin/lucky-draw/select-manual-winner/${property._id}`;
+        data = { userId: selectedWinnerId };
+      } else if (winnerEmail) {
+        endpoint = `${backendurl}/api/admin/lucky-draw/select-winner-by-email/${property._id}`;
+        data = { email: winnerEmail };
+      }
+      
       const response = await axios.post(
-        `${backendurl}/api/admin/lucky-draw/select-winner/${id}`,
-        {},
+        endpoint,
+        data,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -124,20 +169,21 @@ const LuckyDrawPropertyDetails = () => {
       );
       
       if (response.data.success) {
-        toast.success("Winner selected successfully");
-        setWinner(response.data.winner);
-        setShowWinnerModal(true);
-        // Refresh data to get updated winner info
+        toast.success("Winner selected successfully!");
+        
+        // Set the winner ID and fetch details
+        if (response.data.winner) {
+          setWinnerId(response.data.winner);
+          fetchWinnerDetails(response.data.winner);
+        }
+        
+        // Refresh the property details to update the UI
         fetchPropertyDetails();
-      } else {
-        toast.error(response.data.message || "Failed to select winner");
+        setShowWinnerModal(true);
       }
     } catch (err) {
       console.error("Error selecting winner:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to select winner. Please try again."
-      );
+      toast.error(err.response?.data?.message || "Failed to select winner");
     } finally {
       setSelectingWinner(false);
     }
@@ -294,6 +340,96 @@ const LuckyDrawPropertyDetails = () => {
           </div>
         </div>
         
+
+        {/* Winner Information Section - Updated */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h3 className="text-xl font-semibold mb-4 flex items-center">
+            <Trophy className="w-5 h-5 text-amber-500 mr-2" />
+            Winner Information
+          </h3>
+          
+          {property.status === 'completed' && winnerId ? (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-green-800">Winner Selected</h4>
+                  {/* <p className="text-sm text-green-600">
+                    Selected on {property.updatedAt ? new Date(property.updatedAt).toLocaleDateString() : 'N/A'}
+                  </p> */}
+                </div>
+              </div>
+              
+              {loadingWinner ? (
+                <div className="flex justify-center py-4">
+                  <Loader className="w-6 h-6 text-amber-500 animate-spin" />
+                </div>
+              ) : winnerData ? (
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Name</p>
+                    <p className="font-medium">{winnerData.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Email</p>
+                    <p className="font-medium">{winnerData.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Email Verified</p>
+                    <p className="font-medium">
+                      {winnerData.isEmailVerified ? (
+                        <span className="text-green-600 flex items-center">
+                          <CheckCircle className="w-4 h-4 mr-1" /> Yes
+                        </span>
+                      ) : (
+                        <span className="text-red-600 flex items-center">
+                          <AlertTriangle className="w-4 h-4 mr-1" /> No
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">User ID</p>
+                    <p className="font-medium text-xs truncate">{winnerId}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4 p-3 bg-yellow-50 text-yellow-700 rounded-md">
+                  <div className="flex items-center">
+                    <AlertTriangle className="w-4 h-4 mr-2" />
+                    <p>Winner ID found ({winnerId}), but details could not be retrieved.</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* <div className="mt-4 flex gap-3">
+                {winnerData && winnerData.email && (
+                  <a 
+                    href={`mailto:${winnerData.email}`}
+                    className="px-4 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 flex items-center gap-2"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Contact Winner
+                  </a>
+                )}
+              </div> */}
+            </div>
+          ) : (
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-gray-700">
+              {property.status === 'completed' ? (
+                <p>No winner has been selected yet for this property.</p>
+              ) : (
+                <p>
+                  Winner selection will be available after the bidding end date 
+                  ({new Date(property.biddingEndDate).toLocaleDateString()}).
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
         {/* Status Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-amber-500">
@@ -352,7 +488,7 @@ const LuckyDrawPropertyDetails = () => {
               <div>
                 <div className="text-sm font-medium text-gray-500">Winner Status</div>
                 <div className="mt-1 text-lg font-semibold text-gray-900">
-                  {winner ? (
+                  {winnerId ? (
                     <span className="text-green-600 flex items-center">
                       <CheckCircle className="w-4 h-4 mr-1" /> Winner Selected
                     </span>
@@ -441,86 +577,134 @@ const LuckyDrawPropertyDetails = () => {
             </div>
           </div>
           
-          {/* Winner Section */}
+          {/* Winner Selection Section */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                 <Trophy className="w-5 h-5 text-amber-500 mr-2" />
-                Lucky Draw Winner
+                Winner Selection
               </h2>
               
-              {winner ? (
-                <div className="bg-green-50 border border-green-100 rounded-lg p-4">
-                  <div className="flex items-center mb-3">
-                    <div className="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center">
-                      <User className="w-5 h-5" />
-                    </div>
-                    <div className="ml-3">
-                      <div className="font-medium text-gray-900">{winner.name}</div>
-                      <div className="text-sm text-gray-500">Winner</div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center">
-                      <Mail className="w-4 h-4 text-gray-400 mr-2" />
-                      <span>{winner.email}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Phone className="w-4 h-4 text-gray-400 mr-2" />
-                      <span>{winner.phone}</span>
-                    </div>
-                  </div>
+              {winnerId ? (
+                <div className="bg-green-50 p-4 rounded-lg text-center">
+                  <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                  <p className="text-green-800 font-medium">Winner already selected</p>
+                  <p className="text-sm text-green-600 mt-1">
+                    You can view the winner's details in the Winner Information section above.
+                  </p>
                 </div>
               ) : (
-                <div>
-                  {status === 'closed' ? (
-                    <div>
-                      <p className="text-gray-600 mb-4">
-                        Registration is closed. You can now select a winner for this lucky draw.
-                      </p>
-                      
-                      {property.registrations.length > 0 ? (
+                status === 'closed' ? (
+                  <div>
+                    <p className="text-gray-600 mb-4">
+                      Registration is closed. You can now select a winner for this lucky draw.
+                    </p>
+                    
+                    <div className="mb-6">
+                      <div className="flex items-center gap-4 mb-4">
                         <button
-                          onClick={handleSelectWinner}
-                          disabled={selectingWinner}
-                          className="w-full bg-amber-500 text-white py-2 rounded-lg hover:bg-amber-600 
-                            transition-colors flex items-center justify-center"
+                          onClick={() => {
+                            setManualSelection(false);
+                            setWinnerEmail('');
+                            setSelectedWinnerId('');
+                          }}
+                          className={`px-4 py-2 rounded-lg text-white font-medium ${!manualSelection && !winnerEmail ? "bg-amber-500" : "bg-gray-400"}`}
                         >
-                          {selectingWinner ? (
-                            <>
-                              <Loader className="w-4 h-4 animate-spin mr-2" />
-                              Selecting...
-                            </>
-                          ) : (
-                            <>
-                              <Trophy className="w-4 h-4 mr-2" />
-                              Select Random Winner
-                            </>
-                          )}
+                          Random Selection
                         </button>
-                      ) : (
-                        <div className="bg-gray-100 p-4 rounded-lg text-center text-gray-600">
-                          <AlertTriangle className="w-5 h-5 text-amber-500 mx-auto mb-2" />
-                          No registrations available to select a winner.
+                        <button
+                          onClick={() => {
+                            setManualSelection(true);
+                            setWinnerEmail('');
+                          }}
+                          className={`px-4 py-2 rounded-lg text-white font-medium ${manualSelection && !winnerEmail ? "bg-amber-500" : "bg-gray-400"}`}
+                        >
+                          Manual Selection
+                        </button>
+                      </div>
+                      
+                      {/* Email input section */}
+                      {!manualSelection && (
+                        <div className="mt-4">
+                          <label htmlFor="winnerEmail" className="block text-sm font-medium text-gray-700 mb-2">
+                            Winner Email Address (Optional)
+                          </label>
+                          <input
+                            type="email"
+                            id="winnerEmail"
+                            value={winnerEmail}
+                            onChange={(e) => setWinnerEmail(e.target.value)}
+                            placeholder="Enter email of the winner"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500"
+                          />
+                          <p className="mt-2 text-sm text-gray-500">
+                            If provided, the user with this email will be selected as the winner. Otherwise, a random winner will be selected.
+                          </p>
+                        </div>
+                      )}
+                      
+                      {/* Manual selection dropdown */}
+                      {manualSelection && property.registrations.length > 0 && (
+                        <div className="mt-4">
+                          <label htmlFor="selectedWinnerId" className="block text-sm font-medium text-gray-700 mb-2">
+                            Select Winner
+                          </label>
+                          <select
+                            id="selectedWinnerId"
+                            value={selectedWinnerId}
+                            onChange={(e) => setSelectedWinnerId(e.target.value)}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500"
+                          >
+                            <option value="">-- Select a user --</option>
+                            {property.registrations.map((reg, index) => (
+                              <option key={index} value={reg.user}>
+                                {reg.user} {reg.phone ? `(${reg.phone})` : ''}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       )}
                     </div>
-                  ) : (
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <p className="text-blue-700 mb-2">
-                        Winner selection will be available after the registration period ends on:
-                      </p>
-                      <div className="font-semibold text-blue-900">
-                        {formatDate(property.biddingEndDate)}
+                    
+                    {property.registrations.length > 0 ? (
+                      <button
+                        onClick={handleSelectWinner}
+                        disabled={selectingWinner || (manualSelection && !selectedWinnerId)}
+                        className="w-full bg-amber-500 text-white py-2 rounded-lg hover:bg-amber-600 
+                          transition-colors flex items-center justify-center disabled:bg-gray-300 disabled:cursor-not-allowed"
+                      >
+                        {selectingWinner ? (
+                          <>
+                            <Loader className="w-4 h-4 animate-spin mr-2" />
+                            Selecting...
+                          </>
+                        ) : (
+                          <>
+                            <Trophy className="w-4 h-4 mr-2" />
+                            {manualSelection ? "Select This Winner" : winnerEmail ? "Select Winner by Email" : "Select Random Winner"}
+                          </>
+                        )}
+                      </button>
+                    ) : (
+                      <div className="bg-gray-100 p-4 rounded-lg text-center text-gray-600">
+                        <AlertTriangle className="w-5 h-5 text-amber-500 mx-auto mb-2" />
+                        No registrations available to select a winner.
                       </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <p className="text-blue-700 mb-2">
+                      Winner selection will be available after the registration period ends on:
+                    </p>
+                    <div className="font-semibold text-blue-900">
+                      {formatDate(property.biddingEndDate)}
                     </div>
-                  )}
-                </div>
+                  </div>
+                )
               )}
             </div>
             
-            {/* Registration Stats */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold text-gray-900 flex items-center">
@@ -540,154 +724,163 @@ const LuckyDrawPropertyDetails = () => {
                   {property.registrations.slice(0, 5).map((registration, index) => (
                     <div key={index} className="py-3 flex items-center justify-between">
                       <div className="flex items-center">
+                        
                         <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                          <User className="w-4 h-4 text-gray-500" />
-                        </div>
-                        <div>
-                          <div className="font-medium text-gray-900">{registration.name}</div>
-                          <div className="text-xs text-gray-500">{registration.email}</div>
-                        </div>
+                        <User className="w-4 h-4 text-gray-500" />
                       </div>
-                      <div className="text-xs text-gray-500">
-                        {timeAgo(registration.registeredAt)}
+                      <div>
+                        <div className="font-medium text-gray-900 text-sm truncate max-w-[150px]">
+                          {registration.user && registration.user.toString()}
+                        </div>
+                        <div className="text-xs text-gray-500">{registration.phone}</div>
                       </div>
                     </div>
-                  ))}
-                  
-                  {property.registrations.length > 5 && (
-                    <div className="pt-3 text-center">
-                      <button
-                        onClick={exportRegistrations}
-                        className="text-blue-600 text-sm hover:text-blue-800"
-                      >
-                        View all {property.registrations.length} registrations
-                      </button>
+                    <div className="text-xs text-gray-500">
+                      {timeAgo(registration.registeredAt)}
                     </div>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-6 text-gray-500">
-                  <Users className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                  <p>No registrations yet</p>
-                </div>
-              )}
-            </div>
+                  </div>
+                ))}
+                
+                {property.registrations.length > 5 && (
+                  <div className="pt-3 text-center">
+                    <button
+                      onClick={exportRegistrations}
+                      className="text-blue-600 text-sm hover:text-blue-800"
+                    >
+                      View all {property.registrations.length} registrations
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-6 text-gray-500">
+                <Users className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                <p>No registrations yet</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
-      
-      {/* Delete Confirmation Modal */}
-      <AnimatePresence>
-        {showDeleteModal && (
-          <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl shadow-xl max-w-md w-full p-6"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-semibold text-gray-900 flex items-center">
-                  <AlertTriangle className="w-5 h-5 text-red-500 mr-2" />
-                  Confirm Removal
-                </h3>
-                <button
-                  onClick={() => setShowDeleteModal(false)}
-                  className="text-gray-400 hover:text-gray-500"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
+    </div>
+    
+    {/* Delete Confirmation Modal */}
+    <AnimatePresence>
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="bg-white rounded-xl shadow-xl max-w-md w-full p-6"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-gray-900 flex items-center">
+                <AlertTriangle className="w-5 h-5 text-red-500 mr-2" />
+                Confirm Removal
+              </h3>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="mb-6">
+              <p className="text-gray-600 mb-4">
+                Are you sure you want to remove <span className="font-medium text-gray-900">{property.title}</span> from the lucky draw?
+              </p>
+              <p className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">
+                This will remove all lucky draw registrations associated with this property. This action cannot be undone.
+              </p>
+            </div>
+            
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRemoveFromLuckyDraw}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 flex items-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                Remove from Lucky Draw
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+    
+    {/* Winner Selection Result Modal */}
+    <AnimatePresence>
+      {showWinnerModal && winnerData && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="bg-white rounded-xl shadow-xl max-w-md w-full p-6"
+          >
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+                <Trophy className="w-8 h-8 text-green-600" />
               </div>
               
-              <div className="mb-6">
-                <p className="text-gray-600 mb-4">
-                  Are you sure you want to remove <span className="font-medium text-gray-900">{property.title}</span> from the lucky draw?
-                </p>
-                <p className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">
-                  This will remove all lucky draw registrations associated with this property. This action cannot be undone.
-                </p>
-              </div>
-              
-              <div className="flex justify-end space-x-3">
-                <button
-                  onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleRemoveFromLuckyDraw}
-                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 flex items-center gap-2"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  Remove from Lucky Draw
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-      
-      {/* Winner Selection Result Modal */}
-      <AnimatePresence>
-        {showWinnerModal && winner && (
-          <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl shadow-xl max-w-md w-full p-6"
-            >
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                  <Trophy className="w-8 h-8 text-green-600" />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Winner Selected!</h3>
+              <p className="text-gray-600">
+                The winner for the lucky draw has been selected.
+              </p>
+            </div>
+            
+            <div className="bg-gray-50 p-4 rounded-lg mb-6">
+              <div className="flex items-center mb-3">
+                <div className="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center">
+                  <User className="w-5 h-5" />
                 </div>
-                
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Winner Selected!</h3>
-                <p className="text-gray-600">
-                  The winner for the lucky draw has been randomly selected.
-                </p>
+                <div className="ml-3">
+                  <div className="font-medium text-gray-900">{winnerData.name}</div>
+                  <div className="text-sm text-gray-500">Winner</div>
+                </div>
               </div>
               
-              <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center">
-                    <User className="w-5 h-5" />
-                  </div>
-                  <div className="ml-3">
-                    <div className="font-medium text-gray-900">{winner.name}</div>
-                    <div className="text-sm text-gray-500">Winner</div>
-                  </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center">
+                  <Mail className="w-4 h-4 text-gray-400 mr-2" />
+                  <span>{winnerData.email}</span>
                 </div>
-                
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center">
-                    <Mail className="w-4 h-4 text-gray-400 mr-2" />
-                    <span>{winner.email}</span>
-                  </div>
+                {winnerData.phone && (
                   <div className="flex items-center">
                     <Phone className="w-4 h-4 text-gray-400 mr-2" />
-                    <span>{winner.phone}</span>
+                    <span>{winnerData.phone}</span>
                   </div>
+                )}
+                <div className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-gray-400 mr-2" />
+                  <span>Email {winnerData.isEmailVerified ? 'Verified' : 'Not Verified'}</span>
                 </div>
               </div>
-              
-              <div className="text-center">
-                <button
-                  onClick={() => setShowWinnerModal(false)}
-                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                >
-                  Done
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+            </div>
+            
+            <div className="text-center">
+              <button
+                onClick={() => setShowWinnerModal(false)}
+                className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Done
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  </div>
+);
 };
 
 export default LuckyDrawPropertyDetails;

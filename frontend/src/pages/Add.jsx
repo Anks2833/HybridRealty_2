@@ -20,6 +20,7 @@ import {
   PlusCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 const PROPERTY_TYPES = [
   { value: "House", icon: <Home size={24} /> },
@@ -248,6 +249,7 @@ const PropertyForm = () => {
     setStep((prev) => prev - 1);
   };
 
+
   // Background gradient pattern
   const bgPattern = (
     <div className="absolute inset-0 z-0 opacity-5">
@@ -273,7 +275,80 @@ const PropertyForm = () => {
   );
 
   return (
-    <div className="w-full overflow-x-clip min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white px-4 py-24 relative">
+    <>
+    
+    <Helmet>
+        {/* Page Title */}
+        <title>List Your Property - Sell or Rent | Hybrid Realty</title>
+        
+        {/* Meta Description */}
+        <meta 
+          name="description" 
+          content="Easily list your property for sale or rent with Hybrid Realty. Add detailed property information, upload photos, and reach potential buyers or tenants quickly and securely."
+        />
+        
+        {/* Keywords */}
+        <meta 
+          name="keywords" 
+          content="list property, sell property, rent property, real estate listing, property upload, property details, property photos"
+        />
+        
+        {/* Open Graph / Social Media */}
+        <meta property="og:title" content="List Your Property - Sell or Rent | Hybrid Realty" />
+        <meta 
+          property="og:description" 
+          content="Easily list your property for sale or rent with Hybrid Realty. Add detailed property information, upload photos, and reach potential buyers or tenants quickly and securely."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta 
+          property="og:image" 
+          content="/property-listing-og-image.jpg" 
+        />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="List Your Property - Sell or Rent | Hybrid Realty" />
+        <meta 
+          name="twitter:description" 
+          content="Easily list your property for sale or rent with Hybrid Realty. Add detailed property information, upload photos, and reach potential buyers or tenants quickly and securely."
+        />
+        <meta 
+          name="twitter:image" 
+          content="/property-listing-og-image.jpg" 
+        />
+      </Helmet>
+
+
+      <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Property Listing Form",
+        "description": "A platform to list properties for sale or rent",
+        "mainEntity": {
+          "@type": "WebPage",
+          "name": "List Your Property",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": `${window.location.origin}/properties/add`
+            }
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Hybrid Realty",
+          "url": window.location.origin
+        }
+      })}
+    </script>
+
+
+
+
+      <div className="w-full overflow-x-clip min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white px-4 py-24 relative">
       {bgPattern}
       <div className="absolute opacity-10 -left-28 -top-28 w-96 h-96 bg-[var(--theme-color-1)] rounded-full filter blur-3xl"></div>
       <div className="absolute opacity-10 -right-28 -bottom-28 w-96 h-96 bg-[var(--theme-hover-color-1)] rounded-full filter blur-3xl"></div>
@@ -1120,6 +1195,8 @@ const PropertyForm = () => {
         </AnimatePresence>
       </motion.div>
     </div>
+    </>
+    
   );
 };
 

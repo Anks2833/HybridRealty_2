@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://Hybrid Realty.vercel.app/sitemap.xml
+Sitemap: https://hybridrealty.in/sitemap.xml
 
 # Prevent access to sensitive routes
 Disallow: /reset/
