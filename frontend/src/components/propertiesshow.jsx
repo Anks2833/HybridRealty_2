@@ -371,7 +371,7 @@ const PropertiesShow = () => {
           setError("Failed to fetch properties");
           // Fallback to sample data
           setProperties(
-            sampleProperties.filter((property) => property.isApproved)
+            properties.filter((property) => property.isApproved)
           ); // ✅ Apply filter to sample data
         }
       } catch (err) {
@@ -379,7 +379,7 @@ const PropertiesShow = () => {
         setError("Failed to load properties. Using sample data instead.");
         // Fallback to sample data
         setProperties(
-          sampleProperties.filter((property) => property.isApproved)
+          properties.filter((property) => property.isApproved)
         ); // ✅ Apply filter
       } finally {
         setLoading(false);
