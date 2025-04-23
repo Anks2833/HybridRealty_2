@@ -1,36 +1,96 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { 
-  MapPin, 
-  IndianRupee, 
-  BedDouble, 
-  Bath, 
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import {
+  MapPin,
+  IndianRupee,
+  BedDouble,
+  Bath,
   Maximize,
   Share2,
   ChevronLeft,
   ChevronRight,
   Eye,
   TrendingUp,
-  Hash
-} from 'lucide-react';
-import PropTypes from 'prop-types';
+  Hash,
+} from "lucide-react";
+import PropTypes from "prop-types";
 
 const PropertyCard = ({ property, viewType, availability }) => {
-  const isGrid = viewType === 'grid';
+  const isGrid = viewType === "grid";
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showControls, setShowControls] = useState(false);
 
+  // Format price with Indian currency formatting and compact notation
+  const formatPrice = (price, options = {}) => {
+    if (!price && price !== 0) return "—";
+
+    const {
+      iconClassName = "w-5 h-5 text-[var(--theme-color-1)]",
+      priceClassName = "text-2xl font-bold text-[var(--theme-color-1)] ml-1",
+      compact = true,
+      showLabel = false,
+      labelText = "",
+      labelClassName = "text-sm text-gray-600 ml-1",
+      labelPosition = "right", // "right" or "bottom"
+      amber = false, // For investment prices with amber styling
+    } = options;
+
+    const numericAmount = Number(price);
+    if (isNaN(numericAmount)) return price; // If conversion fails, return original
+
+    let formattedAmount;
+    let label = "";
+
+    if (compact && numericAmount >= 10000000) {
+      // Format in crores (≥ 1 crore)
+      formattedAmount = (numericAmount / 10000000).toLocaleString("en-IN", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: numericAmount % 10000000 === 0 ? 0 : 1,
+      });
+      label = "Cr";
+    } else if (compact && numericAmount >= 100000) {
+      // Format in lakhs (≥ 1 lakh)
+      formattedAmount = (numericAmount / 100000).toLocaleString("en-IN", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: numericAmount % 100000 === 0 ? 0 : 1,
+      });
+      label = "L";
+    } else {
+      // Regular formatting with commas
+      formattedAmount = numericAmount.toLocaleString("en-IN");
+    }
+
+    // Apply amber styling for investment prices if specified
+    const finalIconClassName = amber ? `w-4 h-4 text-amber-500` : iconClassName;
+    const finalPriceClassName = amber
+      ? "text-lg font-bold text-amber-500 ml-1"
+      : priceClassName;
+    const finalLabelClassName = amber
+      ? "text-sm text-amber-600 ml-1"
+      : labelClassName;
+
+    return (
+      <div className="flex items-center">
+        <IndianRupee className={finalIconClassName} />
+        <span className={finalPriceClassName}>{formattedAmount}</span>
+        {label && (
+          <span className={finalPriceClassName + " ml-0.5"}>{label}</span>
+        )}
+        {showLabel && labelText && (
+          <span className={finalLabelClassName}>{labelText}</span>
+        )}
+      </div>
+    );
+  };
+
   const handleNavigateToDetails = () => {
     // console.log(property);
-    
-    if (property.invest === "")
-    {
+
+    if (property.invest === "") {
       navigate(`/properties/single/${property._id}`);
-    }
-    else
-    {
+    } else {
       navigate(`/invest/single/${property._id}`);
     }
   };
@@ -42,21 +102,21 @@ const PropertyCard = ({ property, viewType, availability }) => {
         await navigator.share({
           title: property.title,
           text: `Check out this property: ${property.title}`,
-          url: window.location.href
+          url: window.location.href,
         });
       } else {
         await navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard!');
+        alert("Link copied to clipboard!");
       }
     } catch (error) {
-      console.error('Error sharing:', error);
+      console.error("Error sharing:", error);
     }
   };
 
   const handleImageNavigation = (e, direction) => {
     e.stopPropagation();
     const imagesCount = property.image.length;
-    if (direction === 'next') {
+    if (direction === "next") {
       setCurrentImageIndex((prev) => (prev + 1) % imagesCount);
     } else {
       setCurrentImageIndex((prev) => (prev - 1 + imagesCount) % imagesCount);
@@ -64,7 +124,8 @@ const PropertyCard = ({ property, viewType, availability }) => {
   };
 
   // Check if property is for investment
-  const isForInvestment = property.isForInvestment || (property.invest && property.invest !== '');
+  const isForInvestment =
+    property.isForInvestment || (property.invest && property.invest !== "");
   // Get investment price, preferring monthlyRent if it exists, otherwise use invest
   const investmentPrice = property.monthlyRent || property.invest;
 
@@ -77,13 +138,17 @@ const PropertyCard = ({ property, viewType, availability }) => {
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
       className={`cursor-pointer group rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300
-        ${isGrid ? 'flex flex-col' : 'flex flex-row gap-6'} ${property.availability == "sell" ? "bg-[var(--property-card-sell-color)]" : "bg-[var(--property-card-rent-color)]"}`}
+        ${isGrid ? "flex flex-col" : "flex flex-row gap-6"} ${
+        property.availability == "sell"
+          ? "bg-[var(--property-card-sell-color)]"
+          : "bg-[var(--property-card-rent-color)]"
+      }`}
       onClick={handleNavigateToDetails}
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}
     >
       {/* Image Carousel Section */}
-      <div className={`relative ${isGrid ? 'h-64' : 'w-96'}`}>
+      <div className={`relative ${isGrid ? "h-64" : "w-96"}`}>
         <AnimatePresence mode="wait">
           <motion.img
             key={currentImageIndex}
@@ -100,12 +165,11 @@ const PropertyCard = ({ property, viewType, availability }) => {
         {/* Image Navigation Controls */}
         {showControls && property.image.length > 1 && (
           <div className="absolute inset-0 flex items-center justify-between px-2">
-            
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.8 }}
               whileHover={{ opacity: 1 }}
-              onClick={(e) => handleImageNavigation(e, 'prev')}
+              onClick={(e) => handleImageNavigation(e, "prev")}
               className="p-1 rounded-full bg-white/80 backdrop-blur-sm"
             >
               <ChevronLeft className="w-5 h-5 text-gray-800" />
@@ -114,7 +178,7 @@ const PropertyCard = ({ property, viewType, availability }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.8 }}
               whileHover={{ opacity: 1 }}
-              onClick={(e) => handleImageNavigation(e, 'next')}
+              onClick={(e) => handleImageNavigation(e, "next")}
               className="p-1 rounded-full bg-white/80 backdrop-blur-sm"
             >
               <ChevronRight className="w-5 h-5 text-gray-800" />
@@ -129,7 +193,9 @@ const PropertyCard = ({ property, viewType, availability }) => {
               <div
                 key={index}
                 className={`w-1.5 h-1.5 rounded-full transition-all duration-300
-                  ${index === currentImageIndex ? 'bg-white w-3' : 'bg-white/60'}`}
+                  ${
+                    index === currentImageIndex ? "bg-white w-3" : "bg-white/60"
+                  }`}
               />
             ))}
           </div>
@@ -157,7 +223,7 @@ const PropertyCard = ({ property, viewType, availability }) => {
 
         {/* Property Tags */}
         <div className="absolute top-4 left-4 flex flex-col gap-2">
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white 
@@ -165,7 +231,7 @@ const PropertyCard = ({ property, viewType, availability }) => {
           >
             {property.type}
           </motion.span>
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="bg-gradient-to-r from-[var(--theme-rent-tag)] to-[var(--theme-rent-tag)] text-white 
@@ -173,10 +239,10 @@ const PropertyCard = ({ property, viewType, availability }) => {
           >
             {property.availability}
           </motion.span>
-          
+
           {/* Investment Tag - Only show if property is for investment */}
           {isForInvestment && (
-            <motion.span 
+            <motion.span
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               className="bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-[var(--theme-investment-card-tag)] text-white 
@@ -188,16 +254,19 @@ const PropertyCard = ({ property, viewType, availability }) => {
         </div>
       </div>
 
-{/* const response = axios.post("") */}
       {/* Content Section */}
-      <div className={`flex-1 p-6 ${isGrid ? '' : 'flex flex-col justify-between'}`}>
+      <div
+        className={`flex-1 p-6 ${
+          isGrid ? "" : "flex flex-col justify-between"
+        }`}
+      >
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center text-gray-500 text-sm">
               <MapPin className="w-4 h-4 mr-2 text-[var(--theme-hover-color-1)]" />
               {property.location}
             </div>
-            
+
             {/* Serial Number (Alternative Position) */}
             {!isGrid && property.serialNumber && (
               <div className="bg-gray-200 text-gray-700 px-2 py-1 rounded-md text-xs font-medium flex items-center">
@@ -207,8 +276,10 @@ const PropertyCard = ({ property, viewType, availability }) => {
             )}
           </div>
 
-          <h3 className="text-xl font-semibold text-gray-900 line-clamp-2 
-            group-hover:text-[var(--theme-color-1)] transition-colors">
+          <h3
+            className="text-xl font-semibold text-gray-900 line-clamp-2 
+            group-hover:text-[var(--theme-color-1)] transition-colors"
+          >
             {property.title}
           </h3>
 
@@ -216,13 +287,13 @@ const PropertyCard = ({ property, viewType, availability }) => {
           <div className="space-y-3">
             {/* Property Price */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <IndianRupee className="w-5 h-5 text-[var(--theme-color-1)]" />
-                <span className="text-2xl font-bold text-[var(--theme-color-1)] ml-1">
-                  {Number(property.price).toLocaleString('en-IN')}
-                </span>
-              </div>
-              
+              {formatPrice(property.price, {
+                compact: true,
+                iconClassName: "w-5 h-5 text-[var(--theme-color-1)]",
+                priceClassName:
+                  "text-2xl font-bold text-[var(--theme-color-1)] ml-1",
+              })}
+
               {/* Serial Number (Grid View) */}
               {isGrid && property.serialNumber && (
                 <div className="bg-gray-200 text-gray-700 px-2 py-1 rounded-md text-xs font-medium flex items-center">
@@ -231,18 +302,17 @@ const PropertyCard = ({ property, viewType, availability }) => {
                 </div>
               )}
             </div>
-            
+
             {/* Investment Price - Only shown when property is for investment */}
             {isForInvestment && investmentPrice && (
               <div className="flex items-center gap-2 bg-amber-50 p-2 rounded-lg">
                 <TrendingUp className="w-4 h-4 text-amber-500" />
-                <div className="flex items-center">
-                  <IndianRupee className="w-4 h-4 text-amber-500" />
-                  <span className="text-lg font-bold text-amber-500 ml-1">
-                    {Number(investmentPrice).toLocaleString('en-IN')}
-                  </span>
-                  <span className="text-sm text-amber-600 ml-1">/month</span>
-                </div>
+                {formatPrice(investmentPrice, {
+                  compact: true,
+                  amber: true,
+                  showLabel: true,
+                  labelText: "/month",
+                })}
               </div>
             )}
           </div>
@@ -253,13 +323,13 @@ const PropertyCard = ({ property, viewType, availability }) => {
           <div className="flex flex-col items-center gap-1 bg-blue-50 p-2 rounded-lg">
             <BedDouble className="w-5 h-5 text-[var(--theme-color-1)]" />
             <span className="text-sm font-medium text-gray-600">
-              {property.beds} {property.beds > 1 ? 'Beds' : 'Bed'}
+              {property.beds} {property.beds > 1 ? "Beds" : "Bed"}
             </span>
           </div>
           <div className="flex flex-col items-center gap-1 bg-blue-50 p-2 rounded-lg">
             <Bath className="w-5 h-5 text-[var(--theme-color-1)]" />
             <span className="text-sm font-medium text-gray-600">
-              {property.baths} {property.baths > 1 ? 'Baths' : 'Bath'}
+              {property.baths} {property.baths > 1 ? "Baths" : "Bath"}
             </span>
           </div>
           <div className="flex flex-col items-center gap-1 bg-blue-50 p-2 rounded-lg">
@@ -277,7 +347,7 @@ const PropertyCard = ({ property, viewType, availability }) => {
 PropertyCard.propTypes = {
   property: PropTypes.object.isRequired,
   viewType: PropTypes.string.isRequired,
-  availability: PropTypes.string
+  availability: PropTypes.string,
 };
 
 export default PropertyCard;

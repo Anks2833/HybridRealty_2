@@ -28,6 +28,58 @@ const PropertyCard = ({ property }) => {
     checkIfFavorite();
   }, [property._id]);
 
+  // Format price with Indian currency formatting and compact notation
+  const formatPrice = (price) => {
+    if (!price) return "—";
+
+    // If price is already formatted with ₹ symbol, extract just the number part
+    let numericPrice = price;
+    if (typeof price === "string" && price.includes("₹")) {
+      numericPrice = price.replace(/[₹,\s]/g, "");
+    }
+
+    // Convert to number
+    const amount = Number(numericPrice);
+    if (isNaN(amount)) return price; // Return original if conversion fails
+
+    // Format based on the amount
+    if (amount >= 10000000) {
+      // Format in crores (≥ 1 crore)
+      const crores = (amount / 10000000).toLocaleString("en-IN", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: amount % 10000000 === 0 ? 0 : 1,
+      });
+      return (
+        <div className="flex items-baseline">
+          <IndianRupee className="w-4 h-4 mr-1" />
+          <span>{crores}</span>
+          <span className="ml-1 text-xs font-medium">Cr</span>
+        </div>
+      );
+    } else if (amount >= 100000) {
+      // Format in lakhs (≥ 1 lakh)
+      const lakhs = (amount / 100000).toLocaleString("en-IN", {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: amount % 100000 === 0 ? 0 : 1,
+      });
+      return (
+        <div className="flex items-baseline">
+          <IndianRupee className="w-4 h-4 mr-1" />
+          <span>{lakhs}</span>
+          <span className="ml-1 text-xs font-medium">L</span>
+        </div>
+      );
+    } else {
+      // Regular formatting with commas
+      return (
+        <div className="flex items-baseline">
+          <IndianRupee className="w-4 h-4 mr-1" />
+          <span>{amount.toLocaleString("en-IN")}</span>
+        </div>
+      );
+    }
+  };
+
   const checkIfFavorite = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -274,10 +326,7 @@ const PropertyCard = ({ property }) => {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center text-[var(--theme-color-1)] font-bold">
-            <IndianRupee className="h-5 w-5 mr-1" />
-            <span className="text-xl">
-              {Number(property.price).toLocaleString("en-IN")}
-            </span>
+            {formatPrice(property.price)}
           </div>
 
           <div className="text-sm bg-blue-50 text-[var(--theme-hover-color-1)] px-2 py-1 rounded-md flex items-center">
@@ -296,7 +345,7 @@ const PropertiesShow = () => {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState("all");
   const navigate = useNavigate();
-  
+
   const categories = [
     { id: "all", label: "All Properties" },
     { id: "apartment", label: "Apartments" },
@@ -370,17 +419,13 @@ const PropertiesShow = () => {
         } else {
           setError("Failed to fetch properties");
           // Fallback to sample data
-          setProperties(
-            properties.filter((property) => property.isApproved)
-          ); // ✅ Apply filter to sample data
+          setProperties(properties.filter((property) => property.isApproved)); // ✅ Apply filter to sample data
         }
       } catch (err) {
         console.error("Error fetching properties:", err);
         setError("Failed to load properties. Using sample data instead.");
         // Fallback to sample data
-        setProperties(
-          properties.filter((property) => property.isApproved)
-        ); // ✅ Apply filter
+        setProperties(properties.filter((property) => property.isApproved)); // ✅ Apply filter
       } finally {
         setLoading(false);
       }

@@ -94,7 +94,7 @@ const AppContent = () => {
       </script>
 
       {/* Conditionally render Navbar */}
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className="w-full h-screen flex justify-center items-center">Loading...</div>}>
         {shouldShowNavbarFooter && <Navbar />}
 
         <Routes>

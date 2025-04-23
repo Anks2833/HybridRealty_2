@@ -17,8 +17,12 @@ import {
 import { Backendurl } from "../App";
 import { authStyles } from "../styles/auth";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext"; // Import the auth context
 
 const Signup = () => {
+  // Get login function from auth context
+  const { login } = useAuth();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -97,7 +101,17 @@ const Signup = () => {
       });
 
       if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
+        // Use the login function from auth context instead of just setting localStorage
+        // This will update the auth state immediately
+        await login(
+          response.data.token,
+          // Use the user data from response if available, or create a basic user object from form data
+          response.data.user || {
+            name: formData.name,
+            email: formData.email,
+          }
+        );
+
         toast.success("Account created successfully!");
         navigate("/");
       } else {
@@ -168,7 +182,11 @@ const Signup = () => {
             >
               <Link to="/" className="inline-block group">
                 <div className="flex flex-col items-center justify-center mb-2">
-                <img src="/hrLogoBlack.jpeg" alt="Logo" className="w-20 h-10" />
+                  <img
+                    src="/hrLogoBlack.jpeg"
+                    alt="Logo"
+                    className="w-20 h-10"
+                  />
                   {/* <h1 className="text-3xl font-extrabold leading-none">Hybrid.</h1>
                   <h1 className="text-md font-light">Realty</h1> */}
                 </div>
