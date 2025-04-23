@@ -72,7 +72,6 @@ const AdminLuckyDrawManagement = () => {
     try {
       const token = localStorage.getItem("token");
       
-      console.log('selectedProperty : ', selectedProperty);
       const response = await axios.delete(
         `${backendurl}/api/admin/lucky-draw/delete/${selectedProperty.property}`,
         {

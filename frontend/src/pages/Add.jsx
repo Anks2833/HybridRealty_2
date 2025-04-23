@@ -181,38 +181,66 @@ const PropertyForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-
       const token = localStorage.getItem("token");
-
-      if (!token)
-      {
-          toast.error("Log in to add property");
-          return;
+      if (!token) {
+        toast.error("Log in to add property");
+        return;
       }
+      
+      // Create a new FormData object
       const formdata = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (key === "images") {
-          formData.images.forEach((image, index) =>
-            formdata.append(`image${index + 1}`, image)
-          );
-        } else if (key === "amenities") {
-          formdata.append("amenities", JSON.stringify(formData.amenities));
-        } else {
-          formdata.append(key, formData[key]);
-        }
-      });
+      
+      // Add all the text fields to FormData
+      formdata.append("title", formData.title);
+      formdata.append("location", formData.location);
+      formdata.append("price", formData.price);
+      formdata.append("beds", formData.beds);
+      formdata.append("baths", formData.baths);
+      formdata.append("sqft", formData.sqft);
+      formdata.append("type", formData.type);
+      formdata.append("description", formData.description);
+      formdata.append("phone", formData.phone);
+      formdata.append("invest", formData.invest || "");
       formdata.append("availability", availability);
       formdata.append("isForInvestment", isForInvestment);
-
+      
+      // Handle amenities as JSON string
+      if (formData.amenities && formData.amenities.length > 0) {
+        formdata.append("amenities", JSON.stringify(formData.amenities));
+      }
+      
+      // Log to check if we have images
+      console.log("Images array:", formData.images);
+      
+      // Properly append each image file with its own key
+      if (formData.images && formData.images.length > 0) {
+        formData.images.forEach((image, index) => {
+          // Make sure image is a valid File object before appending
+          if (image instanceof File) {
+            formdata.append(`image${index + 1}`, image);
+            console.log(`Appending image${index + 1}:`, image.name, image.type, image.size);
+          }
+        });
+      } else {
+        console.warn("No images found in formData.images");
+      }
+      
+      // Log the FormData entries to debug
+      
       const response = await axios.post(
         `${Backendurl}/api/products/add`,
         formdata,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { 
+            "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${token}` // Include the token if needed
+          },
         }
       );
+      
       if (response.data.success) {
         toast.success(response.data.message);
+        // Reset form after successful submission
         setFormData({
           title: "",
           type: "",
@@ -235,6 +263,7 @@ const PropertyForm = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
+      console.error("Upload error:", error);
       toast.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);

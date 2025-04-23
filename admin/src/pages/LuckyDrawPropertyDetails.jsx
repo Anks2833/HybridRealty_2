@@ -621,7 +621,7 @@ const LuckyDrawPropertyDetails = () => {
                         >
                           Manual Selection
                         </button>
-                      </div>
+                      </div>7078228624
                       
                       {/* Email input section */}
                       {!manualSelection && (

@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { Parser } from 'json2csv';
+import uploadImageToCloudinary from '../utils/imageUploader.js';
 
 // Get current file directory with ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -85,49 +86,60 @@ export const createUpcomingProject = async (req, res) => {
     }
     
     // Process uploaded images
-let imagePaths = [];
-
-if (req.files) {
-  // Make sure uploads directory exists
-  const uploadsDir = path.join(__dirname, '../public/uploads/projects');
-  if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-  }
-  
-  const fileKeys = Object.keys(req.files);
-  
-  for (const key of fileKeys) {
-    const file = req.files[key];
+    let imageUrls = [];
     
-    // Check if file is valid
-    if (!file.mimetype.startsWith('image/')) {
-      return res.status(400).json({
-        success: false,
-        message: `File ${key} is not a valid image`
-      });
+    if (req.files && Object.keys(req.files).length > 0) {
+      const fileKeys = Object.keys(req.files);
+      
+      for (const key of fileKeys) {
+        const file = req.files[key];
+        
+        // Check if file is valid
+        if (!file.mimetype.startsWith('image/')) {
+          return res.status(400).json({
+            success: false,
+            message: `File ${key} is not a valid image`
+          });
+        }
+        
+        try {
+          console.log(`Uploading ${file.name} (${file.size} bytes) to Cloudinary`);
+          
+          // Use the uploadImageToCloudinary utility function
+          const result = await uploadImageToCloudinary(file, "upcoming-projects");
+          
+          console.log("Cloudinary upload success for:", file.name, "URL:", result.secure_url);
+          imageUrls.push(result.secure_url);
+          
+          // Delete the temp file if needed
+          if (file.tempFilePath) {
+            fs.unlink(file.tempFilePath, (err) => {
+              if (err) console.log("Error deleting the temp file: ", err);
+            });
+          }
+        } catch (error) {
+          console.error('Error uploading file to Cloudinary:', error);
+          continue; // Continue with other files even if one fails
+        }
+      }
     }
     
-    const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-    const uploadPath = path.join(uploadsDir, fileName);
-    
-    try {
-      await file.mv(uploadPath);
-      imagePaths.push(`/uploads/projects/${fileName}`);
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      return res.status(500).json({
-        success: false,
-        message: `Error uploading file: ${error.message}`
-      });
-    }
-  }
-}
-    
-    if (imagePaths.length === 0) {
+    if (imageUrls.length === 0) {
       return res.status(400).json({
         success: false,
         message: 'Please upload at least one project image'
       });
+    }
+    
+    // Parse amenities if it's a string
+    let parsedAmenities = amenities;
+    if (typeof amenities === 'string') {
+      try {
+        parsedAmenities = JSON.parse(amenities);
+      } catch (e) {
+        console.log("Error parsing amenities:", e);
+        parsedAmenities = amenities ? [amenities] : [];
+      }
     }
     
     // Create new project
@@ -142,8 +154,8 @@ if (req.files) {
       totalUnits,
       bedrooms,
       contactPhone,
-      image: imagePaths,
-      amenities: amenities || []
+      image: imageUrls,
+      amenities: parsedAmenities || []
     });
     
     // Add optional fields if provided
@@ -162,12 +174,16 @@ if (req.files) {
     console.error('Error creating upcoming project:', error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to create upcoming project'
+      message: 'Failed to create upcoming project: ' + error.message
     });
   }
 };
 
-// Update an upcoming project
+/**
+ * Update an existing upcoming project
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
 export const updateUpcomingProject = async (req, res) => {
   try {
     const { id } = req.params;
@@ -211,36 +227,61 @@ export const updateUpcomingProject = async (req, res) => {
     if (specifications) project.specifications = specifications;
     if (developerInfo) project.developerInfo = developerInfo;
     if (contactPhone) project.contactPhone = contactPhone;
-    if (amenities) project.amenities = amenities;
+    
+    // Parse amenities if it's a string
+    if (amenities) {
+      let parsedAmenities = amenities;
+      if (typeof amenities === 'string') {
+        try {
+          parsedAmenities = JSON.parse(amenities);
+        } catch (e) {
+          console.log("Error parsing amenities:", e);
+          parsedAmenities = amenities ? [amenities] : [];
+        }
+      }
+      project.amenities = parsedAmenities;
+    }
     
     // Process new images if uploaded
     if (req.files && Object.keys(req.files).length > 0) {
       const fileKeys = Object.keys(req.files);
-      let newImagePaths = [];
+      let newImageUrls = [];
       
       for (const key of fileKeys) {
         const file = req.files[key];
-        const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-        const uploadPath = path.join(__dirname, '../public/uploads/projects', fileName);
         
-        await file.mv(uploadPath);
-        newImagePaths.push(`/uploads/projects/${fileName}`);
-      }
-      
-      if (newImagePaths.length > 0) {
-        // Delete old images from the filesystem
-        for (const oldImage of project.image) {
-          try {
-            const oldImagePath = path.join(__dirname, '../public', oldImage);
-            if (fs.existsSync(oldImagePath)) {
-              fs.unlinkSync(oldImagePath);
-            }
-          } catch (err) {
-            console.error('Error deleting old image:', err);
-          }
+        // Check if file is valid
+        if (!file.mimetype.startsWith('image/')) {
+          return res.status(400).json({
+            success: false,
+            message: `File ${key} is not a valid image`
+          });
         }
         
-        project.image = newImagePaths;
+        try {
+          console.log(`Uploading update image ${file.name} (${file.size} bytes) to Cloudinary`);
+          
+          // Use the uploadImageToCloudinary utility function
+          const result = await uploadImageToCloudinary(file, "upcoming-projects");
+          
+          console.log("Cloudinary upload success for update:", file.name, "URL:", result.secure_url);
+          newImageUrls.push(result.secure_url);
+          
+          // Delete the temp file if needed
+          if (file.tempFilePath) {
+            fs.unlink(file.tempFilePath, (err) => {
+              if (err) console.log("Error deleting the temp file: ", err);
+            });
+          }
+        } catch (error) {
+          console.error('Error uploading file to Cloudinary:', error);
+          continue; // Continue with other files even if one fails
+        }
+      }
+      
+      if (newImageUrls.length > 0) {
+        // Replace old images with new ones
+        project.image = newImageUrls;
       }
     }
     
@@ -255,7 +296,7 @@ export const updateUpcomingProject = async (req, res) => {
     console.error('Error updating upcoming project:', error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to update project'
+      message: 'Failed to update project: ' + error.message
     });
   }
 };
