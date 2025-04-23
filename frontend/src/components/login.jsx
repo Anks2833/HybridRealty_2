@@ -103,13 +103,15 @@ const Login = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.1, duration: 0.4 }}
             >
-              {/* <Link to="/" className="inline-block group">
+              <Link to="/" className="inline-block group">
                 <div className="flex flex-col items-center justify-center mb-2">
-                  <img src="/hrLogoBlack.jpeg" alt="Logo" className="w-20 h-10" />
-                  {/* <h1 className="text-3xl font-extrabold leading-none">Hybrid.</h1>
-                  <h1 className="text-md font-light">Realty</h1> */}
+                  <img
+                    src="/hrLogoBlack.jpeg"
+                    alt="Logo"
+                    className="w-20 h-10"
+                  />
                 </div>
-              </Link> */}
+              </Link>
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
