@@ -168,16 +168,16 @@ const Signup = () => {
             >
               <Link to="/" className="inline-block group">
                 <div className="flex flex-col items-center justify-center mb-2">
-                  <img src="/hrLogo.svg" alt="Logo" className="w-32 h-32" />
+                <img src="/hrLogoBlack.jpeg" alt="Logo" className="w-20 h-10" />
                   {/* <h1 className="text-3xl font-extrabold leading-none">Hybrid.</h1>
                   <h1 className="text-md font-light">Realty</h1> */}
                 </div>
-                <motion.h2
+                {/* <motion.h2
                   whileHover={{ scale: 1.03 }}
                   className="text-3xl font-extrabold bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] bg-clip-text text-transparent drop-shadow-sm"
                 >
                   Hybrid Realty
-                </motion.h2>
+                </motion.h2> */}
               </Link>
               <motion.div
                 initial={{ opacity: 0 }}

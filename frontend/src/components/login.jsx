@@ -106,7 +106,7 @@ const Login = () => {
             >
               <Link to="/" className="inline-block group">
                 <div className="flex flex-col items-center justify-center mb-2">
-                  <img src="/hrLogo.svg" alt="Logo" className="w-32 h-32" />
+                  <img src="/hrLogoBlack.jpeg" alt="Logo" className="w-20 h-10" />
                   {/* <h1 className="text-3xl font-extrabold leading-none">Hybrid.</h1>
                   <h1 className="text-md font-light">Realty</h1> */}
                 </div>
