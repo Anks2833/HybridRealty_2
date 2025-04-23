@@ -7,25 +7,28 @@ const addproperty = async (req, res) => {
     try {
         const { title, location, price, beds, baths, sqft, type, availability, description, amenities,phone, invest} = req.body;
 
-        const image1 = req.files.image1 && req.files.image1[0];
-        const image2 = req.files.image2 && req.files.image2[0];
-        const image3 = req.files.image3 && req.files.image3[0];
-        const image4 = req.files.image4 && req.files.image4[0];
+        const image1 = req.files.image1 && req.files.image1;
+        const image2 = req.files.image2 && req.files.image2;
+        const image3 = req.files.image3 && req.files.image3;
+        const image4 = req.files.image4 && req.files.image4;
 
         const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
 
-        // Upload images to ImageKit and delete after upload
+
         const imageUrls = await Promise.all(
-            images.map(async (item) => {
-                const result = await imagekit.upload({
-                    file: fs.readFileSync(item.path),
-                    fileName: item.originalname,
-                    folder: "uploads",
-                });
-                fs.unlink(item.path, (err) => {
-                    if (err) console.log("Error deleting the file: ", err);
-                });
-                return result.url;
+            images.map(async (file) => {
+              const result = await imagekit.upload({
+                file: file.tempFilePath,  // tempFilePath not path
+                fileName: file.name,
+                folder: "uploads",
+              });
+      
+              // Delete the temp file manually if needed (optional)
+              fs.unlink(file.tempFilePath, (err) => {
+                if (err) console.log("Error deleting the temp file: ", err);
+              });
+      
+              return result.url;
             })
         );
 

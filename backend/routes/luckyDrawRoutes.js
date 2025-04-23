@@ -423,14 +423,7 @@ luckyrouter.post('/admin/lucky-draw/create', createLuckyDraw);
 
 // New endpoint for creating property and adding to lucky draw in one step
 luckyrouter.post(
-  '/admin/lucky-draw/create-with-property',
-  upload.fields([
-    { name: "image1", maxCount: 1 },
-    { name: "image2", maxCount: 1 },
-    { name: "image3", maxCount: 1 },
-    { name: "image4", maxCount: 1 },
-  ]), 
-  createPropertyWithLuckyDraw
+  '/admin/lucky-draw/create-with-property', createPropertyWithLuckyDraw
 );
 
 /**
