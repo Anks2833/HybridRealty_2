@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Ticket, Tag, Users, Calendar, Loader, Search } from "lucide-react";
 import LuckyDrawPropertyCard from "./LuckyDrawPropertyCard.jsx";
 import { Backendurl } from "../App.jsx";
+import { Helmet } from "react-helmet-async";
 
 const LuckyDrawPage = () => {
   const [luckyDrawProperties, setLuckyDrawProperties] = useState([]);
@@ -96,6 +97,86 @@ const LuckyDrawPage = () => {
   }
   
   return (
+
+
+    <>
+      <Helmet>
+      {/* Page Title */}
+      <title>Lucky Draw Properties | Hybrid Realty - Win Your Dream Property</title>
+      
+      {/* Meta Description */}
+      <meta 
+        name="description" 
+        content="Participate in Hybrid Realty's exclusive lucky draw and get a chance to win incredible properties. Browse our selection of lucky draw properties and register for your opportunity to win."
+      />
+      
+      {/* Keywords */}
+      <meta 
+        name="keywords" 
+        content="lucky draw properties, win a property, real estate lottery, property giveaway, property contest, real estate opportunity, win your dream home"
+      />
+      
+      {/* Open Graph / Social Media */}
+      <meta property="og:title" content="Lucky Draw Properties | Hybrid Realty - Win Your Dream Property" />
+      <meta 
+        property="og:description" 
+        content="Participate in Hybrid Realty's exclusive lucky draw and get a chance to win incredible properties. Browse our selection of lucky draw properties and register for your opportunity to win."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={window.location.href} />
+      <meta 
+        property="og:image" 
+        content="/lucky-draw-og-image.jpg" 
+      />
+      
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Lucky Draw Properties | Hybrid Realty - Win Your Dream Property" />
+      <meta 
+        name="twitter:description" 
+        content="Participate in Hybrid Realty's exclusive lucky draw and get a chance to win incredible properties. Browse our selection of lucky draw properties and register for your opportunity to win."
+      />
+      <meta 
+        name="twitter:image" 
+        content="/lucky-draw-og-image.jpg" 
+      />
+    </Helmet>
+
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Lucky Draw Real Estate Properties",
+        "description": "Exclusive opportunity to win premium real estate properties through a lucky draw",
+        "mainEntity": {
+          "@type": "CollectionPage",
+          "name": "Property Lucky Draw Listings",
+          "description": "Browse and participate in property lucky draw opportunities",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": `${window.location.origin}/lucky-draw?search={search_term_string}`
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Hybrid Realty",
+          "url": window.location.origin,
+          "logo": "/logo.jpg"
+        },
+        "offer": {
+          "@type": "Offer",
+          "description": "Chance to win real estate properties through lucky draw",
+          "availability": "https://schema.org/InStock",
+          "priceCurrency": "INR",
+          "eligibilityRegion": "IN"
+        }
+      })}
+    </script>
+    
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -201,6 +282,7 @@ const LuckyDrawPage = () => {
         </div>
       </div>
     </motion.div>
+    </>
   );
 };
 

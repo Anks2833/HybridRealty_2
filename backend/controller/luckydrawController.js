@@ -2,6 +2,7 @@ import fs from "fs";
 import imagekit from "../config/imagekit.js";
 import Property from "../models/propertymodel.js";
 import LuckyDrawProperty from "../models/LuckyDrawProperty.js";
+import uploadImageToCloudinary from "../utils/imageUploader.js";
 
 // Keep existing lucky draw creation endpoint for backward compatibility
 const createLuckyDraw = async (req, res) => {
@@ -122,34 +123,72 @@ const createPropertyWithLuckyDraw = async (req, res) => {
     }
     
     // Extract and process images
-    const image1 = req.files?.image1 && req.files.image1[0];
-    const image2 = req.files?.image2 && req.files.image2[0];
-    const image3 = req.files?.image3 && req.files.image3[0];
-    const image4 = req.files?.image4 && req.files.image4[0];
+    const image1 = req.files.image1 || null;
+    const image2 = req.files.image2 || null;
+    const image3 = req.files.image3 || null;
+    const image4 = req.files.image4 || null;
+
+    const images = [image1, image2, image3, image4].filter(item => item !== null);
     
-    const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
+    // Debug information
+    console.log("Number of images:", images.length);
+    images.forEach((img, idx) => {
+      console.log(`Image ${idx + 1}:`, img?.name, img?.mimetype, img?.size);
+    });
     
+    // If no images were provided, return error
     if (images.length === 0) {
       return res.status(400).json({
         success: false,
-        message: 'At least one image is required'
+        message: 'At least one property image is required'
       });
     }
     
-    // Upload images to ImageKit and delete after upload
-    const imageUrls = await Promise.all(
-      images.map(async (item) => {
-        const result = await imagekit.upload({
-          file: fs.readFileSync(item.path),
-          fileName: item.originalname,
-          folder: "uploads",
-        });
-        fs.unlink(item.path, (err) => {
-          if (err) console.log("Error deleting the file: ", err);
-        });
-        return result.url;
-      })
-    );
+    // Upload images to Cloudinary
+    const imageUrls = [];
+    
+    for (const file of images) {
+      try {
+        console.log(`Uploading ${file.name} (${file.size} bytes) to Cloudinary`);
+        
+        // Use the uploadImageToCloudinary utility function
+        const result = await uploadImageToCloudinary(file, "property-uploads");
+        
+        console.log("Cloudinary upload success for:", file.name, "URL:", result.secure_url);
+        imageUrls.push(result.secure_url);
+        
+        // Delete the temp file if needed
+        if (file.tempFilePath) {
+          fs.unlink(file.tempFilePath, (err) => {
+            if (err) console.log("Error deleting the temp file: ", err);
+          });
+        }
+      } catch (err) {
+        console.error("Cloudinary upload error:", err);
+        // Continue with other images even if one fails
+      }
+    }
+    
+    // If no images were successfully uploaded, return error
+    if (imageUrls.length === 0) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to upload property images'
+      });
+    }
+    
+    // Parse amenities if needed
+    let parsedAmenities;
+    if (typeof amenities === 'string') {
+      try {
+        parsedAmenities = JSON.parse(amenities);
+      } catch (e) {
+        console.log("Error parsing amenities, treating as string:", e);
+        parsedAmenities = amenities ? [amenities] : [];
+      }
+    } else {
+      parsedAmenities = Array.isArray(amenities) ? amenities : (amenities ? [amenities] : []);
+    }
     
     // Create a new property with auto-approval
     const property = new Property({
@@ -162,7 +201,7 @@ const createPropertyWithLuckyDraw = async (req, res) => {
       type,
       availability: availability || 'sell',
       description,
-      amenities: Array.isArray(amenities) ? amenities : (amenities ? [amenities] : []),
+      amenities: parsedAmenities,
       image: imageUrls,
       phone,
       invest: invest || 0,

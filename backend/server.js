@@ -25,15 +25,8 @@ dotenv.config();
 
 const app = express();
 import fileUpload from "express-fileupload";
+import connectCloudinary from "./config/cloudinary.js";
 
-// File upload middleware (add this before your routes)
-app.use(
-  fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB max file(s) size
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
-  })
-);
 // Get directory paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -93,6 +86,16 @@ app.use(compression());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(trackAPIStats);
+
+app.use(
+  fileUpload({
+      useTempFiles: true,
+      tempFileDir: "/tmp",
+  })
+);
+
+// Cloudinary connection
+connectCloudinary();
 
 // Database connection
 connectdb()

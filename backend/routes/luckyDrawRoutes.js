@@ -30,7 +30,7 @@ const luckyrouter = express.Router();
 luckyrouter.get('/lucky-draw/properties', async (req, res) => {
   try {
     // Find all active lucky draw properties
-    const luckyDrawProperties = await LuckyDrawProperty.find({ status: 'active' })
+    const luckyDrawProperties = await LuckyDrawProperty.find()
       .populate({
         path: 'property',
         select: 'title location type image price beds baths sqft availability description amenities'
@@ -77,7 +77,7 @@ luckyrouter.get('/lucky-draw/properties', async (req, res) => {
  * @desc    Get single lucky draw property
  * @access  Public
  */
-luckyrouter.get('/lucky-draw/property/:id', auth, async (req, res) => {
+luckyrouter.get('/lucky-draw/property/:id', async (req, res) => {
   try {
     const luckyDrawProperty = await LuckyDrawProperty.findById(req.params.id)
       .populate({
@@ -423,14 +423,7 @@ luckyrouter.post('/admin/lucky-draw/create', createLuckyDraw);
 
 // New endpoint for creating property and adding to lucky draw in one step
 luckyrouter.post(
-  '/admin/lucky-draw/create-with-property',
-  upload.fields([
-    { name: "image1", maxCount: 1 },
-    { name: "image2", maxCount: 1 },
-    { name: "image3", maxCount: 1 },
-    { name: "image4", maxCount: 1 },
-  ]), 
-  createPropertyWithLuckyDraw
+  '/admin/lucky-draw/create-with-property', createPropertyWithLuckyDraw
 );
 
 /**
@@ -621,18 +614,35 @@ luckyrouter.get('/admin/lucky-draw/export-registrations/:id', adminAuth, async (
 });
 
 /**
- * @route   POST /api/admin/lucky-draw/select-winner/:id
+ * @route   POST /api/lucky-draw/winner/:id
  * @desc    Select a winner for a lucky draw
  * @access  Admin
  */
-luckyrouter.post('/admin/lucky-draw/select-winner/:id', adminAuth, async (req, res) => {
+
+
+
+
+/**
+ * @route   POST /api/admin/lucky-draw/select-winner-by-email/:id
+ * @desc    Find a user by email and select them as winner
+ * @access  Admin
+ */
+luckyrouter.post('/admin/lucky-draw/select-winner-by-email/:id', adminAuth, async (req, res) => {
   try {
-    const luckyDrawProperty = await LuckyDrawProperty.findById(req.params.id)
-      .populate({
-        path: 'registrations.user',
-        select: 'name email'
-      });
+
+    // console.log(req.body);
+    const { email } = req.body;
     
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required'
+      });
+    }
+
+    // Find the lucky draw property
+    const luckyDrawProperty = await LuckyDrawProperty.findOne({property : req.params.id});
+
     if (!luckyDrawProperty) {
       return res.status(404).json({
         success: false,
@@ -640,20 +650,12 @@ luckyrouter.post('/admin/lucky-draw/select-winner/:id', adminAuth, async (req, r
       });
     }
     
-    // Check if the lucky draw is closed
+    // Check if the draw is closed
     const now = new Date();
     if (now < luckyDrawProperty.biddingEndDate) {
       return res.status(400).json({
         success: false,
         message: 'Cannot select a winner before the bidding end date'
-      });
-    }
-    
-    // Check if there are registrations
-    if (luckyDrawProperty.registrations.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'No registrations found for this lucky draw'
       });
     }
     
@@ -665,24 +667,120 @@ luckyrouter.post('/admin/lucky-draw/select-winner/:id', adminAuth, async (req, r
       });
     }
     
-    // Select a winner
-    await luckyDrawProperty.selectWinner();
+    // Find the user by email
+    const user = await User.findOne({ email });
+
+    console.log(user);
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User with this email not found'
+      });
+    }
+    
+    // Check if user is registered for this draw
+    const isRegistered = luckyDrawProperty.isUserRegistered(user._id);
+    
+    // If not registered, register them
+    if (!isRegistered) {
+      luckyDrawProperty.registrations.push({
+        user: user._id,
+        phone: user.phone || '0000000000' // Use user's phone if available or a placeholder
+      });
+    }
+    
+    // Set this user as winner
+    await luckyDrawProperty.selectWinner(user._id);
     
     // Get the winner details
-    const winnerRegistration = luckyDrawProperty.registrations.find(reg => reg.isWinner);
+    const winnerRegistration = luckyDrawProperty.registrations.find(
+      reg => reg.user.toString() === user._id.toString()
+    );
     
     res.json({
       success: true,
       message: 'Winner selected successfully',
       winner: {
-        userId: winnerRegistration.user._id,
-        name: winnerRegistration.user.name,
-        email: winnerRegistration.user.email,
-        phone: winnerRegistration.phone
+        userId: user._id,
+        name: user.name,
+        email: user.email
       }
     });
   } catch (error) {
-    console.error('Error selecting winner:', error);
+    console.error('Error selecting winner by email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+});
+
+
+
+luckyrouter.get('/lucky-draw/winner/:id', async (req, res) => {
+  try {
+    // console.log("Fetching property with winner details for ID:", req.params.id);
+    
+    // Find the lucky draw property by property ID
+    const luckyDrawProperty = await LuckyDrawProperty.findOne({property: req.params.id})
+      .populate({
+        path: 'registrations.user',
+        select: 'name email isEmailVerified'
+      })
+      .populate({
+        path: 'winner',
+        select: 'name email isEmailVerified'
+      })
+      .populate({
+        path: 'property',
+        select: 'title location price image beds baths sqft description amenities'
+      });
+    
+    if (!luckyDrawProperty) {
+      return res.status(404).json({
+        success: false,
+        message: 'Lucky draw property not found'
+      });
+    }
+    
+    // Format the response with all needed information
+    const response = {
+      success: true,
+      luckyDrawProperty: {
+        _id: luckyDrawProperty._id,
+        biddingStartDate: luckyDrawProperty.biddingStartDate,
+        biddingEndDate: luckyDrawProperty.biddingEndDate,
+        status: luckyDrawProperty.status,
+        registrationCount: luckyDrawProperty.registrations.length,
+        property: luckyDrawProperty.property
+      }
+    };
+    
+    // Add winner information if available
+    if (luckyDrawProperty.winner) {
+      response.winner = {
+        _id: luckyDrawProperty.winner._id,
+        name: luckyDrawProperty.winner.name,
+        email: luckyDrawProperty.winner.email,
+        isEmailVerified: luckyDrawProperty.winner.isEmailVerified
+      };
+      
+      // Find the winning registration to get the phone number
+      const winnerRegistration = luckyDrawProperty.registrations.find(
+        reg => reg.user._id.toString() === luckyDrawProperty.winner._id.toString()
+      );
+      
+      if (winnerRegistration) {
+        response.winner.phone = winnerRegistration.phone;
+      }
+    }
+    
+    res.json(response);
+    
+  } catch (error) {
+    console.error('Error fetching property with winner details:', error);
     res.status(500).json({
       success: false,
       message: 'Server error',

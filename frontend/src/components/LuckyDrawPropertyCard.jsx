@@ -28,6 +28,7 @@ const LuckyDrawPropertyCard = ({ property }) => {
         try {
           const response = await axios.get(`${Backendurl}/api/lucky-draw/property/${property.propertyId}`);
           
+          
           // console.log(response.data.property.isUserRegistered); 
           
           if (response.data.property.isUserRegistered) {
@@ -42,7 +43,11 @@ const LuckyDrawPropertyCard = ({ property }) => {
   }, []);
 
 
-  const handleNavigateToDetails = () => {
+  const handleNavigateToDetails = async () => {
+    // const response = await axios.get(`${Backendurl}/api/lucky-draw/property/${property.propertyId}`);
+    // console.log(response);
+    // console.log(property);
+
     navigate(`/lucky-draw/property/${property.propertyId}`);
   };
 
@@ -107,6 +112,16 @@ const LuckyDrawPropertyCard = ({ property }) => {
         />
         
         {/* Status Badge */}
+        {/* Add to the status badge section */}
+{property.status === 'completed' && (
+  <div className="absolute top-4 right-4">
+    <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg flex items-center gap-1">
+      <Trophy className="w-3 h-3" />
+      Winner Selected
+    </span>
+  </div>
+)}
+
         <div className="absolute top-4 left-4">
           <motion.span 
             initial={{ opacity: 0, x: -20 }}
@@ -167,11 +182,43 @@ const LuckyDrawPropertyCard = ({ property }) => {
         <div className="flex items-center justify-between pt-2">
           <div className="flex items-center text-gray-700">
             <Users className="w-5 h-5 mr-2 text-blue-500" />
-            <span className="font-medium">{property.registeredUsers || 0}</span>
+            <span className="font-medium">{property.registeredUsers >= 100 ? 100 : property.registeredUsers || 0}/100</span>
             <span className="ml-1 text-sm text-gray-500">registrations</span>
           </div>
-          
+
+
+
           {isRegistrationClosed() ? (
+
+  property.status === 'completed' ? (
+    <Link
+      to={`/lucky-draw/property/${property.propertyId}`}
+      onClick={(e) => e.stopPropagation()}
+      className="px-4 py-2 rounded-lg text-sm font-medium bg-amber-100 text-amber-700 hover:bg-amber-200"
+    >
+      View Results
+    </Link>
+  ) : (
+    <span className="text-gray-500 text-sm flex items-center">
+      <Clock className="w-4 h-4 mr-1" />
+      Drawing Soon
+    </span>
+  )
+) : (
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    onClick={handleRegisterClick}
+    className={`px-4 py-2 rounded-lg text-sm font-medium shadow-sm 
+      ${registered 
+        ? "bg-green-100 text-green-700 border border-green-200" 
+        : "bg-blue-500 text-white hover:bg-blue-600"}`}
+  >
+    {registered ? "Registered" : "Register Now"}
+  </motion.button>
+)}
+          
+          {/* {isRegistrationClosed() ? (
             <div className="flex items-center text-red-500 text-sm">
               <AlertCircle className="w-4 h-4 mr-1" />
               Draw Closed
@@ -188,7 +235,7 @@ const LuckyDrawPropertyCard = ({ property }) => {
             >
               {registered ? "Registered" : "Register Now"}
             </motion.button>
-          )}
+          )} */}
         </div>
       </div>
     </motion.div>

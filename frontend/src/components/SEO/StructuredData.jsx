@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const StructuredData = ({ type, data }) => {
   const location = useLocation();
-  const currentUrl = `https://Hybrid Realty.vercel.app${location.pathname}`;
+  const currentUrl = `https://hybridrealty.in`;
 
   // Different schema types based on page content
   const schemas = {
@@ -11,7 +11,7 @@ const StructuredData = ({ type, data }) => {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'Hybrid Realty',
-      url: 'https://Hybrid Realty.vercel.app',
+      url: 'https://hybridrealty.in',
       potentialAction: {
         '@type': 'SearchAction',
         target: '{search_term_string}',
@@ -22,12 +22,8 @@ const StructuredData = ({ type, data }) => {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'Hybrid Realty',
-      url: 'https://Hybrid Realty.vercel.app',
-      logo: 'https://Hybrid Realty.vercel.app/logo.png',
-      sameAs: [
-        'https://github.com/AAYUSH412/Real-Estate-Website',
-        'https://linkedin.com/in/AAYUSH412'
-      ]
+      url: 'https://hybridrealty.in',
+      logo: 'https://hybridrealty.in/logo.png',
     },
     property: {
       '@context': 'https://schema.org',
@@ -57,7 +53,7 @@ const StructuredData = ({ type, data }) => {
       name: 'AI Property Hub',
       applicationCategory: 'RealEstateApplication',
       description: 'AI-powered real estate analytics and recommendations tool',
-      url: 'https://Hybrid Realty.vercel.app/ai-property-hub',
+      url: 'https://hybridrealty.in/ai-property-hub',
       offers: {
         '@type': 'Offer',
         price: '0',

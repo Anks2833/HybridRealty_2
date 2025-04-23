@@ -239,7 +239,7 @@ const LuckyDrawRegistrationForm = () => {
             <div className="bg-white rounded-xl shadow-sm overflow-hidden sticky top-24">
               <div className="relative h-48">
                 <img
-                  src={property.image[0]}
+                  src={property.image[0]} 
                   alt={property.title}
                   className="w-full h-full object-cover"
                 />

@@ -38,7 +38,7 @@ userrouter.get('/check-favorite/:propertyId', authMiddleware, checkFavorite);
 
 // Admin routes
 userrouter.get('/', authMiddleware, getAllUsers);
-userrouter.get('/:id', authMiddleware, getUserById);
+userrouter.get('/:id', getUserById);
 userrouter.get('/:id/wishlist', authMiddleware, getUserWishlist);
 userrouter.delete('/:id/wishlist/:propertyId', authMiddleware, removeFromWishlist);
 userrouter.delete('/:id', authMiddleware, deleteUser);

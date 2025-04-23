@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Building, Tag, Users, Calendar, Loader, Search } from "lucide-react";
 import UpcomingProjectCard from "./UpcomingProjectCard.jsx";
 import { Backendurl } from "../App.jsx";
+import { Helmet } from "react-helmet-async";
 
 const UpcomingProjectsPage = () => {
   const [upcomingProjects, setUpcomingProjects] = useState([]);
@@ -83,6 +84,90 @@ const UpcomingProjectsPage = () => {
   }
   
   return (
+
+    <>
+
+<Helmet>
+      {/* Page Title */}
+      <title>Upcoming Real Estate Projects | Hybrid Realty - Future Developments</title>
+      
+      {/* Meta Description */}
+      <meta 
+        name="description" 
+        content="Explore exciting upcoming real estate projects by Hybrid Realty. Get early insights into new residential, commercial, and investment properties before they hit the market."
+      />
+      
+      {/* Keywords */}
+      <meta 
+        name="keywords" 
+        content="upcoming real estate projects, new property developments, pre-launch properties, real estate investment opportunities, future real estate, property previews"
+      />
+      
+      {/* Open Graph / Social Media */}
+      <meta property="og:title" content="Upcoming Real Estate Projects | Hybrid Realty - Future Developments" />
+      <meta 
+        property="og:description" 
+        content="Explore exciting upcoming real estate projects by Hybrid Realty. Get early insights into new residential, commercial, and investment properties before they hit the market."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={window.location.href} />
+      <meta 
+        property="og:image" 
+        content="/upcoming-projects-og-image.jpg" 
+      />
+      
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Upcoming Real Estate Projects | Hybrid Realty - Future Developments" />
+      <meta 
+        name="twitter:description" 
+        content="Explore exciting upcoming real estate projects by Hybrid Realty. Get early insights into new residential, commercial, and investment properties before they hit the market."
+      />
+      <meta 
+        name="twitter:image" 
+        content="/upcoming-projects-og-image.jpg" 
+      />
+    </Helmet>
+
+
+
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Upcoming Real Estate Projects",
+        "description": "Comprehensive listing of future real estate developments and investment opportunities",
+        "mainEntity": {
+          "@type": "CollectionPage",
+          "name": "Real Estate Project Previews",
+          "description": "Early access to upcoming residential and commercial property projects",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": `${window.location.origin}/upcoming-projects?search={search_term_string}`
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Hybrid Realty",
+          "url": window.location.origin,
+          "logo": "/logo.jpg"
+        },
+        "about": {
+          "@type": "RealEstateProject",
+          "description": "Collection of pre-launch and upcoming real estate developments",
+          "additionalProperty": {
+            "@type": "PropertyValue",
+            "name": "Project Status",
+            "value": ["Pre-launch", "Upcoming", "Under Development"]
+          }
+        }
+      })}
+    </script>
+    
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -184,6 +269,7 @@ const UpcomingProjectsPage = () => {
         </div>
       </div>
     </motion.div>
+    </>
   );
 };
 

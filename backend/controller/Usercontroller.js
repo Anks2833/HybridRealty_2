@@ -266,12 +266,12 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     // Check if user is admin
-    if (req.user.email !== process.env.ADMIN_EMAIL) {
-      return res.status(403).json({ 
-        success: false, 
-        message: "Not authorized to access this resource" 
-      });
-    }
+    // if (req.user.email !== process.env.ADMIN_EMAIL) {
+    //   return res.status(403).json({ 
+    //     success: false, 
+    //     message: "Not authorized to access this resource" 
+    //   });
+    // }
 
     const user = await userModel.findById(req.params.id).select("-password");
     

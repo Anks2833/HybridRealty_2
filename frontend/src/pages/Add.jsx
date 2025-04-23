@@ -20,6 +20,7 @@ import {
   PlusCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 const PROPERTY_TYPES = [
   { value: "House", icon: <Home size={24} /> },
@@ -180,38 +181,66 @@ const PropertyForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-
       const token = localStorage.getItem("token");
-
-      if (!token)
-      {
-          toast.error("Log in to add property");
-          return;
+      if (!token) {
+        toast.error("Log in to add property");
+        return;
       }
+      
+      // Create a new FormData object
       const formdata = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (key === "images") {
-          formData.images.forEach((image, index) =>
-            formdata.append(`image${index + 1}`, image)
-          );
-        } else if (key === "amenities") {
-          formdata.append("amenities", JSON.stringify(formData.amenities));
-        } else {
-          formdata.append(key, formData[key]);
-        }
-      });
+      
+      // Add all the text fields to FormData
+      formdata.append("title", formData.title);
+      formdata.append("location", formData.location);
+      formdata.append("price", formData.price);
+      formdata.append("beds", formData.beds);
+      formdata.append("baths", formData.baths);
+      formdata.append("sqft", formData.sqft);
+      formdata.append("type", formData.type);
+      formdata.append("description", formData.description);
+      formdata.append("phone", formData.phone);
+      formdata.append("invest", formData.invest || "");
       formdata.append("availability", availability);
       formdata.append("isForInvestment", isForInvestment);
-
+      
+      // Handle amenities as JSON string
+      if (formData.amenities && formData.amenities.length > 0) {
+        formdata.append("amenities", JSON.stringify(formData.amenities));
+      }
+      
+      // Log to check if we have images
+      console.log("Images array:", formData.images);
+      
+      // Properly append each image file with its own key
+      if (formData.images && formData.images.length > 0) {
+        formData.images.forEach((image, index) => {
+          // Make sure image is a valid File object before appending
+          if (image instanceof File) {
+            formdata.append(`image${index + 1}`, image);
+            console.log(`Appending image${index + 1}:`, image.name, image.type, image.size);
+          }
+        });
+      } else {
+        console.warn("No images found in formData.images");
+      }
+      
+      // Log the FormData entries to debug
+      
       const response = await axios.post(
         `${Backendurl}/api/products/add`,
         formdata,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { 
+            "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${token}` // Include the token if needed
+          },
         }
       );
+      
       if (response.data.success) {
         toast.success(response.data.message);
+        // Reset form after successful submission
         setFormData({
           title: "",
           type: "",
@@ -234,6 +263,7 @@ const PropertyForm = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
+      console.error("Upload error:", error);
       toast.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -247,6 +277,7 @@ const PropertyForm = () => {
   const prevStep = () => {
     setStep((prev) => prev - 1);
   };
+
 
   // Background gradient pattern
   const bgPattern = (
@@ -273,7 +304,80 @@ const PropertyForm = () => {
   );
 
   return (
-    <div className="w-full overflow-x-clip min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white px-4 py-24 relative">
+    <>
+    
+    <Helmet>
+        {/* Page Title */}
+        <title>List Your Property - Sell or Rent | Hybrid Realty</title>
+        
+        {/* Meta Description */}
+        <meta 
+          name="description" 
+          content="Easily list your property for sale or rent with Hybrid Realty. Add detailed property information, upload photos, and reach potential buyers or tenants quickly and securely."
+        />
+        
+        {/* Keywords */}
+        <meta 
+          name="keywords" 
+          content="list property, sell property, rent property, real estate listing, property upload, property details, property photos"
+        />
+        
+        {/* Open Graph / Social Media */}
+        <meta property="og:title" content="List Your Property - Sell or Rent | Hybrid Realty" />
+        <meta 
+          property="og:description" 
+          content="Easily list your property for sale or rent with Hybrid Realty. Add detailed property information, upload photos, and reach potential buyers or tenants quickly and securely."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta 
+          property="og:image" 
+          content="/property-listing-og-image.jpg" 
+        />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="List Your Property - Sell or Rent | Hybrid Realty" />
+        <meta 
+          name="twitter:description" 
+          content="Easily list your property for sale or rent with Hybrid Realty. Add detailed property information, upload photos, and reach potential buyers or tenants quickly and securely."
+        />
+        <meta 
+          name="twitter:image" 
+          content="/property-listing-og-image.jpg" 
+        />
+      </Helmet>
+
+
+      <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Property Listing Form",
+        "description": "A platform to list properties for sale or rent",
+        "mainEntity": {
+          "@type": "WebPage",
+          "name": "List Your Property",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": `${window.location.origin}/properties/add`
+            }
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Hybrid Realty",
+          "url": window.location.origin
+        }
+      })}
+    </script>
+
+
+
+
+      <div className="w-full overflow-x-clip min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white px-4 py-24 relative">
       {bgPattern}
       <div className="absolute opacity-10 -left-28 -top-28 w-96 h-96 bg-[var(--theme-color-1)] rounded-full filter blur-3xl"></div>
       <div className="absolute opacity-10 -right-28 -bottom-28 w-96 h-96 bg-[var(--theme-hover-color-1)] rounded-full filter blur-3xl"></div>
@@ -1120,6 +1224,8 @@ const PropertyForm = () => {
         </AnimatePresence>
       </motion.div>
     </div>
+    </>
+    
   );
 };
 

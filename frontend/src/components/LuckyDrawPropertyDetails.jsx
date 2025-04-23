@@ -20,7 +20,10 @@ import {
   IndianRupee,
   AlertCircle,
   Trophy,
-  Phone
+  Phone,
+  CheckCircle,
+  User,
+  Mail
 } from "lucide-react";
 import { Backendurl } from "../App.jsx";
 import { toast } from "react-toastify";
@@ -39,21 +42,34 @@ const LuckyDrawPropertyDetails = () => {
   const navigate = useNavigate();
   const { isLoggedIn, user } = useAuth();
   
+  // New state for winner details
+  const [winnerDetails, setWinnerDetails] = useState(null);
+  const [loadingWinner, setLoadingWinner] = useState(false);
+  
   useEffect(() => {
     const fetchProperty = async () => {
       try {
         setLoading(true);
         const response = await axios.get(`${Backendurl}/api/lucky-draw/property/${id}`);
+        
 
-        // console.log('response : ',response);
-
+        
         if (response.data.success) {
           setProperty(response.data.property);
           setError(null);
+          
+          // console.log(response.data.property._id);
+          
+          // console.log("fetchprop : ", response);
+
+          // If the property has a winner, fetch winner details
+          if (response.data.property) {
+            // console.log("one")
+            fetchWinnerDetails(response.data.property._id); 
+          }
         } else {
           setError(response.data.message || "Failed to load property details.");
         }
-
       } catch (err) {
         console.error("Error fetching lucky draw property details:", err);
         setError("Failed to load property details. Please try again.");
@@ -64,6 +80,28 @@ const LuckyDrawPropertyDetails = () => {
 
     fetchProperty();
   }, [id]);
+
+  // New function to fetch winner details
+  const fetchWinnerDetails = async (propId) => {
+    try {
+      setLoadingWinner(true);
+      
+      // console.log('propId : ',propId);
+      // console.log('backend url : ',Backendurl);
+
+      const response = await axios.get(`${Backendurl}/api/lucky-draw/winner/${propId}`);
+
+      if (response.data.success) {
+        setWinnerDetails(response.data.winner);
+      } else {
+        console.error("Failed to fetch winner details:", response.data.message);
+      }
+    } catch (err) {
+      console.error("Error fetching winner details:", err);
+    } finally {
+      setLoadingWinner(false);
+    }
+  };
 
   useEffect(() => {
     // Reset scroll position when component mounts
@@ -186,6 +224,12 @@ const LuckyDrawPropertyDetails = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  // Check if current user is the winner
+  const isCurrentUserWinner = () => {
+    if (!user || !property || !property.winner) return false;
+    return user.id === property.winner;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 pt-16">
@@ -275,24 +319,102 @@ const LuckyDrawPropertyDetails = () => {
               <div className="bg-white px-3 py-1.5 rounded-lg shadow-sm">
                 <div className="flex items-center gap-1.5 text-blue-600">
                   <Users className="w-4 h-4" />
-                  <span className="font-medium">{property.registeredUsers || 0}</span>
+                  <span className="font-medium">{property.registeredUsers >= 100 ? 100 : property.registeredUsers || 0}/100</span>
                   <span className="text-xs text-gray-500">registrations</span>
                 </div>
               </div>
-              
-              {!isRegistrationClosed() && (
-                <div className="bg-white px-3 py-1.5 rounded-lg shadow-sm">
-                  <div className="flex items-center gap-1.5 text-green-600">
-                    <Clock className="w-4 h-4" />
-                    <span className="font-medium">{calculateRemainingDays()}</span>
-                    <span className="text-xs text-gray-500">days left</span>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
 
+        {/* Winner information section - Only show when registration is closed and status is completed */}
+        {isRegistrationClosed() && (
+  <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 sm:p-6 mb-6">
+    <h3 className="flex items-center gap-2 text-lg sm:text-xl font-semibold text-amber-700 mb-2 sm:mb-3">
+      <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" /> 
+      Lucky Draw Winner
+    </h3>
+    
+    <div className="bg-white rounded-lg p-3 sm:p-4">
+      {loadingWinner ? (
+        <div className="flex justify-center py-3">
+          <Loader className="w-5 h-5 text-amber-500 animate-spin" />
+          <span className="ml-2 text-amber-700 text-sm">Loading winner details...</span>
+        </div>
+      ) : winnerDetails ? (
+        <div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-3 pb-3 border-b border-gray-100">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                <User className="w-5 h-5 text-amber-600" />
+              </div>
+              <div className="overflow-hidden">
+                <h4 className="font-medium text-gray-900">{winnerDetails.name}</h4>
+                <p className="text-xs text-gray-500 truncate">
+                  {winnerDetails.email}
+                </p>
+              </div>
+            </div>
+            
+            <div className="mt-2 sm:mt-0 sm:ml-auto text-xs">
+              <div className={`px-2 py-1 rounded-full inline-flex items-center ${
+                winnerDetails.isEmailVerified ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
+              }`}>
+                {winnerDetails.isEmailVerified ? 
+                  <CheckCircle className="w-3 h-3 mr-1" /> : 
+                  <AlertCircle className="w-3 h-3 mr-1" />
+                }
+                {winnerDetails.isEmailVerified ? "Verified" : "Unverified"}
+              </div>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3 text-xs sm:text-sm">
+            <div>
+              <span className="text-gray-500">ID:</span> 
+              <span className="text-gray-800 ml-1 font-mono text-xs break-all">{winnerDetails._id}</span>
+            </div>
+            {/* <div>
+              <span className="text-gray-500">Selected On:</span>
+              <span className="text-gray-800 ml-1">{formatDate(property.updatedAt)}</span>
+            </div> */}
+          </div>
+          
+          {property.isUserRegistered && (
+            isCurrentUserWinner() ? (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-3 text-sm">
+                <div className="flex items-center gap-2 text-green-700">
+                  <CheckCircle className="w-4 h-4" />
+                  <span className="font-medium">Congratulations! You are the winner!</span>
+                </div>
+                <p className="mt-1 text-green-600 text-xs sm:text-sm">
+                  Our team will contact you shortly with next steps.
+                </p>
+              </div>
+            ) : (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3 text-sm">
+                <p className="text-blue-700 text-xs sm:text-sm">
+                  Thank you for participating! While you weren't selected this time, 
+                  we have more opportunities coming soon.
+                </p>
+              </div>
+            )
+          )}
+        </div>
+      ) : (
+        <div className="bg-orange-50 p-3 rounded-lg flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-orange-500 flex-shrink-0" />
+          <p className="text-orange-700 text-xs sm:text-sm">
+            Winner information is not available at this moment.
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+)}
+        
+        {/* Display "Winner selection in progress" message when closed but not completed */}
+        
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           {/* Image Gallery */}
           <div className="relative h-[500px] bg-gray-100 rounded-xl overflow-hidden mb-8">
@@ -391,7 +513,7 @@ const LuckyDrawPropertyDetails = () => {
                     
                     <div className="flex justify-between">
                       <span className="text-gray-700">Total Registrations:</span>
-                      <span className="font-medium text-gray-900">{property.registeredUsers || 0}</span>
+                      <span className="font-medium text-gray-900">{property.registrations?.length || 0}</span>
                     </div>
                     
                     <div className="flex justify-between">
@@ -400,6 +522,15 @@ const LuckyDrawPropertyDetails = () => {
                         {formatDate(new Date(new Date(property.biddingEndDate).getTime() + 86400000))}
                       </span>
                     </div>
+                    
+                    {property.status === 'completed' && property.winner && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-700">Winner Selected:</span>
+                        <span className="font-medium text-green-600">
+                          {formatDate(property.updatedAt)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -423,42 +554,32 @@ const LuckyDrawPropertyDetails = () => {
                 </div>
 
                 {/* Action Buttons */}
-                {!isRegistrationClosed() ? (
-                  !property.isUserRegistered ? (
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                {!isRegistrationClosed() && !property.isUserRegistered && (
+                  <div className="mb-6">
+                    <button
                       onClick={handleRegisterForDraw}
-                      className="w-full bg-gradient-to-r from-[var(--theme-investment-card-tag)] to-yellow-500 text-white py-3 rounded-lg 
-                        hover:from-amber-600 hover:to-yellow-600 transition-all flex items-center 
-                        justify-center gap-2 font-medium shadow-md"
-                      disabled={registrationLoading}
+                      className="w-full bg-[var(--theme-investment-card-tag)] text-white py-3 rounded-lg 
+                        hover:bg-amber-600 transition-colors flex items-center justify-center gap-2 font-medium"
                     >
-                      {registrationLoading ? (
-                        <Loader className="w-5 h-5 animate-spin" />
-                      ) : (
-                        <>
-                          <Gift className="w-5 h-5" />
-                          Register for Lucky Draw
-                        </>
-                      )}
-                    </motion.button>
-                  ) : (
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center text-green-700 mb-6">
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        <Trophy className="w-5 h-5" />
-                        <span className="font-medium">You are registered for this lucky draw!</span>
-                      </div>
-                      <p className="text-sm">Results will be announced after {formatDate(property.biddingEndDate)}</p>
+                      <Gift className="w-5 h-5" />
+                      Register for Lucky Draw
+                    </button>
+                    <p className="text-sm text-gray-500 mt-2 text-center">
+                      Registration is free. You must be logged in to register.
+                    </p>
+                  </div>
+                )}
+                
+                {property.isUserRegistered && (
+                  <div className="mb-6 bg-green-50 border border-green-100 rounded-lg p-4">
+                    <div className="flex items-center gap-2 text-green-700 mb-2">
+                      <CheckCircle className="w-5 h-5" />
+                      <span className="font-medium">You're registered for this lucky draw!</span>
                     </div>
-                  )
-                ) : (
-                  <div className="bg-gray-100 border border-gray-200 rounded-lg p-4 text-center text-gray-700 mb-6">
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <AlertCircle className="w-5 h-5" />
-                      <span className="font-medium">Registration is now closed</span>
-                    </div>
-                    <p className="text-sm">Results will be announced soon</p>
+                    <p className="text-sm text-green-600">
+                      The winner will be announced after the registration period ends.
+                      We'll contact you if you're selected.
+                    </p>
                   </div>
                 )}
               </div>
