@@ -8,7 +8,8 @@ import {
   Home,
   Building,
   PlusCircle,
-  TrendingUp
+  TrendingUp,
+  Flame
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -235,6 +236,20 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.8 }}
             className="flex flex-wrap gap-4 mt-8 justify-center"
           >
+            {/* Hot Deals Button - Styled differently */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl text-white hover:from-red-600 hover:to-orange-600 transition-all shadow-md relative overflow-hidden"
+              onClick={() => navigate("/hot-deals")}
+            >
+              {/* Animated glow effect */}
+              <div className="absolute inset-0 bg-white/20 animate-pulse rounded-xl"></div>
+              
+              <Flame className="w-4 h-4 text-yellow-200 animate-bounce" />
+              <span className="text-sm font-medium relative z-10">Hot Deals</span>
+            </motion.button>
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
