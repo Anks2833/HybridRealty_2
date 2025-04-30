@@ -55,7 +55,7 @@ const contactInfo = [
     icon: Mail,
     title: "Email Us",
     content: "Hybridrealty@gmail.com",
-    link: "mailto:Hybridrealty@gmail.com",
+    link: "mailto:hybridrealty@gmail.com",
   },
   {
     icon: MapPin,

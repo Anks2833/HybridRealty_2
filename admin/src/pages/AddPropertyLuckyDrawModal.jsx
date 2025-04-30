@@ -61,8 +61,8 @@ const AddPropertyLuckyDrawModal = ({ showModal, setShowModal, onSuccess }) => {
   };
   
   const addImages = (files) => {
-    if (files.length + previewUrls.length > 4) {
-      toast.error('Maximum 4 images allowed');
+    if (files.length + previewUrls.length > 15) {
+      toast.error('Maximum 15 images allowed');
       return;
     }
     

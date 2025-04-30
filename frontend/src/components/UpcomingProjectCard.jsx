@@ -4,6 +4,7 @@ import { Calendar, MapPin, Building, Users, Clock, ChevronRight, Loader } from "
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Backendurl } from "../App.jsx";
+import { useNavigate } from "react-router";
 
 const UpcomingProjectCard = ({ project }) => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -68,6 +69,16 @@ const UpcomingProjectCard = ({ project }) => {
       setLoading(false);
     }
   };
+
+
+  const navigate = useNavigate(); // Initialize navigation hook
+  
+  // Function to navigate to details page
+  const navigateToDetails = () => {
+    navigate(`/upcoming-projects/${project._id}`);
+  };
+
+
   
   return (
     <>
@@ -77,7 +88,8 @@ const UpcomingProjectCard = ({ project }) => {
         exit={{ opacity: 0, y: -20 }}
         whileHover={{ y: -5 }}
         transition={{ duration: 0.3 }}
-        className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 h-full flex flex-col"
+        onClick={navigateToDetails}
+        className="bg-white rounded-xl cursor-pointer shadow-sm overflow-hidden border border-gray-100 h-full flex flex-col"
       >
         {/* Project Image */}
         <div className="relative">
@@ -126,7 +138,7 @@ const UpcomingProjectCard = ({ project }) => {
         
         {/* Action Button */}
         <button
-          onClick={() => setShowRegisterModal(true)}
+          onClick={navigateToDetails}
           className="w-full py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors flex items-center justify-center"
         >
           Register Interest <ChevronRight className="w-4 h-4 ml-1" />

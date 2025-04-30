@@ -267,7 +267,7 @@ const contactInfo = [
   {
     icon: Mail,
     text: "Hybridrealty@gmail.com",
-    href: "mailto:Hybridrealty@gmail.com",
+    href: "mailto:hybridrealty@gmail.com",
   },
 ];
 

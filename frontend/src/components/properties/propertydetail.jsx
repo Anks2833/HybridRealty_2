@@ -924,7 +924,7 @@ const PropertyDetails = () => {
                       <Mail className="w-5 h-5 text-[var(--theme-color-1)]" />
                     </div>
                     <div>
-                      <p className="font-medium">support@hybridrealty.com</p>
+                      <p className="font-medium">hybridrealty@gmail.com</p>
                       <p className="text-xs text-gray-500">Send us an email</p>
                     </div>
                   </div>

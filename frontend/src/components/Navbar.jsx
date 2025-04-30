@@ -155,6 +155,19 @@ const Navbar = () => {
                           {user?.email}
                         </p>
                       </div>
+                      
+                      {/* Add this block for My Properties option */}
+                      <NavLink to="/my-properties">
+                        <motion.div
+                          whileHover={{ x: 5 }}
+                          onClick={() => {setIsDropdownOpen(false)}}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 flex items-center space-x-2 transition-colors"
+                        >
+                          <Building className="w-4 h-4" />
+                          <span>My Properties</span>
+                        </motion.div>
+                      </NavLink>
+                      
                       <motion.button
                         whileHover={{ x: 5 }}
                         onClick={handleLogout}

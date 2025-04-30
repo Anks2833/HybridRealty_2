@@ -1,3 +1,4 @@
+// import { userInfo } from 'os'
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
 
@@ -7,6 +8,8 @@ const Properties = React.lazy(() => import('../components/propertiesshow'))
 const FeaturedInvestedProperties = React.lazy(() => import('../components/properties/FeaturedInvestedProperties'))
 const Steps = React.lazy(() => import('../components/Steps'))
 
+
+// console.log(userInfo); 
 const Home = () => {
   return (
     <>

@@ -21,6 +21,7 @@ import UserDetailPage from "./pages/UserDetailPage";
 import AdminLuckyDrawManagement from "./pages/AdminLuckyDrawManagement"; // Import Lucky Draw Management
 import LuckyDrawPropertyDetails from "./pages/LuckyDrawPropertyDetails"; // Import Lucky Draw Property Details
 import AdminUpcomingProjectsManagement from "./pages/AdminUpcomingProjectsManagement";
+import UpcomingProjectDetails from "./pages/UpcomingProjectDetails";
 
 // Config
 // export const backendurl = 'https://hybridrealty-dev-backend.onrender.com';
@@ -72,6 +73,7 @@ const App = () => {
                 <Route path="/admin/lucky-draw" element={<AdminLuckyDrawManagement />} />
                 <Route path="/admin/upcoming-projects" element={<AdminUpcomingProjectsManagement />} />
                 <Route path="/admin/lucky-draw/:id" element={<LuckyDrawPropertyDetails />} />
+                <Route path="/admin/upcoming-projects/:id" element={<UpcomingProjectDetails />} />
               </Route>
               
               {/* 404 Route */}

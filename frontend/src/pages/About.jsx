@@ -84,7 +84,7 @@ const About = () => {
           },
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+919625949983",
+            "telephone": "+919911791469",
             "contactType": "Customer Service"
           },
           "sameAs": [

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Backendurl } from "../App";
@@ -21,6 +21,9 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+
+// Maximum number of photos allowed for property
+const MAX_PHOTOS = 15;
 
 const PROPERTY_TYPES = [
   { value: "House", icon: <Home size={24} /> },
@@ -68,11 +71,15 @@ const PropertyForm = () => {
     amenities: [],
     images: [],
     invest: "",
+    owner: "",
   });
   const [previewUrls, setPreviewUrls] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -85,8 +92,8 @@ const PropertyForm = () => {
   };
 
   const addImages = (files) => {
-    if (files.length + previewUrls.length > 4) {
-      toast.error("Maximum 4 images allowed");
+    if (files.length + previewUrls.length > MAX_PHOTOS) {
+      toast.error("Maximum 15 images allowed");
       return;
     }
     const newPreviewUrls = files.map((file) => URL.createObjectURL(file));
@@ -139,6 +146,7 @@ const PropertyForm = () => {
     e.preventDefault();
     setLoading(true);
 
+    
     try {
       const token = await localStorage.getItem("token");
 
@@ -187,6 +195,13 @@ const PropertyForm = () => {
         return;
       }
       
+      // Get user details to get the user ID
+      const userResponse = await axios.get(`${Backendurl}/api/users/me`);
+      
+      // Extract user ID from response
+      const userId = userResponse.data._id;
+      console.log('User ID:', userId);
+      
       // Create a new FormData object
       const formdata = new FormData();
       
@@ -204,13 +219,13 @@ const PropertyForm = () => {
       formdata.append("availability", availability);
       formdata.append("isForInvestment", isForInvestment);
       
+      // Add the user ID as the owner
+      formdata.append("owner", userId);
+      
       // Handle amenities as JSON string
       if (formData.amenities && formData.amenities.length > 0) {
         formdata.append("amenities", JSON.stringify(formData.amenities));
       }
-      
-      // Log to check if we have images
-      console.log("Images array:", formData.images);
       
       // Properly append each image file with its own key
       if (formData.images && formData.images.length > 0) {
@@ -225,15 +240,14 @@ const PropertyForm = () => {
         console.warn("No images found in formData.images");
       }
       
-      // Log the FormData entries to debug
-      
+      // Send the request with the formdata
       const response = await axios.post(
         `${Backendurl}/api/products/add`,
         formdata,
         {
-          headers: { 
+          headers: {
             "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${token}` // Include the token if needed
+            "Authorization": `Bearer ${token}`
           },
         }
       );
@@ -1072,7 +1086,7 @@ const PropertyForm = () => {
                         Property Photos
                       </h2>
                       <p className="text-gray-600 mt-2">
-                        Add up to 4 photos of your property
+                        Add up to 15 photos of your property
                       </p>
                     </div>
 
@@ -1121,7 +1135,7 @@ const PropertyForm = () => {
                                 or click to browse your files
                               </p>
                               <p className="text-xs text-gray-400">
-                                Maximum 4 images (JPEG, PNG)
+                                Maximum 15 images (JPEG, PNG)
                               </p>
                             </motion.div>
                           ) : (
@@ -1137,10 +1151,8 @@ const PropertyForm = () => {
                                 <>
                                   <PlusCircle className="h-8 w-8 text-[var(--theme-color-1)] mb-2" />
                                   <p className="text-sm font-medium text-gray-700">
-                                    Add {4 - previewUrls.length} more{" "}
-                                    {4 - previewUrls.length === 1
-                                      ? "photo"
-                                      : "photos"}
+                                    Add {MAX_PHOTOS - previewUrls.length} more{" "}
+                                    {MAX_PHOTOS - previewUrls.length === 1 ? "photo" : "photos"}
                                   </p>
                                 </>
                               )}
@@ -1153,7 +1165,7 @@ const PropertyForm = () => {
                       {previewUrls.length > 0 && (
                         <div className="space-y-4">
                           <h3 className="text-sm font-medium text-gray-700">
-                            Your Property Photos ({previewUrls.length}/4)
+                            Your Property Photos ({previewUrls.length}/15)
                           </h3>
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {previewUrls.map((url, index) => (

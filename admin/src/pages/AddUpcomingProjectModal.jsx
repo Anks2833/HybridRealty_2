@@ -70,8 +70,8 @@ const [formData, setFormData] = useState({
   };
   
   const addImages = (files) => {
-    if (files.length + previewUrls.length > 5) {
-      toast.error('Maximum 5 images allowed');
+    if (files.length + previewUrls.length > 15) {
+      toast.error('Maximum 15 images allowed');
       return;
     }
     
@@ -426,7 +426,7 @@ useEffect(() => {
                   {/* Image Upload Section */}
                   <div className="space-y-4 mb-6">
                     <label className="block text-sm font-medium text-gray-700">
-                      Project Images <span className="text-xs text-gray-500">(Maximum 5 images)</span>
+                      Project Images <span className="text-xs text-gray-500">(Maximum 15 images)</span>
                     </label>
                     
                     {/* Drag and Drop Area */}
