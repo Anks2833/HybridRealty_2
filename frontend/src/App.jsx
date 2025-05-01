@@ -81,7 +81,7 @@ const routesWithoutNavbarFooter = [
 const AppContent = () => {
   const location = useLocation();
 
-  // Check if current path should display navbar/footer
+  // Check if current path should display navbar/footerr
   const shouldShowNavbarFooter = !routesWithoutNavbarFooter.some(
     (route) =>
       location.pathname === route || location.pathname.startsWith(`${route}/`)
