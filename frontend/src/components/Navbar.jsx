@@ -17,6 +17,7 @@ import {
   Sparkles,
   BotMessageSquare,
   Gift,
+  Heart,
 } from "lucide-react";
 import logo from "../assets/Hybrid_Logo.png";
 import { useAuth } from "../context/AuthContext";
@@ -108,115 +109,212 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation - Hidden on mobile */}
-          <div className="hidden md:flex items-center space-x-1">
-            <NavLinks currentPath={location.pathname} />
+<div className="hidden md:flex items-center space-x-1">
+  <NavLinks currentPath={location.pathname} />
+</div>
+
+{/* Auth Buttons - Hidden on mobile */}
+<div className="hidden md:flex items-center space-x-4">
+  {isLoggedIn ? (
+    <div className="relative" ref={dropdownRef}>
+      <motion.button
+        whileTap={{ scale: 0.97 }}
+        onClick={toggleDropdown}
+        className="flex items-center space-x-2 focus:outline-none"
+        aria-label="User menu"
+        aria-expanded={isDropdownOpen}
+      >
+        <div className="relative">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] flex items-center justify-center text-white font-medium text-sm shadow-md">
+            {getInitials(user?.name)}
           </div>
+          <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-white rounded-full"></div>
+        </div>
+        <motion.div
+          animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ChevronDown className="w-4 h-4 text-gray-600" />
+        </motion.div>
+      </motion.button>
 
-          {/* Auth Buttons - Hidden on mobile */}
-          <div className="hidden md:flex items-center space-x-4">
-            {isLoggedIn ? (
-              <div className="relative" ref={dropdownRef}>
-                <motion.button
-                  whileTap={{ scale: 0.97 }}
-                  onClick={toggleDropdown}
-                  className="flex items-center space-x-2 focus:outline-none"
-                  aria-label="User menu"
-                  aria-expanded={isDropdownOpen}
-                >
-                  <div className="relative">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] flex items-center justify-center text-white font-medium text-sm shadow-md">
-                      {getInitials(user?.name)}
-                    </div>
-                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-white rounded-full"></div>
-                  </div>
-                  <motion.div
-                    animate={{ rotate: isDropdownOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ChevronDown className="w-4 h-4 text-gray-600" />
-                  </motion.div>
-                </motion.button>
-
-                {/* Dropdown Menu */}
-                <AnimatePresence>
-                  {isDropdownOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg py-2 border border-gray-100 overflow-hidden"
-                    >
-                      <div className="px-4 py-3 border-b border-gray-100">
-                        <p className="text-sm font-semibold text-gray-900">
-                          {user?.name}
-                        </p>
-                        <p className="text-sm text-gray-500 truncate">
-                          {user?.email}
-                        </p>
-                      </div>
-                      
-                      {/* Add this block for My Properties option */}
-                      <NavLink to="/my-properties">
-                        <motion.div
-                          whileHover={{ x: 5 }}
-                          onClick={() => {setIsDropdownOpen(false)}}
-                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 flex items-center space-x-2 transition-colors"
-                        >
-                          <Building className="w-4 h-4" />
-                          <span>My Properties</span>
-                        </motion.div>
-                      </NavLink>
-                      
-                      <motion.button
-                        whileHover={{ x: 5 }}
-                        onClick={handleLogout}
-                        className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 flex items-center space-x-2 transition-colors"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        <span>Sign out</span>
-                      </motion.button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-3">
-                <NavLink
-                  to="/login"
-                  className="text-gray-700 hover:text-[var(--theme-color-1)] font-medium transition-colors"
-                >
-                  Sign in
-                </NavLink>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <NavLink
-                    to="/signup"
-                    className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white px-4 py-2 rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to-[var(--theme-hover-color-1)] transition-all duration-200 shadow-md hover:shadow-lg font-medium"
-                  >
-                    Get started
-                  </NavLink>
-                </motion.div>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={toggleMobileMenu}
-            className="md:hidden rounded-lg p-2 hover:bg-gray-100 transition-colors focus:outline-none"
-            aria-label="Toggle menu"
-            aria-expanded={isMobileMenuOpen}
+      {/* Dropdown Menu */}
+      <AnimatePresence>
+        {isDropdownOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg py-2 border border-gray-100 overflow-hidden"
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </motion.button>
+            <div className="px-4 py-3 border-b border-gray-100">
+              <p className="text-sm font-semibold text-gray-900">
+                {user?.name}
+              </p>
+              <p className="text-sm text-gray-500 truncate">
+                {user?.email}
+              </p>
+            </div>
+            
+            {/* My Properties option */}
+            <NavLink to="/my-properties">
+              <motion.div
+                whileHover={{ x: 5 }}
+                onClick={() => {setIsDropdownOpen(false)}}
+                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 flex items-center space-x-2 transition-colors"
+              >
+                <Building className="w-4 h-4" />
+                <span>My Properties</span>
+              </motion.div>
+            </NavLink>
+            
+            {/* Wishlist option */}
+            <NavLink to="/wishlist">
+              <motion.div
+                whileHover={{ x: 5 }}
+                onClick={() => {setIsDropdownOpen(false)}}
+                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 flex items-center space-x-2 transition-colors"
+              >
+                <Heart className="w-4 h-4" />
+                <span>My Wishlist</span>
+              </motion.div>
+            </NavLink>
+            
+            <motion.button
+              whileHover={{ x: 5 }}
+              onClick={handleLogout}
+              className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 flex items-center space-x-2 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign out</span>
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  ) : (
+    <div className="flex items-center space-x-3">
+      <NavLink
+        to="/login"
+        className="text-gray-700 hover:text-[var(--theme-color-1)] font-medium transition-colors"
+      >
+        Sign in
+      </NavLink>
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <NavLink
+          to="/signup"
+          className="bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-color-1)] text-white px-4 py-2 rounded-lg hover:from-[var(--theme-hover-color-1)] hover:to-[var(--theme-hover-color-1)] transition-all duration-200 shadow-md hover:shadow-lg font-medium"
+        >
+          Get started
+        </NavLink>
+      </motion.div>
+    </div>
+  )}
+</div>
+
+{/* Mobile menu button */}
+<motion.button
+  whileTap={{ scale: 0.9 }}
+  onClick={toggleMobileMenu}
+  className="md:hidden rounded-lg p-2 hover:bg-gray-100 transition-colors focus:outline-none"
+  aria-label="Toggle menu"
+  aria-expanded={isMobileMenuOpen}
+>
+  {isMobileMenuOpen ? (
+    <X className="w-6 h-6" />
+  ) : (
+    <Menu className="w-6 h-6" />
+  )}
+</motion.button>
+
+{/* Mobile menu - Only visible on mobile */}
+<AnimatePresence>
+  {isMobileMenuOpen && (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.3 }}
+      className="absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-100 z-50 md:hidden"
+    >
+      <div className="flex flex-col p-4">
+        {/* Mobile navigation links */}
+        <div className="py-2">
+          <NavLinks currentPath={location.pathname} isMobile={true} />
+        </div>
+        
+        {/* User info section */}
+        {isLoggedIn ? (
+          <div className="border-t border-gray-100 pt-4 mt-2">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] flex items-center justify-center text-white font-medium text-sm shadow-md">
+                {getInitials(user?.name)}
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">{user?.name}</p>
+                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+              </div>
+            </div>
+            
+            {/* Mobile user menu options */}
+            <div className="space-y-2">
+              <NavLink 
+                to="/my-properties" 
+                className="block px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors flex items-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Building className="w-5 h-5 mr-3" />
+                My Properties
+              </NavLink>
+              
+              <NavLink 
+                to="/wishlist" 
+                className="block px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors flex items-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Heart className="w-5 h-5 mr-3" />
+                My Wishlist
+              </NavLink>
+              
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors flex items-center"
+              >
+                <LogOut className="w-5 h-5 mr-3" />
+                Sign out
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="border-t border-gray-100 pt-4 mt-2 space-y-3">
+            <NavLink
+              to="/login"
+              className="block px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors w-full text-center font-medium"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Sign in
+            </NavLink>
+            
+            <NavLink
+              to="/signup"
+              className="block bg-gradient-to-r from-[var(--theme-color-1)] to-[var(--theme-hover-color-1)] text-white px-4 py-2.5 rounded-lg transition-all duration-200 shadow-md w-full text-center font-medium"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Get started
+            </NavLink>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
         </div>
       </div>
 

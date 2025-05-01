@@ -9,7 +9,7 @@ const addproperty = async (req, res) => {
     try {
       const { 
         title, location, price, beds, baths, sqft, 
-        type, availability, description, phone, invest, owner 
+        type, availability, description, phone, invest, owner , isHotDeal
       } = req.body;
       
       // Parse amenities if it's a string
@@ -96,6 +96,7 @@ const addproperty = async (req, res) => {
         phone,
         invest,
         owner,
+        isHotDeal,
       });
       
       // Save the property to the database

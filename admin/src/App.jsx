@@ -74,6 +74,7 @@ const App = () => {
                 <Route path="/admin/upcoming-projects" element={<AdminUpcomingProjectsManagement />} />
                 <Route path="/admin/lucky-draw/:id" element={<LuckyDrawPropertyDetails />} />
                 <Route path="/admin/upcoming-projects/:id" element={<UpcomingProjectDetails />} />
+                <Route path="/admin/hot-deals" element={<UpcomingProjectDetails />} />
               </Route>
               
               {/* 404 Route */}

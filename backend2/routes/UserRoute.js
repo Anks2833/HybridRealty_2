@@ -18,6 +18,8 @@ import {
   sendVerification,
   verifyOTP,
   getProperties,
+  getMyWishlist,
+  removeMyWishlist,
 } from '../controller/Usercontroller.js';
 import authMiddleware, { protect } from '../middleware/authmiddleware.js';
 import { getPropertyById, updateproperty } from '../controller/productcontroller.js';
@@ -38,27 +40,8 @@ userrouter.get('/me', protect, getname);
 userrouter.post('/toggle-wishlist', protect, toggleWishlist);
 userrouter.get('/check-favorite/:propertyId', protect, checkFavorite);
 userrouter.get('/me/properties', protect, getProperties);
-
-
-userrouter.get('/users/me', protect, async (req, res) => {
-  try {
-    // req.user is set by the protect middleware
-    const user = req.user;
-    
-    return res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin
-    });
-  } catch (error) {
-    console.error('Error fetching current user:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Server error'
-    });
-  }
-});
+userrouter.get('/me/wishlist', protect, getMyWishlist);
+userrouter.delete('/me/wishlist/:propertyId', protect, removeMyWishlist);
 
 // Admin routes
 userrouter.get('/', authMiddleware, getAllUsers);

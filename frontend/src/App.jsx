@@ -1,6 +1,6 @@
 // export const Backendurl = 'https://hybridrealty-dev-backend.onrender.com';
-export const Backendurl = import.meta.env.VITE_BACKEND_URL;
-// export const Backendurl = '';
+// export const Backendurl = import.meta.env.VITE_BACKEND_URL;
+export const Backendurl = '';
 
 import React, { lazy, Suspense } from "react";
 import {
@@ -15,6 +15,8 @@ import { AuthProvider } from "./context/AuthContext";
 import MyProperties from "./pages/MyProperties";
 import EditMyProperty from "./pages/EditMyProperty";
 import UpcomingProjectDetails from "./components/UpcomingProjectDetails";
+import HotDealsPage from "./pages/HotDealsPage";
+import Wishlist from "./pages/Wishlist";
 
 // Lazy load components for performance
 const Navbar = lazy(() => import("./components/Navbar"));
@@ -121,6 +123,8 @@ const AppContent = () => {
           <Route path="/my-properties" element={<MyProperties />} />
           <Route path="/edit-property/:id" element={<EditMyProperty />} />
           <Route path="/upcoming-projects/:id" element={<UpcomingProjectDetails />} />
+          <Route path="/hot-deals" element={<HotDealsPage />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route
             path="/lucky-draw/property/:id"
             element={<LuckyDrawPropertyDetails />}

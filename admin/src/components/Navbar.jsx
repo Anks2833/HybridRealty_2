@@ -12,7 +12,8 @@ import {
   LayoutDashboard, 
   Database,
   Users,
-  Gift // Added Gift icon for Lucky Draw
+  Gift, // Added Gift icon for Lucky Draw
+  FireExtinguisherIcon
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -42,6 +43,7 @@ const Navbar = () => {
     { path: '/admin/upcoming-projects', label: 'Upcoming Projects', icon: Gift }, // Added Lucky Draw item
     { path: '/appointments', label: 'Appointments', icon: Calendar },
     { path: '/admin/users', label: 'Users', icon: Users },
+    // { path: '/admin/hot-deals', label: 'Users', icon: FireExtinguisherIcon },
   ];
 
   return (

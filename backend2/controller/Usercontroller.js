@@ -10,7 +10,7 @@ import userModel from "../models/Usermodel.js";
 import transporter from "../config/nodemailer.js";
 import { getWelcomeTemplate } from "../email.js";
 import { getPasswordResetTemplate } from "../email.js";
-import properties from "../models/propertymodel.js"; // Import your Property model
+// import Property from "../models/propertymodel.js"; // Import your Property model
 import verificationModel from "../models/verificationmodel.js";
 const backendurl = process.env.BACKEND_URL;
 
@@ -121,7 +121,6 @@ const toggleWishlist = async (req, res) => {
         message: "Property removed from wishlist", 
         success: true, 
         isInWishlist: false 
-
       });
     } else {
       // Property is not in wishlist, so add it
@@ -304,6 +303,97 @@ const getUserById = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const getMyWishlist = async (req, res) => {
+  try {
+    // Extract token from Authorization header
+    const token = req.headers.authorization?.split(" ")[1];
+    
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+    
+    // Verify the token and extract userId
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+    
+    // Find user with populated wishlist
+    const user = await userModel.findById(userId)
+      .populate({
+        path: 'wishlist',
+        model: 'properties', // Make sure this matches your Property model name
+        select: '_id serialNumber title location price image beds baths sqft type availability description'
+      });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    // Return populated wishlist items
+    return res.status(200).json(user.wishlist);
+  } catch (error) {
+    console.error('Wishlist fetch error:', error);
+    return res.status(500).json({ message: 'Server error', details: error.message });
+  }
+};
+
+
+const removeMyWishlist = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    
+    // Validate propertyId
+    if (!isValidObjectId(propertyId)) {
+      return res.status(400).json({ message: 'Invalid property ID' });
+    }
+    
+    // Get user from middleware
+    const userId = req.user._id;
+    
+    // Update user by pulling the property from wishlist array
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      { $pull: { wishlist: propertyId } },
+      { new: true }
+    );
+    
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    return res.status(200).json({ 
+      message: 'Property removed from wishlist',
+      wishlist: updatedUser.wishlist
+    });
+    
+  } catch (error) {
+    console.error('Remove from wishlist error:', error);
+    return res.status(500).json({ message: 'Server error', details: error.message });
+  }
+};
+
+
+
+
+
+
+
+
+
 
 /**
  * @desc    Get properties in user's wishlist
@@ -725,5 +815,7 @@ export {
   sendVerification,  // New export
   verifyOTP,
   getProperties,
-  deleteProperty
+  deleteProperty,
+  getMyWishlist,
+  removeMyWishlist,
 };

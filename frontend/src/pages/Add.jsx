@@ -58,6 +58,8 @@ const PropertyForm = () => {
   const [step, setStep] = useState(1);
   const [availability, setAvailability] = useState("");
   const [isForInvestment, setIsForInvestment] = useState(false);
+  const [isHotDeal, setIsHotDeal] = useState(false);
+
   const [formData, setFormData] = useState({
     title: "",
     type: "",
@@ -77,8 +79,32 @@ const PropertyForm = () => {
   const [loading, setLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        
+        const response = await axios.get(`${Backendurl}/api/users/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        // Set admin status based on user data
+        if (response.data && response.data.isAdmin) {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        console.error("Error checking admin status:", error);
+      }
+    };
+    
+    checkAdminStatus();
+  }, []);
+  
 
 
   const handleInputChange = (e) => {
@@ -218,6 +244,7 @@ const PropertyForm = () => {
       formdata.append("invest", formData.invest || "");
       formdata.append("availability", availability);
       formdata.append("isForInvestment", isForInvestment);
+      formdata.append("isHotDeal", isHotDeal);
       
       // Add the user ID as the owner
       formdata.append("owner", userId);
@@ -654,7 +681,56 @@ const PropertyForm = () => {
                           />
                         </div>
                       </div>
+                      
 
+                      {/* Hot Deal Toggle */}
+                      {isAdmin && (
+                        <div className="p-5 rounded-xl bg-gradient-to-r from-orange-50 to-red-50 border border-orange-100">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              List as Hot Deal
+                            </label>
+                            <p className="text-xs text-gray-500">
+                              Hot deals are highlighted and shown at the top of search results
+                            </p>
+                          </div>
+                          
+                          <div className="flex items-center">
+                            <button
+                              type="button"
+                              onClick={() => setIsHotDeal(!isHotDeal)}
+                              className={`w-14 h-7 flex items-center rounded-full p-1 transition-colors duration-300 ${
+                                isHotDeal ? 'bg-orange-500 justify-end' : 'bg-gray-300 justify-start'
+                              }`}
+                              aria-pressed={isHotDeal}
+                            >
+                              <motion.span
+                                layout
+                                className={`bg-white w-5 h-5 rounded-full shadow-md`}
+                                transition={{ type: "spring", stiffness: 700, damping: 30 }}
+                              />
+                            </button>
+                          </div>
+                        </div>
+                        
+                        {/* Show badge preview when hot deal is enabled */}
+                        {isHotDeal && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="mt-4 flex items-center"
+                          >
+                            <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs uppercase font-bold rounded-full px-3 py-1.5 mr-2">
+                              Hot Deal
+                            </div>
+                            <span className="text-xs text-gray-600">Preview of the hot deal badge</span>
+                          </motion.div>
+                        )}
+                      </div>
+                      )}
+                      
                       {/* Investment Option (Only for Sell) */}
                       {availability === "sell" && (
                         <div className="p-5 rounded-xl bg-gradient-to-r from-green-50 to-blue-50 border border-blue-100">
