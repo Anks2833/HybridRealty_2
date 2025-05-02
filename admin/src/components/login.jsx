@@ -30,14 +30,16 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('isAdmin', 'true');
         
-        toast.success("Admin login successful!");
+        // toast.success("Admin login successful!");
         navigate("/dashboard");
       } else {
-        toast.error(response.data.message || "Login failed");
+        // toast.error(response.data.message || "Login failed");
+        console.error('Login failed:', response.data.message);
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      toast.error(error.response?.data?.message || 'Invalid admin credentials');
+      // toast.error(error.response?.data?.message || 'Invalid admin credentials');
+      console.error('Invalid admin credentials:', error.response?.data?.message);
     } finally {
       setLoading(false);
     }

@@ -119,7 +119,8 @@ const PropertyForm = () => {
 
   const addImages = (files) => {
     if (files.length + previewUrls.length > MAX_PHOTOS) {
-      toast.error("Maximum 15 images allowed");
+      // toast.error("Maximum 15 images allowed");
+      console.error("Maximum 15 images allowed");
       return;
     }
     const newPreviewUrls = files.map((file) => URL.createObjectURL(file));
@@ -177,7 +178,8 @@ const PropertyForm = () => {
       const token = await localStorage.getItem("token");
 
       if (!token) {
-          toast.error("Log in to Sell Property");
+          // toast.error("Log in to Sell Property");
+          console.error("Log in to Sell Property");
           return;
       }
 
@@ -198,7 +200,8 @@ const PropertyForm = () => {
       const token = await localStorage.getItem("token");
 
       if (!token) {
-          toast.error("Log in to Rent Property");
+          // toast.error("Log in to Rent Property");
+          console.error("Log in to Rent Property");
           return;
       }
 
@@ -217,7 +220,8 @@ const PropertyForm = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        toast.error("Log in to add property");
+        // toast.error("Log in to add property");
+        console.error("Log in to add property");
         return;
       }
       
@@ -280,7 +284,8 @@ const PropertyForm = () => {
       );
       
       if (response.data.success) {
-        toast.success(response.data.message);
+        // toast.success(response.data.message);
+        console.log("Property added successfully:", response.data.message);
         // Reset form after successful submission
         setFormData({
           title: "",
@@ -301,11 +306,13 @@ const PropertyForm = () => {
         setIsForInvestment(false);
         setStep(1);
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error("Error adding property:", response.data.message);
       }
     } catch (error) {
       console.error("Upload error:", error);
-      toast.error("An error occurred. Please try again.");
+      // toast.error("An error occurred. Please try again.");
+      console.error("An error occurred:", error);
     } finally {
       setLoading(false);
     }

@@ -48,7 +48,8 @@ const UpcomingProjectCard = ({ project }) => {
       );
       
       if (response.data.success) {
-        toast.success("Registration successful! We'll notify you with updates.");
+        // toast.success("Registration successful! We'll notify you with updates.");
+        console.log("Registration successful! We'll notify you with updates.");
         setShowRegisterModal(false);
         setFormData({
           name: "",
@@ -57,14 +58,16 @@ const UpcomingProjectCard = ({ project }) => {
           message: ""
         });
       } else {
-        toast.error(response.data.message || "Registration failed. Please try again.");
+        // toast.error(response.data.message || "Registration failed. Please try again.");
+        console.error("Registration failed:", response.data.message);
       }
     } catch (err) {
       console.error("Error registering for project:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Registration failed. Please try again later."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Registration failed. Please try again later."
+      // );
+      console.error("Registration failed:", err.response?.data?.message);
     } finally {
       setLoading(false);
     }

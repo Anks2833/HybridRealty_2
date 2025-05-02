@@ -65,7 +65,8 @@ const EditMyProperty = () => {
       try {
         const token = localStorage.getItem('token');
         if (!token) {
-          toast.error('Please login to edit property');
+          // toast.error('Please login to edit property');
+          console.error('No token found, redirecting to login');
           navigate('/login');
           return;
         }
@@ -81,7 +82,8 @@ const EditMyProperty = () => {
           
           // Check if current user is the owner of the property
           if (propertyData.owner !== user?._id) {
-            toast.error('You can only edit your own properties');
+            // toast.error('You can only edit your own properties');
+            console.error('Unauthorized access, redirecting to My Properties');
             navigate('/my-properties');
             return;
           }
@@ -107,12 +109,14 @@ const EditMyProperty = () => {
           setAvailability(propertyData.availability || 'rent');
           setPropertyImages(propertyData.image || []);
         } else {
-          toast.error(response.data.message || 'Failed to fetch property');
+          // toast.error(response.data.message || 'Failed to fetch property');
+          console.error('Failed to fetch property:', response.data.message);
           navigate('/my-properties');
         }
       } catch (error) {
         console.error('Error fetching property:', error);
-        toast.error('Error loading property data');
+        // toast.error('Error loading property data');
+        console.error('Error loading property data:', error);
         navigate('/my-properties');
       } finally {
         setLoading(false);
@@ -172,7 +176,8 @@ const EditMyProperty = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        toast.error('Please login to update property');
+        // toast.error('Please login to update property');
+        console.error('No token found, redirecting to login');
         return;
       }
       
@@ -219,14 +224,17 @@ const EditMyProperty = () => {
       );
       
       if (response.data.success) {
-        toast.success('Property updated successfully');
+        // toast.success('Property updated successfully');
+        console.log('Property updated successfully');
         navigate('/my-properties');
       } else {
-        toast.error(response.data.message || 'Failed to update property');
+        // toast.error(response.data.message || 'Failed to update property');
+        console.error('Failed to update property:', response.data.message);
       }
     } catch (error) {
       console.error('Error updating property:', error);
-      toast.error('An error occurred while updating the property');
+      // toast.error('An error occurred while updating the property');
+      console.error('An error occurred while updating the property:', error);
     } finally {
       setSubmitting(false);
     }

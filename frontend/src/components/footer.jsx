@@ -160,7 +160,8 @@ const Newsletter = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) {
-      toast.error("Please enter your email");
+      // toast.error("Please enter your email");
+      console.error("Please enter your email");
       return;
     }
 
@@ -168,11 +169,13 @@ const Newsletter = () => {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      toast.success("Successfully subscribed to our newsletter!");
+      // toast.success("Successfully subscribed to our newsletter!");
+      console.log("Successfully subscribed to our newsletter!");
       setEmail("");
     } catch (error) {
       console.error("Error subscribing to newsletter:", error);
-      toast.error("Failed to subscribe. Please try again.");
+      // toast.error("Failed to subscribe. Please try again.");
+      console.error("Failed to subscribe. Please try again.");
     } finally {
       setLoading(false);
     }

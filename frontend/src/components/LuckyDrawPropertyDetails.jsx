@@ -143,13 +143,15 @@ const LuckyDrawPropertyDetails = () => {
 
   const handleRegisterForDraw = () => {
     if (!isLoggedIn) {
-      toast.info("Please login to register for the lucky draw");
+      // toast.info("Please login to register for the lucky draw");
+      console.log("Please login to register for the lucky draw");
       navigate("/login");
       return;
     }
     
     if (property.isUserRegistered) {
-      toast.info("You are already registered for this lucky draw");
+      // toast.info("You are already registered for this lucky draw");
+      console.log("You are already registered for this lucky draw");
       return;
     }
     
@@ -160,7 +162,8 @@ const LuckyDrawPropertyDetails = () => {
     e.preventDefault();
     
     if (!phone || phone.length < 10) {
-      toast.error("Please enter a valid phone number");
+      // toast.error("Please enter a valid phone number");
+      console.log("Please enter a valid phone number");
       return;
     }
     
@@ -181,7 +184,8 @@ const LuckyDrawPropertyDetails = () => {
       );
       
       if (response.data.success) {
-        toast.success("Successfully registered for the lucky draw!");
+        // toast.success("Successfully registered for the lucky draw!");
+        console.log("Successfully registered for the lucky draw!");
         setProperty(prev => ({
           ...prev,
           isUserRegistered: true,
@@ -189,14 +193,16 @@ const LuckyDrawPropertyDetails = () => {
         }));
         setShowRegistrationForm(false);
       } else {
-        toast.error(response.data.message || "Registration failed");
+        // toast.error(response.data.message || "Registration failed");
+        console.error("Registration failed:", response.data.message);
       }
     } catch (error) {
       console.error("Error registering for lucky draw:", error);
-      toast.error(
-        error.response?.data?.message || 
-        "Failed to register. Please try again."
-      );
+      // toast.error(
+      //   error.response?.data?.message || 
+      //   "Failed to register. Please try again."
+      // );
+      console.error("Failed to register. Please try again.");
     } finally {
       setRegistrationLoading(false);
     }

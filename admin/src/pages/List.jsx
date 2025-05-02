@@ -38,11 +38,13 @@ const PropertyListings = () => {
         }));
         setProperties(parsedProperties);
       } else {
-        toast.error(response.data.error);
+        // toast.error(response.data.error);
+        console.error("Error fetching properties:", response.data.error);
       }
     } catch (error) {
       console.error("Error fetching properties:", error);
-      toast.error("Failed to fetch properties");
+      // toast.error("Failed to fetch properties");
+      console.error("Failed to fetch properties:", error);
     } finally {
       setLoading(false);
     }
@@ -80,14 +82,17 @@ const PropertyListings = () => {
 
         console.log('response : ', response);
         if (response.data.success) {
-          toast.success("Property removed successfully");
+          // toast.success("Property removed successfully");
+          console.log("Property removed successfully");
           await fetchProperties();
         } else {
-          toast.error(response.data.message);
+          // toast.error(response.data.message);
+          console.error("Error removing property:", response.data.message);
         }
       } catch (error) {
         console.error("Error removing property:", error);
-        toast.error("Failed to remove property");
+        // toast.error("Failed to remove property");
+        console.error("Failed to remove property:", error);
       }
     }
   };

@@ -52,11 +52,13 @@ const Update = () => {
           });
           setPreviewUrls(property.image);
         } else {
-          toast.error(response.data.message);
+          // toast.error(response.data.message);
+          console.error('Error fetching property:', response.data.message); // Log the error message
         }
       } catch (error) {
         console.log('Error fetching property:', error); // Log the error
-        toast.error('An error occurred. Please try again.');
+        // toast.error('An error occurred. Please try again.');
+        console.error('Error fetching property:', error.message); // Log the error message
       }
     };
 
@@ -121,14 +123,17 @@ const Update = () => {
 
       const response = await axios.post(`${backendurl}/api/products/update`, formdata);
       if (response.data.success) {
-        toast.success('Property updated successfully');
+        // toast.success('Property updated successfully');
+        console.log('Property updated successfully:', response.data.message); // Log the success message
         navigate('/list');
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error('Error updating property:', response.data.message); // Log the error message
       }
     } catch (error) {
       console.log(error);
-      toast.error('An error occurred. Please try again.');
+      // toast.error('An error occurred. Please try again.');
+      console.error('Error updating property:', error.message); // Log the error message
     } finally {
       setLoading(false);
     }

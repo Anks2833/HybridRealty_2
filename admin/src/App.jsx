@@ -84,7 +84,7 @@ const App = () => {
         </AnimatePresence>
         
         {/* Toast Notifications */}
-        <Toaster
+        {/* <Toaster
            position="top-right"
           toastOptions={{
             duration: 3000,
@@ -93,7 +93,7 @@ const App = () => {
               color: '#fff',
             },
           }}
-        />
+        /> */}
       </div>
     </ErrorBoundary>
   );

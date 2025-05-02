@@ -51,14 +51,17 @@ const BlogCard = ({ post }) => {
           text: post.excerpt,
           url: post.link
         });
-        toast.success("Post shared successfully!");
+        // toast.success("Post shared successfully!");
+        console.log("Post shared successfully!");
       } else {
         await navigator.clipboard.writeText(post.link);
-        toast.success("Link copied to clipboard!");
+        // toast.success("Link copied to clipboard!");
+        console.log("Link copied to clipboard!");
       }
     } catch (error) {
       console.error('Error sharing:', error);
-      toast.error("Unable to share post");
+      // toast.error("Unable to share post");
+      console.error("Unable to share post:", error);
     }
   };
 
@@ -67,9 +70,11 @@ const BlogCard = ({ post }) => {
     setIsBookmarked(!isBookmarked);
     
     if (!isBookmarked) {
-      toast.success(`Saved "${post.title}" to your reading list`);
+      // toast.success(`Saved "${post.title}" to your reading list`);
+      console.log(`Saved "${post.title}" to your reading list`);
     } else {
-      toast.info(`Removed "${post.title}" from your reading list`);
+      // toast.info(`Removed "${post.title}" from your reading list`);
+      console.log(`Removed "${post.title}" from your reading list`);
     }
   };
 

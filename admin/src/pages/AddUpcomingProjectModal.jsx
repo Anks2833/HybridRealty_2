@@ -71,7 +71,8 @@ const [formData, setFormData] = useState({
   
   const addImages = (files) => {
     if (files.length + previewUrls.length > 15) {
-      toast.error('Maximum 15 images allowed');
+      // toast.error('Maximum 15 images allowed');
+      console.error('Maximum 15 images allowed');
       return;
     }
     
@@ -133,23 +134,27 @@ useEffect(() => {
     
     for (const field of requiredFields) {
       if (!formData[field]) {
-        toast.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
+        // toast.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
+        console.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
         return false;
       }
     }
     
     if (!formData.priceRangeMin || !formData.priceRangeMax) {
-      toast.error("Please specify the price range for the project");
+      // toast.error("Please specify the price range for the project");
+      console.error("Please specify the price range for the project");
       return false;
     }
     
     if (Number(formData.priceRangeMin) >= Number(formData.priceRangeMax)) {
-      toast.error("Maximum price should be greater than minimum price");
+      // toast.error("Maximum price should be greater than minimum price");
+      console.error("Maximum price should be greater than minimum price");
       return false;
     }
     
     if (images.length === 0) {
-      toast.error('Please upload at least one project image');
+      // toast.error('Please upload at least one project image');
+      console.error('Please upload at least one project image');
       return false;
     }
     
@@ -161,14 +166,16 @@ useEffect(() => {
     
     for (const field of requiredFields) {
       if (!formData[field]) {
-        toast.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
+        // toast.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
+        console.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
         return false;
       }
     }
     
     // Validate dates
     if (formData.completionDate && new Date(formData.completionDate) <= new Date(formData.launchDate)) {
-      toast.error("Completion date should be after the launch date");
+      // toast.error("Completion date should be after the launch date");
+      console.error("Completion date should be after the launch date");
       return false;
     }
     
@@ -245,18 +252,21 @@ useEffect(() => {
       );
       
       if (response.data.success) {
-        toast.success("Upcoming project created successfully");
+        // toast.success("Upcoming project created successfully");
+        console.log("Upcoming project created successfully");
         setShowModal(false);
         if (onSuccess) onSuccess();
       } else {
-        toast.error(response.data.message || "Failed to create upcoming project");
+        // toast.error(response.data.message || "Failed to create upcoming project");
+        console.error(response.data.message || "Failed to create upcoming project");
       }
     } catch (err) {
       console.error("Error creating upcoming project:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to create upcoming project. Please try again."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Failed to create upcoming project. Please try again."
+      // );
+      console.error(err.response?.data?.message || "Failed to create upcoming project. Please try again.");
     } finally {
       setLoading(false);
     }

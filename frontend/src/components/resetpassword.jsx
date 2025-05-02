@@ -19,14 +19,17 @@ const ResetPassword = () => {
     try {
       const response = await axios.post(`${Backendurl}/api/users/reset/${token}`, { password });
       if (response.data.success) {
-        toast.success("Password reset successful!");
+        // toast.success("Password reset successful!");
+        console.log("Password reset successful!");
         navigate("/login");
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error("Password reset failed:", response.data.message);
       }
     } catch (error) {
       console.error("Error resetting password:", error);
-      toast.error("Failed to reset password. Please try again.");
+      // toast.error("Failed to reset password. Please try again.");
+      console.error("Failed to reset password:", error.response?.data?.message);
     } finally {
       setLoading(false);
     }

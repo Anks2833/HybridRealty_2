@@ -24,7 +24,8 @@ const UserListPage = () => {
         const token = localStorage.getItem('token');
         
         if (!token) {
-          toast.error('Authentication required');
+          // toast.error('Authentication required');
+          console.error('No token found, redirecting to login');
           navigate('/login');
           return;
         }
@@ -42,7 +43,8 @@ const UserListPage = () => {
           setFilteredUsers(response.data);
         //   toast.success('Users loaded successfully');
         } else {
-          toast.error('Failed to load users data');
+          // toast.error('Failed to load users data');
+          console.error('No user data found in response');
         }
         
         setIsLoading(false);
@@ -53,17 +55,21 @@ const UserListPage = () => {
         if (err.response) {
           // Server responded with an error status
           if (err.response.status === 401 || err.response.status === 403) {
-            toast.error('Not authorized to access user data. Please log in as admin.');
+            // toast.error('Not authorized to access user data. Please log in as admin.');
+            console.error('Unauthorized access, redirecting to login');
             navigate('/login');
           } else {
-            toast.error(`Server error: ${err.response.data?.message || 'Failed to fetch users'}`);
+            // toast.error(`Server error: ${err.response.data?.message || 'Failed to fetch users'}`);
+            console.error(`Server error: ${err.response.status} - ${err.response.data?.message}`);
           }
         } else if (err.request) {
           // Request was made but no response received
-          toast.error('Unable to connect to server. Please check your connection.');
+          // toast.error('Unable to connect to server. Please check your connection.');
+          console.error('No response received from server:', err.request);
         } else {
           // Something else happened in setting up the request
-          toast.error('Error setting up request');
+          // toast.error('Error setting up request');
+          console.error('Error setting up request:', err.message);
         }
         
         setIsLoading(false);

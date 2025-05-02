@@ -57,7 +57,8 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     if (isWeekend(selectedDate)) {
-      toast.error('Viewings are not available on weekends');
+      // toast.error('Viewings are not available on weekends');
+      console.error('Viewings are not available on weekends');
       return;
     }
     setFormData(prev => ({ ...prev, date: selectedDate, time: '' }));
@@ -66,7 +67,8 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
   const handleTimeChange = (e) => {
     const selectedTime = e.target.value;
     if (formData.date === dateRestrictions.min && isPastTime(selectedTime)) {
-      toast.error('Please select a future time slot');
+      // toast.error('Please select a future time slot');
+      console.error('Please select a future time slot');
       return;
     }
     setFormData(prev => ({ ...prev, time: selectedTime }));
@@ -77,7 +79,8 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        toast.error('Please login to schedule a viewing');
+        // toast.error('Please login to schedule a viewing');
+        console.error('Please login to schedule a viewing');
         return;
       }
     
@@ -105,7 +108,8 @@ const ScheduleViewing = ({ propertyId, propertyTitle, propertyLocation, property
     } catch (error) {
       console.error('Scheduling error:', error);
       const errorMessage = error.response?.data?.message || 'Error scheduling viewing';
-      toast.error(errorMessage);
+      // toast.error(errorMessage);
+      console.error('Error scheduling viewing:', errorMessage);
     } finally {
       setLoading(false);
     }

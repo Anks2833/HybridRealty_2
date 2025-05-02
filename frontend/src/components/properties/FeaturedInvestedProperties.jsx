@@ -108,16 +108,23 @@ const InvestmentPropertyCard = ({ property }) => {
 
         // Handle specific error scenarios
         if (error.response.status === 401) {
-          toast.error("Please log in again");
+          // toast.error("Please log in again");
+          console.error("Unauthorized access. Please log in again.");
         } else {
-          toast.error("Failed to check favorite status");
+          // toast.error("Failed to check favorite status");
+          console.error(
+            "Failed to check favorite status:",
+            error.response.data
+          );
         }
       } else if (error.request) {
         console.error("No response received:", error.request);
-        toast.error("Network error. Please check your connection.");
+        // toast.error("Network error. Please check your connection.");
+        console.error("Network error. Please check your connection.");
       } else {
         console.error("Error setting up request:", error.message);
-        toast.error("An unexpected error occurred");
+        // toast.error("An unexpected error occurred");
+        console.error("An unexpected error occurred:", error.message);
       }
 
       // Ensure favorite state is reset
@@ -132,7 +139,8 @@ const InvestmentPropertyCard = ({ property }) => {
       // Check if user is logged in
       const token = localStorage.getItem("token");
       if (!token) {
-        toast.error("Please log in to add properties to your favorites");
+        // toast.error("Please log in to add properties to your favorites");
+        console.error("Please log in to add properties to your favorites");
         return;
       }
 
@@ -156,12 +164,15 @@ const InvestmentPropertyCard = ({ property }) => {
         // console.log(response.data);
         // Provide user feedback
         if (response.data.isInWishlist) {
-          toast.success(`${property.title} added to favorites`);
+          // toast.success(`${property.title} added to favorites`);
+          console.log(`${property.title} added to favorites`);
         } else {
-          toast.success(`${property.title} removed from favorites`);
+          // toast.success(`${property.title} removed from favorites`);
+          console.log(`${property.title} removed from favorites`);
         }
       } else {
-        toast.error(response.data.message || "Failed to update favorites");
+        // toast.error(response.data.message || "Failed to update favorites");
+        console.error("Failed to update favorites:", response.data.message);
       }
     } catch (error) {
       // More comprehensive error handling
@@ -177,31 +188,42 @@ const InvestmentPropertyCard = ({ property }) => {
         // Different error messages based on status code
         switch (error.response.status) {
           case 401:
-            toast.error("Unauthorized. Please log in again.");
+            // toast.error("Unauthorized. Please log in again.");
+            console.error("Unauthorized. Please log in again.");
             // Optionally: log out the user, redirect to login
             break;
           case 404:
-            toast.error("Property not found");
+            // toast.error("Property not found");
+            console.error("Property not found");
             break;
           case 500:
-            toast.error("Server error. Please try again later.");
+            // toast.error("Server error. Please try again later.");
+            console.error("Server error. Please try again later.");
             break;
           default:
-            toast.error(
-              error.response.data.message ||
-                "An unexpected error occurred while updating favorites"
+            // toast.error(
+            //   error.response.data.message ||
+            //     "An unexpected error occurred while updating favorites"
+            // );
+            console.error(
+              "An unexpected error occurred while updating favorites:",
+              error.response.data.message
             );
         }
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received:", error.request);
-        toast.error(
+        // toast.error(
+        //   "No response from server. Please check your internet connection."
+        // );
+        console.error(
           "No response from server. Please check your internet connection."
-        );
+        )
       } else {
         // Something happened in setting up the request that triggered an Error
         console.error("Error setting up request:", error.message);
-        toast.error("An unexpected error occurred");
+        // toast.error("An unexpected error occurred");
+        console.error("An unexpected error occurred:", error.message);
       }
     }
   };

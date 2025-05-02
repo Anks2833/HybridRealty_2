@@ -41,11 +41,13 @@ const Appointments = () => {
         );
         setAppointments(validAppointments);
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error("Failed to fetch appointments:", response.data.message);
       }
     } catch (error) {
       console.error("Error fetching appointments:", error);
-      toast.error("Failed to fetch appointments");
+      // toast.error("Failed to fetch appointments");
+      console.error("Failed to fetch appointments:", error.message);
     } finally {
       setLoading(false);
     }
@@ -68,14 +70,17 @@ const Appointments = () => {
       );
 
       if (response.data.success) {
-        toast.success(`Appointment ${newStatus} successfully`);
+        // toast.success(`Appointment ${newStatus} successfully`);
+        console.log(`Appointment ${newStatus} successfully`);
         fetchAppointments();
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error("Failed to update appointment status:", response.data.message);
       }
     } catch (error) {
       console.error("Error updating appointment:", error);
-      toast.error("Failed to update appointment status");
+      // toast.error("Failed to update appointment status");
+      console.error("Failed to update appointment status:", error.message);
     }
   };
 
@@ -85,7 +90,8 @@ const Appointments = () => {
     
     try {
       if (!meetingLink) {
-        toast.error("Please enter a meeting link");
+        // toast.error("Please enter a meeting link");
+        console.error("Please enter a meeting link");
         return;
       }
 
@@ -101,16 +107,19 @@ const Appointments = () => {
       );
 
       if (response.data.success) {
-        toast.success("Meeting link sent successfully");
+        // toast.success("Meeting link sent successfully");
+        console.log("Meeting link sent successfully");
         setEditingMeetingLink(null);
         setMeetingLink("");
         fetchAppointments();
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error("Failed to update meeting link:", response.data.message);
       }
     } catch (error) {
       console.error("Error updating meeting link:", error);
-      toast.error("Failed to update meeting link");
+      // toast.error("Failed to update meeting link");
+      console.error("Failed to update meeting link:", error.message);
     }
   };
 

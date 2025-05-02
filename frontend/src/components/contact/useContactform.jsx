@@ -48,11 +48,13 @@ export default function useContactForm() {
     if (validateForm()) {
       try {
         const response = await axios.post(`${Backendurl}/api/forms/submit`, formData);
-        toast.success('Form submitted successfully!');
+        // toast.success('Form submitted successfully!');
+        console.log('Form submitted successfully!', response.data);
         // Reset form
         setFormData({ name: '', email: '', phone: '', message: '' });
       } catch (error) {
-        toast.error('Error submitting form. Please try again.');
+        // toast.error('Error submitting form. Please try again.');
+        console.error('Error submitting form:', error);
         console.error('Error submitting form:', error);
       }
     } else {

@@ -79,17 +79,20 @@ const UpcomingProjectDetails = () => {
       );
       
       if (response.data.success) {
-        toast.success("Project deleted successfully");
+        // toast.success("Project deleted successfully");
+        console.log("Project deleted successfully");
         navigate("/admin/upcoming-projects");
       } else {
-        toast.error(response.data.message || "Failed to delete project");
+        // toast.error(response.data.message || "Failed to delete project");
+        console.error("Failed to delete project:", response.data.message);
       }
     } catch (err) {
       console.error("Error deleting project:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to delete project. Please try again."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Failed to delete project. Please try again."
+      // );
+      console.error("Failed to delete project:", err.response?.data?.message);
     }
   };
   
@@ -116,10 +119,12 @@ const UpcomingProjectDetails = () => {
       link.click();
       link.remove();
       
-      toast.success("Registrations exported successfully");
+      // toast.success("Registrations exported successfully");
+      console.log("Registrations exported successfully");
     } catch (err) {
       console.error("Error exporting registrations:", err);
-      toast.error("Failed to export registrations");
+      // toast.error("Failed to export registrations");
+      console.error("Failed to export registrations:", err);
     }
   };
   

@@ -52,7 +52,8 @@ const Signup = () => {
 
     // Validate form data
     if (!formData.name || !formData.email || !formData.password) {
-      toast.error("Please fill all fields");
+      // toast.error("Please fill all fields");
+      console.error("Please fill all fields");
       return;
     }
 
@@ -67,17 +68,22 @@ const Signup = () => {
       if (response.data.success) {
         setOtpSent(true);
         setVerificationId(response.data.verificationId);
-        toast.success(
+        // toast.success(
+        //   otpSent ? "New OTP sent to your email" : "OTP sent to your email"
+        // );
+        console.log(
           otpSent ? "New OTP sent to your email" : "OTP sent to your email"
         );
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error(response.data.message);
       }
     } catch (error) {
       console.error("Error sending OTP:", error);
       const errorMsg =
         error.response?.data?.message || "An error occurred. Please try again.";
-      toast.error(errorMsg);
+      // toast.error(errorMsg);
+      console.error(errorMsg);
     } finally {
       setLoading(false);
       setResendingOtp(false);
@@ -88,7 +94,8 @@ const Signup = () => {
     e.preventDefault();
 
     if (!otp) {
-      toast.error("Please enter the OTP");
+      // toast.error("Please enter the OTP");
+      console.error("Please enter the OTP");
       return;
     }
 
@@ -112,16 +119,19 @@ const Signup = () => {
           }
         );
 
-        toast.success("Account created successfully!");
+        // toast.success("Account created successfully!");
+        console.log("Account created successfully!");
         navigate("/");
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error(response.data.message);
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
       const errorMsg =
         error.response?.data?.message || "An error occurred. Please try again.";
-      toast.error(errorMsg);
+      // toast.error(errorMsg);
+      console.error(errorMsg);
     } finally {
       setLoading(false);
     }

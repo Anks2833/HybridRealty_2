@@ -84,7 +84,8 @@ const MyProperties = () => {
       try {
         const token = localStorage.getItem('token');
         if (!token) {
-          toast.error('Please login to view your properties');
+          // toast.error('Please login to view your properties');
+          console.error('No token found, redirecting to login');
           navigate('/login');
           setPropertyState((prev) => ({ ...prev, loading: false }));
           return;
@@ -264,7 +265,8 @@ const MyProperties = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        toast.error('Please login to delete your property');
+        // toast.error('Please login to delete your property');
+        console.error('No token found, redirecting to login');
         return;
       }
 
@@ -275,18 +277,21 @@ const MyProperties = () => {
       });
 
       if (response.data.success) {
-        toast.success('Property deleted successfully');
+        // toast.success('Property deleted successfully');
+        console.log('Property deleted successfully');
         // Update the properties list without reloading
         setPropertyState(prev => ({
           ...prev,
           properties: prev.properties.filter(property => property._id !== propertyId)
         }));
       } else {
-        toast.error(response.data.message || 'Failed to delete property');
+        // toast.error(response.data.message || 'Failed to delete property');
+        console.error('Failed to delete property:', response.data.message);
       }
     } catch (error) {
       console.error('Error deleting property:', error);
-      toast.error('Failed to delete property');
+      // toast.error('Failed to delete property');
+      console.error('Failed to delete property:', error);
     }
   };
 
@@ -308,7 +313,8 @@ const MyProperties = () => {
         });
       } else {
         await navigator.clipboard.writeText(shareUrl);
-        toast.success("Link copied to clipboard!");
+        // toast.success("Link copied to clipboard!");
+        console.log("Link copied to clipboard!");
       }
     } catch (error) {
       console.error("Error sharing:", error);

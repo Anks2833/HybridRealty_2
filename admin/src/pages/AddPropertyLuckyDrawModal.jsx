@@ -62,7 +62,8 @@ const AddPropertyLuckyDrawModal = ({ showModal, setShowModal, onSuccess }) => {
   
   const addImages = (files) => {
     if (files.length + previewUrls.length > 15) {
-      toast.error('Maximum 15 images allowed');
+      // toast.error('Maximum 15 images allowed');
+      console.error('Maximum 15 images allowed');
       return;
     }
     
@@ -111,19 +112,22 @@ const AddPropertyLuckyDrawModal = ({ showModal, setShowModal, onSuccess }) => {
     
     for (const field of requiredFields) {
       if (!formData[field]) {
-        toast.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
+        // toast.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
+        console.error(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`);
         return false;
       }
     }
     
     if (images.length === 0) {
-      toast.error('Please upload at least one property image');
+      // toast.error('Please upload at least one property image');
+      console.error('Please upload at least one property image');
       return false;
     }
     
     // If it's an investment property, validate the investment amount
     if (formData.availability === 'sell' && formData.isForInvestment && !formData.invest) {
-      toast.error('Please enter the expected monthly rental income for this investment property');
+      // toast.error('Please enter the expected monthly rental income for this investment property');
+      console.error('Please enter the expected monthly rental income for this investment property');
       return false;
     }
     
@@ -132,7 +136,8 @@ const AddPropertyLuckyDrawModal = ({ showModal, setShowModal, onSuccess }) => {
   
   const validateLuckyDrawData = () => {
     if (!formData.biddingStartDate || !formData.biddingEndDate) {
-      toast.error("Please set both start and end dates for the lucky draw");
+      // toast.error("Please set both start and end dates for the lucky draw");
+      console.error("Please set both start and end dates for the lucky draw");
       return false;
     }
     
@@ -140,7 +145,8 @@ const AddPropertyLuckyDrawModal = ({ showModal, setShowModal, onSuccess }) => {
     const endDate = new Date(formData.biddingEndDate);
     
     if (endDate <= startDate) {
-      toast.error("End date must be after the start date");
+      // toast.error("End date must be after the start date");
+      console.error("End date must be after the start date");
       return false;
     }
     
@@ -240,7 +246,8 @@ const AddPropertyLuckyDrawModal = ({ showModal, setShowModal, onSuccess }) => {
       );
       
       if (response.data.success) {
-        toast.success("Property created and added to lucky draw successfully");
+        // toast.success("Property created and added to lucky draw successfully");
+        console.log("Property created and added to lucky draw successfully");
         
         // Reset form
         setFormData({
@@ -269,14 +276,16 @@ const AddPropertyLuckyDrawModal = ({ showModal, setShowModal, onSuccess }) => {
         setShowModal(false);
         if (onSuccess) onSuccess();
       } else {
-        toast.error(response.data.message || "Failed to create property for lucky draw");
+        // toast.error(response.data.message || "Failed to create property for lucky draw");
+        console.error(response.data.message || "Failed to create property for lucky draw");
       }
     } catch (err) {
       console.error("Error creating property for lucky draw:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to create property for lucky draw. Please try again."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Failed to create property for lucky draw. Please try again."
+      // );
+      console.error(err.response?.data?.message || "Failed to create property for lucky draw. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -27,29 +27,34 @@ const RegistrationModal = ({ property, onClose, onSuccess }) => {
 
   const validateForm = () => {
     if (!formData.name.trim()) {
-      toast.error('Please enter your name');
+      // toast.error('Please enter your name');
+      console.error('Please enter your name');
       return false;
     }
     
     if (!formData.phone.trim()) {
-      toast.error('Please enter your phone number');
+      // toast.error('Please enter your phone number');
+      console.error('Please enter your phone number');
       return false;
     }
     
     // Basic phone validation
     if (!/^\d{10}$/.test(formData.phone.trim())) {
-      toast.error('Please enter a valid 10-digit phone number');
+      // toast.error('Please enter a valid 10-digit phone number');
+      console.error('Please enter a valid 10-digit phone number');
       return false;
     }
     
     if (!formData.email.trim()) {
-      toast.error('Please enter your email');
+      // toast.error('Please enter your email');
+      console.error('Please enter your email');
       return false;
     }
     
     // Basic email validation
     if (!/\S+@\S+\.\S+/.test(formData.email.trim())) {
-      toast.error('Please enter a valid email address');
+      // toast.error('Please enter a valid email address');
+      console.error('Please enter a valid email address');
       return false;
     }
     
@@ -58,7 +63,8 @@ const RegistrationModal = ({ property, onClose, onSuccess }) => {
 
   const checkRegistrationStatus = async () => {
     if (!formData.phone.trim()) {
-      toast.error('Please enter your phone number to check');
+      // toast.error('Please enter your phone number to check');
+      console.error('Please enter your phone number to check');
       return;
     }
     
@@ -73,15 +79,18 @@ const RegistrationModal = ({ property, onClose, onSuccess }) => {
       
       if (response.data.success) {
         if (response.data.isRegistered) {
-          toast.info('You are already registered for this lucky draw!');
+          // toast.info('You are already registered for this lucky draw!');
+          console.log('You are already registered for this lucky draw!');
           setRegistered(true);
         } else {
-          toast.info('You are not registered yet. Please complete the form to register.');
+          // toast.info('You are not registered yet. Please complete the form to register.');
+          console.log('You are not registered yet. Please complete the form to register.');
         }
       }
     } catch (err) {
       console.error('Error checking registration status:', err);
-      toast.error('Failed to check registration status. Please try again.');
+      // toast.error('Failed to check registration status. Please try again.');
+      console.error('Failed to check registration status. Please try again.');
     } finally {
       setIsChecking(false);
     }
@@ -102,7 +111,8 @@ const RegistrationModal = ({ property, onClose, onSuccess }) => {
       );
       
       if (response.data.success) {
-        toast.success('Successfully registered for the lucky draw!');
+        // toast.success('Successfully registered for the lucky draw!');
+        console.log('Successfully registered for the lucky draw!');
         setRegistered(true);
         
         // Notify parent component about successful registration

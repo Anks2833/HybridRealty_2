@@ -53,14 +53,16 @@ const LuckyDrawPropertyCard = ({ property }) => {
     e.stopPropagation(); // Prevent navigating to details page
 
     if (!isLoggedIn) {
-      toast.info("Please login to register for the lucky draw");
+      // toast.info("Please login to register for the lucky draw");
+      console.log("Please login to register for the lucky draw");
       navigate("/login");
       return;
     }
 
     // If already registered, show message
     if (registered) {
-      toast.info("You are already registered for this lucky draw");
+      // toast.info("You are already registered for this lucky draw");
+      console.log("You are already registered for this lucky draw");
       return;
     }
 

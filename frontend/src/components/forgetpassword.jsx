@@ -28,14 +28,17 @@ const ForgotPassword = () => {
         email,
       });
       if (response.data.success) {
-        toast.success("Reset link sent to your email!");
+        // toast.success("Reset link sent to your email!");
+        console.log("Reset link sent to your email!");
         setEmailSent(true);
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.log(response.data.message);
       }
     } catch (error) {
       console.error("Error sending reset email:", error);
-      toast.error("Failed to send reset link. Please try again.");
+      // toast.error("Failed to send reset link. Please try again.");
+      console.log("Failed to send reset link. Please try again.");
     } finally {
       setLoading(false);
     }

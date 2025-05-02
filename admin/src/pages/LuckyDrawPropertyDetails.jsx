@@ -128,17 +128,20 @@ const LuckyDrawPropertyDetails = () => {
       );
       
       if (response.data.success) {
-        toast.success("Property removed from lucky draw successfully");
+        // toast.success("Property removed from lucky draw successfully");
+        console.log("Property removed from lucky draw successfully");
         navigate("/admin/lucky-draw");
       } else {
-        toast.error(response.data.message || "Failed to remove property from lucky draw");
+        // toast.error(response.data.message || "Failed to remove property from lucky draw");
+        console.error("Failed to remove property from lucky draw:", response.data.message);
       }
     } catch (err) {
       console.error("Error removing property from lucky draw:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to remove property from lucky draw. Please try again."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Failed to remove property from lucky draw. Please try again."
+      // );
+      console.error("Failed to remove property from lucky draw:", err.response?.data?.message);
     }
   };
   
@@ -169,7 +172,8 @@ const LuckyDrawPropertyDetails = () => {
       );
       
       if (response.data.success) {
-        toast.success("Winner selected successfully!");
+        // toast.success("Winner selected successfully!");
+        console.log("Winner selected successfully!");
         
         // Set the winner ID and fetch details
         if (response.data.winner) {
@@ -183,7 +187,8 @@ const LuckyDrawPropertyDetails = () => {
       }
     } catch (err) {
       console.error("Error selecting winner:", err);
-      toast.error(err.response?.data?.message || "Failed to select winner");
+      // toast.error(err.response?.data?.message || "Failed to select winner");
+      console.error("Failed to select winner:", err.response?.data?.message);
     } finally {
       setSelectingWinner(false);
     }
@@ -212,10 +217,12 @@ const LuckyDrawPropertyDetails = () => {
       link.click();
       link.remove();
       
-      toast.success("Registrations exported successfully");
+      // toast.success("Registrations exported successfully");
+      console.log("Registrations exported successfully");
     } catch (err) {
       console.error("Error exporting registrations:", err);
-      toast.error("Failed to export registrations");
+      // toast.error("Failed to export registrations");
+      console.error("Failed to export registrations:", err);
     }
   };
   

@@ -51,7 +51,8 @@ const fetchWishlistProperties = async () => {
     const token = localStorage.getItem('token');
     
     if (!token) {
-      toast.error('Authentication required');
+      // toast.error('Authentication required');
+      console.error('No token found, redirecting to login');
       navigate('/login');
       return;
     }
@@ -89,19 +90,23 @@ const fetchWishlistProperties = async () => {
     if (err.response) {
       // Server responded with an error status
       if (err.response.status === 401) {
-        toast.error('Please log in to view your wishlist');
+        // toast.error('Please log in to view your wishlist');
+        console.error('Unauthorized access, redirecting to login');
         navigate('/login');
       } else {
         setError(`Error: ${err.response.data?.message || 'Failed to fetch wishlist'}`);
-        toast.error(`Error: ${err.response.data?.message || 'Failed to fetch wishlist'}`);
+        // toast.error(`Error: ${err.response.data?.message || 'Failed to fetch wishlist'}`);
+        console.error(`Error: ${err.response.data?.message || 'Failed to fetch wishlist'}`);
       }
     } else if (err.request) {
       // Request made but no response
       setError('Unable to connect to server. Please check your connection.');
-      toast.error('Unable to connect to server. Please check your connection.');
+      // toast.error('Unable to connect to server. Please check your connection.');
+      console.error('Unable to connect to server. Please check your connection.');
     } else {
       setError('An unexpected error occurred');
-      toast.error('An unexpected error occurred');
+      // toast.error('An unexpected error occurred');
+      console.error('An unexpected error occurred:', err.message);
     }
     
     setIsLoading(false);
@@ -121,13 +126,15 @@ const fetchWishlistProperties = async () => {
         }
       );
       
-      toast.success('Property removed from wishlist');
+      // toast.success('Property removed from wishlist');
+      console.log('Property removed from wishlist');
       
       // Update the local state to reflect the removal
       setWishlistProperties(wishlistProperties.filter(p => p._id !== propertyId));
     } catch (err) {
       console.error('Error removing property from wishlist:', err);
-      toast.error('Failed to remove property from wishlist');
+      // toast.error('Failed to remove property from wishlist');
+      console.error('Failed to remove property from wishlist');
     }
   };
 

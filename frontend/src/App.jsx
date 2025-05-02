@@ -1,8 +1,8 @@
 // export const Backendurl = 'https://hybridrealty-dev-backend.onrender.com';
-// export const Backendurl = import.meta.env.VITE_BACKEND_URL;
-export const Backendurl = '';
+export const Backendurl = import.meta.env.VITE_BACKEND_URL;
+// export const Backendurl = '';
 
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,13 +17,16 @@ import EditMyProperty from "./pages/EditMyProperty";
 import UpcomingProjectDetails from "./components/UpcomingProjectDetails";
 import HotDealsPage from "./pages/HotDealsPage";
 import Wishlist from "./pages/Wishlist";
+import Loader from "./components/Loader/Loader";
 
 // Lazy load components for performance
 const Navbar = lazy(() => import("./components/Navbar"));
 const Footer = lazy(() => import("./components/footer"));
 const Home = lazy(() => import("./pages/Home"));
 const Properties = lazy(() => import("./pages/Properties"));
-const PropertyDetails = lazy(() => import("./components/properties/propertydetail"));
+const PropertyDetails = lazy(() =>
+  import("./components/properties/propertydetail")
+);
 const Contact = lazy(() => import("./pages/Contact"));
 const Login = lazy(() => import("./components/login"));
 const Signup = lazy(() => import("./components/signup"));
@@ -33,53 +36,64 @@ const NotFoundPage = lazy(() => import("./components/Notfound"));
 const Add = lazy(() => import("./pages/Add"));
 const InvestPage = lazy(() => import("./pages/InvestPage"));
 const LuckyDrawPage = lazy(() => import("./components/LuckyDrawPage"));
-const LuckyDrawPropertyDetails = lazy(() => import("./components/LuckyDrawPropertyDetails"));
-const InvestPropertyDetails = lazy(() => import("./components/properties/InvestPropertyDetails"));
-const UpcomingProjectsPage = lazy(() => import("./components/UpcomingProjectsPage"));
+const LuckyDrawPropertyDetails = lazy(() =>
+  import("./components/LuckyDrawPropertyDetails")
+);
+const InvestPropertyDetails = lazy(() =>
+  import("./components/properties/InvestPropertyDetails")
+);
+const UpcomingProjectsPage = lazy(() =>
+  import("./components/UpcomingProjectsPage")
+);
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 
 // SEO Metadata Component
-const PageMetadata = ({ 
-  title = "Hybrid Realty", 
+const PageMetadata = ({
+  title = "Hybrid Realty",
   description = "Discover your perfect property with Hybrid Realty",
   keywords = "real estate, properties, investment, luxury homes",
-  ogImage = "/default-og-image.jpg"
+  ogImage = "/default-og-image.jpg",
 }) => (
   <Helmet>
     {/* Standard Metadata */}
     <title>{title} | Hybrid Realty</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
-    
+
     {/* Open Graph / Facebook */}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={`${title} | Hybrid Realty`} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={window.location.href} />
-    
+
     {/* Twitter Card */}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} | Hybrid Realty`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    
+
     {/* Canonical Link */}
     <link rel="canonical" href={window.location.href} />
   </Helmet>
 );
 
 // Define routes that should not have Navbar and Footer
-const routesWithoutNavbarFooter = [
-  "/login",
-  "/signup",
-  "/forgot-password"
-];
+const routesWithoutNavbarFooter = ["/login", "/signup", "/forgot-password"];
 
 // Main App Content Component
 const AppContent = () => {
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Check if current path should display navbar/footerr
   const shouldShowNavbarFooter = !routesWithoutNavbarFooter.some(
@@ -87,10 +101,14 @@ const AppContent = () => {
       location.pathname === route || location.pathname.startsWith(`${route}/`)
   );
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       {/* Dynamic Page Metadata */}
-      <PageMetadata 
+      <PageMetadata
         title={getPageTitle(location.pathname)}
         description={getPageDescription(location.pathname)}
       />
@@ -101,7 +119,7 @@ const AppContent = () => {
       </script>
 
       {/* Conditionally render Navbar */}
-      <Suspense fallback={<div className="w-full h-screen flex justify-center items-center">Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         {shouldShowNavbarFooter && <Navbar />}
 
         <Routes>
@@ -116,13 +134,19 @@ const AppContent = () => {
           <Route path="/properties/single/:id" element={<PropertyDetails />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/invest" element={<InvestPage />} />
-          <Route path="/invest/single/:id" element={<InvestPropertyDetails />} />
+          <Route
+            path="/invest/single/:id"
+            element={<InvestPropertyDetails />}
+          />
           <Route path="/add" element={<Add />} />
           <Route path="/lucky-draw" element={<LuckyDrawPage />} />
           <Route path="/upcoming-projects" element={<UpcomingProjectsPage />} />
           <Route path="/my-properties" element={<MyProperties />} />
           <Route path="/edit-property/:id" element={<EditMyProperty />} />
-          <Route path="/upcoming-projects/:id" element={<UpcomingProjectDetails />} />
+          <Route
+            path="/upcoming-projects/:id"
+            element={<UpcomingProjectDetails />}
+          />
           <Route path="/hot-deals" element={<HotDealsPage />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route
@@ -144,26 +168,28 @@ const AppContent = () => {
 // Utility Functions for Dynamic Metadata
 const getPageTitle = (pathname) => {
   const titles = {
-    '/': 'Home',
-    '/properties': 'Property Listings',
-    '/invest': 'Investment Opportunities',
-    '/lucky-draw': 'Lucky Draw',
-    '/contact': 'Contact Us',
+    "/": "Home",
+    "/properties": "Property Listings",
+    "/invest": "Investment Opportunities",
+    "/lucky-draw": "Lucky Draw",
+    "/contact": "Contact Us",
     // Add more routes as needed
   };
-  return titles[pathname] || 'Hybrid Realty';
+  return titles[pathname] || "Hybrid Realty";
 };
 
 const getPageDescription = (pathname) => {
   const descriptions = {
-    '/': 'Find your dream property with Hybrid Realty',
-    '/properties': 'Browse our extensive collection of properties',
-    '/invest': 'Explore lucrative real estate investment opportunities',
-    '/lucky-draw': 'Participate in our exclusive property lucky draw',
-    '/contact': 'Get in touch with Hybrid Realty',
+    "/": "Find your dream property with Hybrid Realty",
+    "/properties": "Browse our extensive collection of properties",
+    "/invest": "Explore lucrative real estate investment opportunities",
+    "/lucky-draw": "Participate in our exclusive property lucky draw",
+    "/contact": "Get in touch with Hybrid Realty",
     // Add more routes as needed
   };
-  return descriptions[pathname] || 'Hybrid Realty - Your trusted real estate partner';
+  return (
+    descriptions[pathname] || "Hybrid Realty - Your trusted real estate partner"
+  );
 };
 
 // Generate Structured Data based on current route
@@ -171,28 +197,28 @@ const generateStructuredData = (pathname) => {
   const baseData = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgency",
-    "name": "Hybrid Realty",
-    "description": "Premier real estate services and property investments",
-    "url": window.location.origin,
+    name: "Hybrid Realty",
+    description: "Premier real estate services and property investments",
+    url: window.location.origin,
   };
 
   // Add route-specific structured data
-  switch(pathname) {
-    case '/':
+  switch (pathname) {
+    case "/":
       return {
         ...baseData,
-        "offers": {
+        offers: {
           "@type": "AggregateOffer",
-          "description": "Property listings and investment opportunities"
-        }
+          description: "Property listings and investment opportunities",
+        },
       };
-    case '/properties':
+    case "/properties":
       return {
         ...baseData,
         "@type": "SearchResultsPage",
-        "mainEntity": {
-          "@type": "PropertySearch"
-        }
+        mainEntity: {
+          "@type": "PropertySearch",
+        },
       };
     default:
       return baseData;
@@ -217,28 +243,32 @@ export default App;
 // Sitemap Generation Utility (to be run during build process)
 export const generateSitemap = async () => {
   const staticRoutes = [
-    '/', 
-    '/properties', 
-    '/invest', 
-    '/lucky-draw', 
-    '/contact'
+    "/",
+    "/properties",
+    "/invest",
+    "/lucky-draw",
+    "/contact",
   ];
 
   // In a real implementation, fetch dynamic routes from your backend
   const dynamicRoutes = [
-    // Example: '/properties/single/1', 
+    // Example: '/properties/single/1',
     // '/properties/single/2', etc.
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${[...staticRoutes, ...dynamicRoutes].map(route => `
+  ${[...staticRoutes, ...dynamicRoutes]
+    .map(
+      (route) => `
     <url>
       <loc>${process.env.REACT_APP_SITE_URL}${route}</loc>
       <changefreq>weekly</changefreq>
-      <priority>${route === '/' ? '1.0' : '0.8'}</priority>
+      <priority>${route === "/" ? "1.0" : "0.8"}</priority>
     </url>
-  `).join('')}
+  `
+    )
+    .join("")}
 </urlset>`;
 
   // In a real implementation, write to file system

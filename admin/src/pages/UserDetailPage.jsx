@@ -33,7 +33,8 @@ const UserDetailPage = () => {
         const token = localStorage.getItem('token');
         
         if (!token) {
-          toast.error('Authentication required');
+          // toast.error('Authentication required');
+          console.error('No token found');
           navigate('/login');
           return;
         }
@@ -65,20 +66,25 @@ const UserDetailPage = () => {
         if (err.response) {
           // Server responded with an error status
           if (err.response.status === 401 || err.response.status === 403) {
-            toast.error('Not authorized to access user data');
+            // toast.error('Not authorized to access user data');
+            console.error('Not authorized to access user data');
             navigate('/login');
           } else if (err.response.status === 404) {
-            toast.error('User not found');
+            // toast.error('User not found');
+            console.error('User not found');
             navigate('/admin/users');
           } else {
-            toast.error(`Server error: ${err.response.data?.message || 'Failed to fetch user details'}`);
+            // toast.error(`Server error: ${err.response.data?.message || 'Failed to fetch user details'}`);
+            console.error(`Server error: ${err.response.data?.message || 'Failed to fetch user details'}`);
           }
         } else if (err.request) {
           // Request was made but no response received
-          toast.error('Unable to connect to server. Please check your connection.');
+          // toast.error('Unable to connect to server. Please check your connection.');
+          console.error('Unable to connect to server. Please check your connection.');
         } else {
           // Something else happened in setting up the request
-          toast.error('Error setting up request');
+          // toast.error('Error setting up request');
+          console.error('Error setting up request:', err.message);
         }
         
         setIsLoading(false);
@@ -137,7 +143,8 @@ const UserDetailPage = () => {
         }
       });
       
-      toast.success('Property removed from wishlist');
+      // toast.success('Property removed from wishlist');
+      console.log('Property removed from wishlist');
       
       // Update the local state to reflect the removal
       setWishlistProperties(wishlistProperties.filter(p => p._id !== propertyId));
@@ -151,7 +158,8 @@ const UserDetailPage = () => {
       }
     } catch (err) {
       console.error('Error removing property from wishlist:', err);
-      toast.error('Failed to remove property from wishlist');
+      // toast.error('Failed to remove property from wishlist');
+      console.error('Failed to remove property from wishlist');
     }
   };
 
@@ -170,11 +178,13 @@ const UserDetailPage = () => {
         }
       });
       
-      toast.success('User deleted successfully');
+      // toast.success('User deleted successfully');
+      console.log('User deleted successfully');
       navigate('/admin/users');
     } catch (err) {
       console.error('Error deleting user:', err);
-      toast.error('Failed to delete user');
+      // toast.error('Failed to delete user');
+      console.error('Failed to delete user');
     }
   };
 

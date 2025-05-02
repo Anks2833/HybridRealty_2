@@ -82,20 +82,23 @@ const AdminUpcomingProjectsManagement = () => {
       );
       
       if (response.data.success) {
-        toast.success("Project removed successfully");
+        // toast.success("Project removed successfully");
+        console.log("Project removed successfully");
         setShowDeleteModal(false);
         setSelectedProject(null);
         // Refetch the list
         fetchUpcomingProjects();
       } else {
-        toast.error(response.data.message || "Failed to remove project");
+        // toast.error(response.data.message || "Failed to remove project");
+        console.error("Failed to remove project:", response.data.message);
       }
     } catch (err) {
       console.error("Error removing project:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to remove project. Please try again."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Failed to remove project. Please try again."
+      // );
+      console.error("Failed to remove project:", err.response?.data?.message);
     }
   };
   
@@ -122,10 +125,12 @@ const AdminUpcomingProjectsManagement = () => {
       link.click();
       link.remove();
       
-      toast.success("Registrations exported successfully");
+      // toast.success("Registrations exported successfully");
+      console.log("Registrations exported successfully");
     } catch (err) {
       console.error("Error exporting registrations:", err);
-      toast.error("Failed to export registrations");
+      // toast.error("Failed to export registrations");
+      console.error("Failed to export registrations:", err);
     }
   };
   

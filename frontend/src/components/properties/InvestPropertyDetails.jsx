@@ -189,7 +189,8 @@ const InvestPropertyDetails = () => {
       } else {
         await navigator.clipboard.writeText(window.location.href);
         setCopySuccess(true);
-        toast.success("Link copied to clipboard!");
+        // toast.success("Link copied to clipboard!");
+        console.log("Link copied to clipboard!");
         setTimeout(() => setCopySuccess(false), 2000);
       }
     } catch (error) {
@@ -200,7 +201,8 @@ const InvestPropertyDetails = () => {
   // Toggle favorite/wishlist status
   const toggleFavorite = async () => {
     if (!isLoggedIn) {
-      toast.info("Please login to save properties to your wishlist");
+      // toast.info("Please login to save properties to your wishlist");
+      console.log("Please login to save properties to your wishlist");
       navigate("/login");
       return;
     }
@@ -222,11 +224,13 @@ const InvestPropertyDetails = () => {
         setIsFavorite(response.data.isInWishlist);
         toast.success(response.data.message);
       } else {
-        toast.error(response.data.message || "Something went wrong");
+        // toast.error(response.data.message || "Something went wrong");
+        console.error("Failed to update wishlist:", response.data.message);
       }
     } catch (error) {
       console.error("Error toggling favorite:", error);
-      toast.error("Failed to update wishlist. Please try again.");
+      // toast.error("Failed to update wishlist. Please try again.");
+      console.error("Failed to update wishlist:", error.response?.data?.message);
     } finally {
       setFavoriteLoading(false);
     }

@@ -123,7 +123,8 @@ const UpcomingProjectDetails = () => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.phone) {
-      toast.error("Please fill all required fields");
+      // toast.error("Please fill all required fields");
+      console.error("Please fill all required fields");
       return;
     }
     
@@ -136,7 +137,8 @@ const UpcomingProjectDetails = () => {
       );
       
       if (response.data.success) {
-        toast.success("Registration successful! We'll notify you with updates about this project.");
+        // toast.success("Registration successful! We'll notify you with updates about this project.");
+        console.log("Registration successful! We'll notify you with updates about this project.");
         setShowRegistrationForm(false);
         
         // Update the project data to reflect the new registration count
@@ -146,14 +148,16 @@ const UpcomingProjectDetails = () => {
           isUserRegistered: true
         }));
       } else {
-        toast.error(response.data.message || "Registration failed. Please try again.");
+        // toast.error(response.data.message || "Registration failed. Please try again.");
+        console.error("Registration failed:", response.data.message);
       }
     } catch (err) {
       console.error("Error registering interest:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to register. Please try again later."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Failed to register. Please try again later."
+      // );
+      console.error("Failed to register:", err.response?.data?.message);
     } finally {
       setRegistrationLoading(false);
     }

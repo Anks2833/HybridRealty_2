@@ -84,20 +84,23 @@ const AdminLuckyDrawManagement = () => {
       // console.log('response : ',response);
       
       if (response.data.success) {
-        toast.success("Property removed from lucky draw successfully");
+        // toast.success("Property removed from lucky draw successfully");
+        console.log("Property removed from lucky draw successfully");
         setShowDeleteModal(false);
         setSelectedProperty(null);
         // Refetch the list
         fetchLuckyDrawProperties();
       } else {
-        toast.error(response.data.message || "Failed to remove property from lucky draw");
+        // toast.error(response.data.message || "Failed to remove property from lucky draw");
+        console.error("Failed to remove property from lucky draw:", response.data.message);
       }
     } catch (err) {
       console.error("Error removing property from lucky draw:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to remove property from lucky draw. Please try again."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Failed to remove property from lucky draw. Please try again."
+      // );
+      console.error("Failed to remove property from lucky draw:", err.response?.data?.message);
     }
   };
   
@@ -124,10 +127,12 @@ const AdminLuckyDrawManagement = () => {
       link.click();
       link.remove();
       
-      toast.success("Registrations exported successfully");
+      // toast.success("Registrations exported successfully");
+      console.log("Registrations exported successfully");
     } catch (err) {
       console.error("Error exporting registrations:", err);
-      toast.error("Failed to export registrations");
+      // toast.error("Failed to export registrations");
+      console.error("Failed to export registrations:", err);
     }
   };
   

@@ -39,7 +39,8 @@ const LuckyDrawRegistrationForm = () => {
   
   useEffect(() => {
     if (!isLoggedIn) {
-      toast.error("Please login to register for lucky draw");
+      // toast.error("Please login to register for lucky draw");
+      console.log("Please login to register for lucky draw");
       navigate("/login");
       return;
     }
@@ -96,12 +97,14 @@ const LuckyDrawRegistrationForm = () => {
     
     // Validate form
     if (!formData.phone || formData.phone.length < 10) {
-      toast.error("Please enter a valid phone number");
+      // toast.error("Please enter a valid phone number");
+      console.log("Please enter a valid phone number");
       return;
     }
     
     if (!formData.agreeTerms) {
-      toast.error("You must agree to the terms and conditions");
+      // toast.error("You must agree to the terms and conditions");
+      console.log("You must agree to the terms and conditions");
       return;
     }
     
@@ -124,16 +127,20 @@ const LuckyDrawRegistrationForm = () => {
       
       if (response.data.success) {
         setSuccess(true);
-        toast.success("Registration successful!");
+        // toast.success("Registration successful!");
+        console.log("Registration successful!");
+        console.log("Registration successful:", response.data);
       } else {
-        toast.error(response.data.message || "Registration failed");
+        // toast.error(response.data.message || "Registration failed");
+        console.error("Registration failed:", response.data.message);
       }
     } catch (err) {
       console.error("Error registering for lucky draw:", err);
-      toast.error(
-        err.response?.data?.message || 
-        "Failed to register. Please try again."
-      );
+      // toast.error(
+      //   err.response?.data?.message || 
+      //   "Failed to register. Please try again."
+      // );
+      console.error("Failed to register:", err.response?.data?.message);
     } finally {
       setSubmitting(false);
     }

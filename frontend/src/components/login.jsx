@@ -37,14 +37,17 @@ const Login = () => {
       );
       if (response.data.success) {
         await login(response.data.token, response.data.user);
-        toast.success("Login successful!");
+        // toast.success("Login successful!");
+        console.log("Login successful!");
         navigate("/");
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
+        console.error(response.data.message);
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      toast.error("An error occurred. Please try again.");
+      // toast.error("An error occurred. Please try again.");
+      console.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
