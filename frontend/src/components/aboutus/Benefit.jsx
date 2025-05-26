@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Home, Globe, Headphones, List } from 'lucide-react';
 
+//benefits
 const benefits = [
   {
     icon: Home,
