@@ -127,9 +127,19 @@ const createPropertyWithLuckyDraw = async (req, res) => {
     const image2 = req.files.image2 || null;
     const image3 = req.files.image3 || null;
     const image4 = req.files.image4 || null;
-
-    const images = [image1, image2, image3, image4].filter(item => item !== null);
+    const image5 = req.files.image5 || null;
+    const image6 = req.files.image6 || null;
+    const image7 = req.files.image7 || null;
+    const image8 = req.files.image8 || null;
+    const image9 = req.files.image9 || null;
+    const image10 = req.files.image10 || null;
+    const image11 = req.files.image11 || null;
+    const image12 = req.files.image12 || null;
+    const image13 = req.files.image13 || null;
+    const image14 = req.files.image14 || null;
+    const image15 = req.files.image15 || null;
     
+    const images = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15].filter(item => item !== null);
     // Debug information
     console.log("Number of images:", images.length);
     images.forEach((img, idx) => {

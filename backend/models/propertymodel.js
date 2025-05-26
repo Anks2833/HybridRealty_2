@@ -14,6 +14,10 @@ const propertySchema = new mongoose.Schema({
     type: Number,
     unique: true
   },
+  isHotDeal: {
+    type: Boolean,
+    default: false
+  },
   isApproved: {
     type: Boolean,
     default: false,
@@ -74,6 +78,10 @@ const propertySchema = new mongoose.Schema({
   lp: {
     type: Boolean,
     default: false,
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   },
 }, { timestamps: true });
 

@@ -75,7 +75,7 @@ export const createUpcomingProject = async (req, res) => {
       amenities
     } = req.body;
     
-    console.log(req.body);
+    // console.log(req.body);
     // Check for required fields
     if (!title || !propertyType || !location || !description || !priceRangeMin 
         || !priceRangeMax || !launchDate || !totalUnits || !bedrooms || !contactPhone) {
@@ -103,12 +103,12 @@ export const createUpcomingProject = async (req, res) => {
         }
         
         try {
-          console.log(`Uploading ${file.name} (${file.size} bytes) to Cloudinary`);
+          // console.log(`Uploading ${file.name} (${file.size} bytes) to Cloudinary`);
           
           // Use the uploadImageToCloudinary utility function
           const result = await uploadImageToCloudinary(file, "upcoming-projects");
           
-          console.log("Cloudinary upload success for:", file.name, "URL:", result.secure_url);
+          // console.log("Cloudinary upload success for:", file.name, "URL:", result.secure_url);
           imageUrls.push(result.secure_url);
           
           // Delete the temp file if needed

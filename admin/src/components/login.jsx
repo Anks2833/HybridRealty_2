@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { backendurl } from "../App";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
 // const backendUrl = "https://hybridrealty-dev-backend.onrender.com";
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
     
     try {
       // Change the endpoint to /api/users/admin for admin login
-      const response = await axios.post(`${backendUrl}/api/users/admin`, {
+      const response = await axios.post(`${backendurl}/api/users/admin`, {
         email,
         password
       });

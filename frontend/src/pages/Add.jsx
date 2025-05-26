@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Backendurl } from "../App";
+import { compressImage } from "../utils/imageCompression";
+
 import {
   Upload,
   X,
@@ -112,9 +114,51 @@ const PropertyForm = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
-    addImages(files);
+    await processAndAddImages(files);
+  };
+  
+  const processAndAddImages = async (files) => {
+    if (files.length + previewUrls.length > MAX_PHOTOS) {
+      toast.error(`Maximum ${MAX_PHOTOS} images allowed`);
+      console.error(`Maximum ${MAX_PHOTOS} images allowed`);
+      return;
+    }
+  
+    // Show compression loading state
+    setLoading(true); // or create a separate state like setIsCompressing(true)
+    
+    try {
+      // Compress each image before adding it
+      const compressedFiles = [];
+      const newPreviewUrls = [];
+      
+      for (const file of files) {
+        try {
+          // Compress to max 2MB per image with max width/height of 1920px
+          const compressedFile = await compressImage(file, 2, 1920, 0.7);
+          compressedFiles.push(compressedFile);
+          newPreviewUrls.push(URL.createObjectURL(compressedFile));
+          
+          console.log(`Compressed ${file.name}: ${(file.size / 1024 / 1024).toFixed(2)}MB → ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`);
+        } catch (error) {
+          console.error(`Error compressing image ${file.name}:`, error);
+          // Use the original file as fallback if compression fails
+          compressedFiles.push(file);
+          newPreviewUrls.push(URL.createObjectURL(file));
+        }
+      }
+      
+      setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
+      setImages ? setImages((prev) => [...prev, ...compressedFiles]) : 
+        setFormData((prev) => ({ ...prev, images: [...prev.images, ...compressedFiles] }));
+    } catch (error) {
+      console.error("Error processing images:", error);
+      toast.error("Error processing images. Please try again.");
+    } finally {
+      setLoading(false); // or setIsCompressing(false)
+    }
   };
 
   const addImages = (files) => {

@@ -13,7 +13,7 @@ export const protect = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await userModel.findById(decoded.id).select("-password");
+    const user = await userModel.findById(decoded.id).select("-password") || await userModel.find({email : decoded.email });
 
     if (!user) {
       return res.status(401).json({

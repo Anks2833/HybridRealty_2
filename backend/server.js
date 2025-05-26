@@ -61,6 +61,10 @@ app.use(
 );
 
 app.use(limiter);
+
+
+
+// Replace your existing Helmet configuration with this:
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -68,18 +72,32 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "blob:"],
+        imgSrc: [
+          "'self'", 
+          "data:", 
+          "blob:", 
+          "https://res.cloudinary.com",
+          "https://*.cloudinary.com" // Add this wildcard rule
+        ],
         connectSrc: [
           "'self'",
           "https://hybrid-realty-dev-admin.vercel.app",
           "https://hybrid-realty-dev.vercel.app",
+          "https://hybridrealty.in",
+          "https://res.cloudinary.com",
+          "https://*.cloudinary.com",
           ...(process.env.ALLOWED_ORIGINS?.split(",") || []),
         ],
         mediaSrc: ["*"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
       },
     },
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" }
   })
 );
+
+
 app.use(compression());
 
 // Middleware
@@ -91,6 +109,15 @@ app.use(
   fileUpload({
       useTempFiles: true,
       tempFileDir: "/tmp",
+      limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+      abortOnLimit: false, // Don't end request/connection when limit reached
+      responseOnLimit: "File size limit has been reached", // Optional message
+      limitHandler: function(req, res, next) {
+        return res.status(413).json({
+          success: false,
+          message: "File is too large. Maximum size is 10MB."
+        });
+      }
   })
 );
 
@@ -132,7 +159,7 @@ app.get("/api/status", (req, res) => {
 
 // Serve static files from frontend builds
 app.use("/admin", express.static(path.join(__dirname, "admin_dist")));
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "user_dist")));
 
 // Handle API errors
 app.use("/api", (err, req, res, next) => {
@@ -154,12 +181,12 @@ app.get("/admin/*", (req, res) => {
 
 // Route handler for user frontend - must be the last route
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+  res.sendFile(path.join(__dirname, "user_dist", "index.html"));
 });
 
 // Handle unhandled rejections
 process.on("unhandledRejection", (err) => {
-  console.log("UNHANDLED REJECTION! 💥 Shutting down...");
+  console.log("UNHANDLED REJECTION! ðŸ’¥ Shutting down...");
   console.error(err);
   process.exit(1);
 });

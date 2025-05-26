@@ -16,9 +16,13 @@ import {
   deleteUser,
   // New routes
   sendVerification,
-  verifyOTP
+  verifyOTP,
+  getProperties,
+  getMyWishlist,
+  removeMyWishlist,
 } from '../controller/Usercontroller.js';
-import authMiddleware from '../middleware/authmiddleware.js';
+import authMiddleware, { protect } from '../middleware/authmiddleware.js';
+import { getPropertyById, updateproperty } from '../controller/productcontroller.js';
 
 const userrouter = express.Router();
 
@@ -32,9 +36,12 @@ userrouter.post('/register', register);
 userrouter.post('/forgot', forgotpassword);
 userrouter.post('/reset/:token', resetpassword);
 userrouter.post('/admin', adminlogin);
-userrouter.get('/me', authMiddleware, getname);
-userrouter.post('/toggle-wishlist', authMiddleware, toggleWishlist);
-userrouter.get('/check-favorite/:propertyId', authMiddleware, checkFavorite);
+userrouter.get('/me', protect, getname);
+userrouter.post('/toggle-wishlist', protect, toggleWishlist);
+userrouter.get('/check-favorite/:propertyId', protect, checkFavorite);
+userrouter.get('/me/properties', protect, getProperties);
+userrouter.get('/me/wishlist', protect, getMyWishlist);
+userrouter.delete('/me/wishlist/:propertyId', protect, removeMyWishlist);
 
 // Admin routes
 userrouter.get('/', authMiddleware, getAllUsers);
@@ -42,5 +49,15 @@ userrouter.get('/:id', getUserById);
 userrouter.get('/:id/wishlist', authMiddleware, getUserWishlist);
 userrouter.delete('/:id/wishlist/:propertyId', authMiddleware, removeFromWishlist);
 userrouter.delete('/:id', authMiddleware, deleteUser);
+
+
+
+userrouter.put('/properties/update', protect, updateproperty);
+
+// Route to get a property by ID
+userrouter.get('/properties/:id', protect, getPropertyById);
+
+
+
 
 export default userrouter;
