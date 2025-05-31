@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const Loader = () => {
@@ -7,26 +6,14 @@ const Loader = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowLoader(false);
-    }, 2000); // 3 seconds minimum display time
+    }, 2000); // 2 seconds minimum display time
 
     return () => clearTimeout(timer);
   }, []);
 
   return showLoader ? (
     <div className="w-full h-screen flex justify-center items-center">
-      <motion.img
-        src="/hrLogo.svg"
-        alt="Loading..."
-        className="w-96 h-96"
-        animate={{
-          scale: [0.95, 1, 0.95],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
+      <img src="/hrLogo.svg" alt="Loading..." className="w-96 h-96" />
     </div>
   ) : null;
 };

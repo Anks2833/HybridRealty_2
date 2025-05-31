@@ -103,10 +103,10 @@ const UpcomingProjectCard = ({ project }) => {
           />
           
           {/* Launch Badge */}
-          <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs uppercase font-bold rounded-full px-3 py-1 flex items-center">
+          {/* <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs uppercase font-bold rounded-full px-3 py-1 flex items-center">
             <Clock className="w-3 h-3 mr-1" />
             {daysUntilLaunch()} days to launch
-          </div>
+          </div> */}
         </div>
         
         {/* Project Info */}
